@@ -1,0 +1,142 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+.pitch{font-family:'DM Sans',sans-serif;color:var(--color-text-primary)}
+.slide{padding:2.5rem 2rem;border-bottom:0.5px solid var(--color-border-tertiary)}
+.display{font-family:'Playfair Display',serif}
+.tag{display:inline-block;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:1rem}
+.tag-amber{background:#FAEEDA;color:#633806}
+.tag-coral{background:#FAECE7;color:#4A1B0C}
+.tag-teal{background:#E1F5EE;color:#04342C}
+.tag-blue{background:#E6F1FB;color:#042C53}
+.tag-purple{background:#EEEDFE;color:#26215C}
+.h1{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:900;line-height:1.15;margin-bottom:0.75rem}
+.h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;line-height:1.2;margin-bottom:0.5rem}
+.h3{font-size:0.95rem;font-weight:500;margin-bottom:0.4rem;color:var(--color-text-primary)}
+.body{font-size:0.92rem;line-height:1.7;color:var(--color-text-secondary)}
+.accent{color:#BA7517}
+.big-stat{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;line-height:1;color:#BA7517}
+.big-stat-label{font-size:0.78rem;color:var(--color-text-secondary);margin-top:4px;letter-spacing:0.04em}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.stat-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem;text-align:center}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:0.75rem}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0}
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:500;margin:2px}
+.pill-amber{background:#FAC775;color:#412402}
+.pill-teal{background:#5DCAA5;color:#04342C}
+.pill-coral{background:#F0997B;color:#4A1B0C}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0}
+.timeline{position:relative;padding-left:1.5rem}
+.timeline::before{content:'';position:absolute;left:6px;top:4px;bottom:4px;width:1px;background:var(--color-border-tertiary)}
+.tl-item{position:relative;margin-bottom:1.25rem}
+.tl-dot{position:absolute;left:-1.5rem;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid #BA7517;background:var(--color-background-primary)}
+.quote{border-left:2px solid #BA7517;padding:0.75rem 1rem;background:var(--color-background-secondary);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0;font-style:italic;font-size:0.95rem;line-height:1.6;margin:1rem 0}
+.moat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem;margin:1rem 0}
+.feature-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:900;color:#BA7517;line-height:1}
+.cover-super{font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-text-secondary);margin-bottom:1.5rem}
+.model-row{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin:1rem 0}
+.model-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:1rem}
+.badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:20px;background:#FAEEDA;color:#633806;margin-bottom:6px}
+.final-cta{background:var(--color-background-secondary);border-radius:var(--border-radius-lg);padding:2rem;text-align:center;margin-top:1rem}
+</style>
+
+<div class="pitch">
+
+<div class="slide" style="padding-top:3rem;padding-bottom:3rem">
+  <p class="cover-super">Series A Pitch · India · 2025</p>
+  <p class="h1" style="font-size:2.8rem">The invisible backbone<br>of Indian business.</p>
+  <p class="body" style="max-width:480px;margin-top:1rem;font-size:1rem">An AI-native operating system that lives inside WhatsApp, understands every order, invoice, payment and vendor conversation — and runs operations automatically, so Indian SMBs never miss a beat.</p>
+  <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap">
+    <span class="pill pill-amber">WhatsApp-native</span>
+    <span class="pill pill-teal">Voice &amp; PDF AI</span>
+    <span class="pill pill-coral">Embedded payments</span>
+  </div>
+</div>
+
+<div class="slide">
+  <span class="tag tag-coral">The problem</span>
+  <p class="h2">63 million businesses.<br>Running on WhatsApp threads.</p>
+  <div class="quote">"Bhai 50 piece bhejo kal tak. Payment baad mein karenge." — buried in a 400-message group chat. Nobody followed up. The order was lost.</div>
+  <p class="body">India's SMBs have skipped every prior wave of business software. No ERP. No CRM. No ops tools. Their entire operation — orders, payments, vendor negotiations, collections — flows through WhatsApp voice notes, informal messages, and PDFs shared in group chats.</p>
+  <div class="stat-grid">
+    <div class="stat-box"><div class="big-stat">₹12L Cr</div><div class="big-stat-label">lost annually to operational chaos</div></div>
+    <div class="stat-box"><div class="big-stat">63M+</div><div class="big-stat-label">SMBs with no software at all</div></div>
+    <div class="stat-box"><div class="big-stat">91%</div><div class="big-stat-label">still use WhatsApp as primary business OS</div></div>
+  </div>
+</div>
+
+<div class="slide">
+  <span class="tag tag-amber">The insight</span>
+  <p class="h2">Don't change the behavior.<br class=""/> <span class="accent">Upgrade the infrastructure.</span></p>
+  <p class="body" style="margin-bottom:1rem">Every previous attempt at SMB software failed because it required behavior change. New apps. New dashboards. New habits. Indian SMBs rejected them all.</p>
+  <p class="body">The insight is the opposite: <strong style="font-weight:500;color:var(--color-text-primary)">WhatsApp is already the OS.</strong> We don't replace it. We become the invisible layer underneath it — extracting structure from chaos, running operations silently, and surfacing only what needs a human decision.</p>
+  <div class="divider"></div>
+  <p class="h3">What changes vs. what stays the same</p>
+  <div class="card-row">
+    <div class="card">
+      <p style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#B4B2A9;margin-bottom:8px">Stays the same</p>
+      <p class="body" style="font-size:0.85rem">Business owner chats on WhatsApp · sends voice notes · shares PDFs · negotiates informally</p>
+    </div>
+    <div class="card" style="border-color:#BA7517">
+      <p style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#BA7517;margin-bottom:8px">What we add invisibly</p>
+      <p class="body" style="font-size:0.85rem">Every order extracted · every commitment tracked · every follow-up automated · every payment streamlined</p>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <span class="tag tag-teal">The solution</span>
+  <p class="h2">Meet your business's<br>operational autopilot.</p>
+  <p class="body" style="margin-bottom:1.25rem">It reads every message, voice note, invoice, and PDF. It understands what matters. It acts — or asks you first.</p>
+
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div class="feature-num">01</div>
+      <div>
+        <p class="h3">Understand everything</p>
+        <p class="body" style="font-size:0.85rem">Parses Hindi, Hinglish, Gujarati, Tamil voice notes. Reads handwritten invoices. Extracts structured data from messy PDFs. Every input becomes a record.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div class="feature-num">02</div>
+      <div>
+        <p class="h3">Confirm before acting</p>
+        <p class="body" style="font-size:0.85rem">Never autonomous on day one. Drafts the follow-up, shows you in WhatsApp — "Reply 1 to send to Ramesh bhai." One tap. No dashboard. Builds trust before taking over.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div class="feature-num">03</div>
+      <div>
+        <p class="h3">Run on autopilot</p>
+        <p class="body" style="font-size:0.85rem">As trust builds, it sends follow-ups, payment reminders, order confirmations, and status updates automatically. Business runs without a human ops team.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div class="feature-num">04</div>
+      <div>
+        <p class="h3">Remember everything</p>
+        <p class="body" style="font-size:0.85rem">Every vendor relationship, payment pattern, customer order history — stored, searchable, and used to make the next decision smarter. The business brain that never forgets.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="slide">
+  <span class="tag tag-purple">Business model</span>
+  <p class="h2">Free to use.<br>Profitable on the money flow.</p>
+  <p class="body" style="margin-bottom:1.25rem">We don't charge subscriptions. We sit on the financial infrastructure of millions of businesses.</p>
+  <div class="model-row">
+    <div class="model-card">
+      <span class="badge">Free forever</span>
+      <p class="h3">Operations layer</p>
+      <p class="body" style="font-size:0.82rem">Order parsing, task tracking, follow-ups, workflow automation. Completely free. This is how we acquire 10M users.</p>
+    </div>
+    <div class="model-card">
+      <span class="badge" style="background:#9FE1

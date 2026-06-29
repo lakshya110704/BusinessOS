@@ -1,0 +1,446 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .pitch {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--color-text-primary);
+    max-width: 680px;
+    padding: 0 0 3rem;
+  }
+
+  .hero {
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    padding: 2.5rem 0 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--color-text-secondary);
+    line-height: 1.65;
+    max-width: 520px;
+    font-weight: 400;
+  }
+
+  .section {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .pull-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--color-text-primary);
+    padding: 1.5rem 0 1.5rem 1.5rem;
+    border-left: 2px solid var(--color-text-primary);
+    margin: 1.5rem 0;
+  }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--color-border-tertiary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .stat-cell {
+    background: var(--color-background-primary);
+    padding: 1.1rem 1rem;
+  }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+  }
+
+  .body-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .body-text strong {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .flow-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 1.5rem 0;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+  }
+
+  .flow-step {
+    flex: 1;
+    padding: 1rem 0.9rem;
+    background: var(--color-background-primary);
+    border-right: 0.5px solid var(--color-border-tertiary);
+    position: relative;
+  }
+
+  .flow-step:last-child { border-right: none; }
+
+  .flow-num {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--color-text-tertiary);
+    margin-bottom: 6px;
+  }
+
+  .flow-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .flow-desc {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .money-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 14px;
+  }
+
+  .money-table th {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+
+  .money-table td {
+    padding: 0.7rem 0.75rem;
+    color: var(--color-text-secondary);
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    vertical-align: top;
+    font-weight: 400;
+  }
+
+  .money-table td:first-child {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .money-table td:last-child {
+    color: var(--color-text-primary);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .money-table tr:last-child td { border-bottom: none; }
+
+  .insight-block {
+    background: var(--color-background-secondary);
+    border-radius: var(--border-radius-md);
+    padding: 1.1rem 1.25rem;
+    margin: 1rem 0;
+  }
+
+  .insight-block .insight-head {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .insight-block .insight-body {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .ask-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--color-border-tertiary);
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    margin: 1.5rem 0;
+  }
+
+  .ask-cell {
+    background: var(--color-background-primary);
+    padding: 1.1rem 1.25rem;
+  }
+
+  .ask-cell-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-bottom: 0.5rem;
+  }
+
+  .ask-cell-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .ask-cell-desc {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  .closer {
+    border-top: 0.5px solid var(--color-border-tertiary);
+    padding-top: 2rem;
+    margin-top: 2rem;
+  }
+
+  .closer-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--color-text-primary);
+    margin-bottom: 0.75rem;
+  }
+</style>
+
+<div class="pitch">
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);">Dhandha — WhatsApp-native operating system for Indian SMBs investor pitch</h2>
+
+  <div class="hero">
+    <p class="eyebrow">Seed Round — 2025</p>
+    <h1 class="hero-title">The invisible operating<br>system for <em>India's real economy.</em></h1>
+    <p class="hero-sub">63 million small businesses run India. They manage everything — orders, payments, vendors, staff — through WhatsApp threads and voice notes. We turn that chaos into structured operations, automatically, without asking them to change a thing.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The Problem</p>
+    <p class="body-text">A textile trader in Surat receives 300 WhatsApp messages before noon. Orders buried in group chats. Payment commitments made verbally. Invoices sent as blurry PDFs. <strong>There is no system. The owner is the system.</strong></p>
+    <p class="body-text">Every missed follow-up is a lost order. Every forgotten payment is a cash flow crisis. Every new employee takes 3 months to learn the chaos. This is the daily reality for 63 million businesses generating <strong>₹60 lakh crore in annual revenue</strong> — with zero operational infrastructure.</p>
+
+    <div class="pull-quote">
+      "They don't need another app.<br>They need their existing chaos<br>to start making sense."
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The Scale</p>
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num">63M</div>
+        <div class="stat-label">Indian SMBs with zero operational software</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">500M</div>
+        <div class="stat-label">WhatsApp users — already their primary tool</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">₹60L Cr</div>
+        <div class="stat-label">Annual revenue flowing through these businesses</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The Solution — Dhandha</p>
+    <p class="body-text"><strong>Dhandha is not an app. It is not a dashboard. It is not a chatbot.</strong> It is ambient business intelligence that lives inside WhatsApp — the tool they already use — and silently turns every conversation into a structured business record.</p>
+
+    <div class="flow-row">
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-title">Listen</div>
+        <div class="flow-desc">Reads messages, voice notes, PDFs across all chats — in Hindi, Gujarati, Hinglish, regional dialects</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-title">Understand</div>
+        <div class="flow-desc">Extracts orders, payment commitments, delivery dates, complaints — with domain-specific accuracy</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-title">Confirm</div>
+        <div class="flow-desc">"Shall I remind Ramesh bhai tomorrow? Reply 1." One tap. Owner stays in control, always</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-title">Remember</div>
+        <div class="flow-desc">Builds a relationship graph — every vendor, customer, commitment — unique to each business</div>
+      </div>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-head">The voice note breakthrough</div>
+      <div class="insight-body">"Bhai kal tak 50 piece bhejo, payment Diwali ke baad" → structured order record, auto-confirmation sent, follow-up scheduled. No typing. No app switching. No training required.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Go-to-Market — Vertical First</p>
+    <p class="body-text">We do not go horizontal. We go <strong>impossibly deep into pharma distribution in Maharashtra</strong> first — 6,000 distributors in dense geographic clusters who all know each other.</p>
+
+    <div class="insight-block">
+      <div class="insight-head">Why pharma distributors</div>
+      <div class="insight-body">Structured vocabulary (batch numbers, SKUs, expiry), regulatory pressure creating willingness to pay, tight community networks where one conversion triggers ten referrals, and order patterns that make AI accuracy near-perfect.</div>
+    </div>
+
+    <div class="insight-block">
+      <div class="insight-head">Distribution without a sales team</div>
+      <div class="insight-body">CA partnerships (every SMB trusts their accountant), trade association MOUs, and the anchor supplier strategy — onboard the biggest supplier in a cluster and their 200 buyers have to follow. Word of mouth does the rest.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Business Model — Sit on the Money</p>
+    <p class="body-text">We acquire customers for free through operational value. We earn when money moves.</p>
+
+    <table class="money-table">
+      <thead>
+        <tr>
+          <th>Layer</th>
+          <th>What We Provide</th>
+          <th>How We Earn</th>
+          <th>Unit Economics</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Free Tier</td>
+          <td>Full WhatsApp parsing, task extraction, smart follow-ups</td>
+          <td>₹0 — pure acquisition</td>
+          <td>CAC via referral only</td>
+        </tr>
+        <tr>
+          <td>Collections</td>
+          <td>Auto payment reminders, UPI link generation</td>
+          <td>0.4% per payment collected</td>
+          <td>₹50Cr GMV = ₹20L/month</td>
+        </tr>
+        <tr>
+          <td>Credit</td>
+          <td>Cash flow visibility → embedded working capital</td>
+          <td>Interest spread via NBFC partner</td>
+          <td>Highest margin, 18-month unlock</td>
+        </tr>
+        <tr>
+          <td>Network</td>
+          <td>Verified buyer-supplier marketplace layer</td>
+          <td>Transaction take rate</td>
+          <td>Scales with GMV</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The Moat</p>
+    <p class="body-text">The AI is not the moat. The <strong>relational memory graph</strong> is the moat.</p>
+    <p class="body-text">After 6 months, we know every vendor a business works with, every customer's ordering pattern, every payment commitment ever made, and the owner's exact communication style. No competitor can replicate this. Switching means losing 6 months of operational memory — the equivalent of losing your most experienced employee.</p>
+    <p class="body-text">We are also building on existing behavior, not asking for behavior change. <strong>WhatsApp is the front door. We are the house.</strong> Channel-agnostic infrastructure means a Meta policy change doesn't kill us — it just makes us shift weight.</p>
+  </div>
+
+  <div class="section">
+    <p class="section-label">The Ask</p>
+    <div class="ask-grid">
+      <div class="ask-cell">
+        <div class="ask-cell-label">Raising</div>
+        <div class="ask-cell-value">$2M</div>
+        <div class="ask-cell-desc">Seed round — 18 months runway to verticalize, prove retention, and reach collections GMV milestone</div>
+      </div>
+      <div class="ask-cell">
+        <div class="ask-cell-label">18-month milestones</div>
+        <div class="ask-cell-value">5,000+</div>
+        <div class="ask-cell-desc">Active businesses in pharma distribution, ₹100Cr+ GMV through collections, Series A ready</div>
+      </div>
+      <div class="ask-cell">
+        <div class="ask-cell-label">Use of funds</div>
+        <div class="ask-cell-value">60%</div>
+        <div class="ask-cell-desc">AI/ML engineering — multilingual accuracy, voice parsing, domain ontology for pharma</div>
+      </div>
+      <div class="ask-cell">
+        <div class="ask-cell-label">Remaining</div>
+        <div class="ask-cell-value">40%</div>
+        <div class="ask-cell-desc">GTM — CA partnerships, cluster penetration in Pune/Nashik/Nagpur pharma distribution hubs</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="closer">
+    <p class="section-label">Why Now. Why Us.</p>
+    <h2 class="closer-title">India's informal economy<br>has never had infrastructure.<br><em>Until now.</em></h2>
+    <p class="body-text" style="margin-top: 1rem;">Indian language AI just crossed the accuracy threshold. WhatsApp Business API just matured. 500 million people are already conducting their entire business lives on a single app. The behavior exists. The technology exists. <strong>The only thing missing is a company willing to go deep enough to earn their trust.</strong></p>
+    <p class="body-text">We are not building a product for Indian SMBs. We are building the operating system of the Indian economy — the invisible infrastructure that removes chaos from 63 million businesses, one WhatsApp message at a time.</p>
+    <p class="body-text" style="font-size: 14px; color: var(--color-text-tertiary); margin-top: 1.5rem; border-top: 0.5px solid var(--color-border-tertiary); padding-top: 1rem;">Dhandha &nbsp;·&nbsp; Seed 2025 &nbsp;·&nbsp; Confidential</p>
+  </div>
+</div>
