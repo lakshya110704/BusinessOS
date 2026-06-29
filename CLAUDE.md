@@ -7,6 +7,7 @@
 
 ## How to work in this repo
 
+- **Teach before building.** At the start of a task, state the plan — what we're about to do — before taking any action. When a step introduces something new to the user, pause and explain the concept so they can study it first; only proceed once they're ready. Routine/familiar work can move faster without the deep-dive.
 - **Proactively suggest relevant skills.** When a request maps to an available skill, name it and offer to run it instead of doing it ad hoc. Map: code changes / "is this safe to merge" → `/code-review`; pre-onboarding or webhook/auth work → `/security-review`; a bug or stack trace → `/engineering:debug`; before a Railway deploy → `/engineering:deploy-checklist`; standup / progress summary → `/engineering:standup`; production incident → `/engineering:incident-response`. Type `/` to see the full menu.
 - **Run `/code-review` on any non-trivial diff before committing** (per Critical Rules — webhook security, SQL injection, idempotency).
 - Don't commit or push unless asked.
