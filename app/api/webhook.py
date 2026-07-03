@@ -16,11 +16,20 @@ import hashlib
 import hmac
 from typing import Optional
 
-from fastapi import APIRouter, BackgroundTasks, Header, HTTPException, Query, Request, Response
+from fastapi import APIRouter, Header, HTTPException, Query, Request, Response
+from pydantic import ValidationError
 
 from app.config import settings
+from app.queue.producer import push
+from app.queue.redis_client import get_redis
+from app.utils.logger import get_logger
+from app.whatsapp.message_types import WebhookPayload
 
 router = APIRouter()
+logger = get_logger("webhook")
+
+QUEUE_NAME = "incoming_messages"
+DEDUP_TTL_SECONDS = 86400  # 24h — Meta won't resend a message id beyond this window
 
 
 @router.get("/webhook")
@@ -58,19 +67,44 @@ def _verify_signature(body: bytes, signature_header: str | None) -> bool:
 @router.post("/webhook")
 async def receive_message(
     request: Request,
-    background_tasks: BackgroundTasks,
     x_hub_signature_256: Optional[str] = Header(default=None),
 ):
+    # 1) Signature check FIRST — before any parsing (Critical rule).
     body = await request.body()
-
     if not _verify_signature(body, x_hub_signature_256):
         raise HTTPException(status_code=403, detail="Invalid signature")
 
-    payload = await request.json()
+    # 2) Parse into typed models. The signature already proved this is really
+    #    Meta, so an unparsable/unexpected payload is our modelling gap, not an
+    #    attack — log it and still 200, or Meta will retry the same bad payload
+    #    forever.
+    try:
+        payload = WebhookPayload.model_validate(await request.json())
+    except (ValidationError, ValueError) as exc:
+        logger.error("unparsable_payload", extra={"error": type(exc).__name__})
+        return {"status": "ok", "enqueued": 0}
 
-    # TODO(Day 2): push to Redis queue and process async.
-    # background_tasks.enqueue(...)
-    _ = payload  # placeholder until the queue consumer lands
+    # 3) Extract → dedup → enqueue. No DB and no AI work here: keep it <1s.
+    redis = get_redis()
+    enqueued = 0
+    for message in payload.iter_messages():
+        # Dedup via Redis SET NX: first writer wins, duplicates are skipped.
+        is_new = await redis.set(f"dedup:{message.id}", "1", nx=True, ex=DEDUP_TTL_SECONDS)
+        if not is_new:
+            logger.info("duplicate_skipped", extra={"wa_message_id": message.id})
+            continue
+        try:
+            # Enqueue the raw message dict for the consumer. We log ids/types
+            # only — never the message body (Critical rule #1).
+            await push(QUEUE_NAME, message.model_dump(by_alias=True))
+        except Exception:
+            # Enqueue failed — release the dedup claim so Meta's retry can
+            # reprocess this message, then fail so Meta actually retries.
+            await redis.delete(f"dedup:{message.id}")
+            logger.error("enqueue_failed", extra={"wa_message_id": message.id})
+            raise
+        logger.info("enqueued", extra={"wa_message_id": message.id, "type": message.type})
+        enqueued += 1
 
-    # Return 200 immediately — Meta retries aggressively otherwise.
-    return {"status": "ok"}
+    # 4) Ack immediately — Meta retries aggressively otherwise.
+    return {"status": "ok", "enqueued": enqueued}
