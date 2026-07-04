@@ -1,0 +1,6 @@
+REFINEMENT — this is an ORDER message. Prioritise these fields:
+- quantity + unit (most important for orders — if unclear, add to "ambiguities")
+- sku / product description
+- delivery_date (resolve relative dates to absolute ISO)
+- vendor_name (who is placing or receiving the order)
+Only fill payment fields if payment is explicitly mentioned.

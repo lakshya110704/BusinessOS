@@ -1,0 +1,6 @@
+REFINEMENT — this is a PAYMENT message. Prioritise these fields:
+- amount in INR (most important — if unclear, add to "ambiguities")
+- payment_date (resolve relative dates to absolute ISO)
+- payment_terms (advance / on-delivery / net-7 / net-15 / net-30)
+- vendor_name (who paid, or who is owed)
+Only fill quantity/sku if explicitly mentioned.
