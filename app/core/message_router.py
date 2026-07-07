@@ -14,7 +14,7 @@ from __future__ import annotations
 from typing import Optional
 
 from app.core.action_generator import ProposedAction, generate
-from app.core.confirm_engine import handle_reply
+from app.core.confirm_engine import handle_reply, send_confirmation
 from app.core.entity_extractor import extract
 from app.core.intent_classifier import classify
 from app.db.repositories import business_repo
@@ -50,7 +50,7 @@ async def _handle_owner_reply(message: dict, sender_raw: str) -> None:
     logger.info("owner_reply_routed", extra={"outcome": outcome})
 
 
-async def route(message: dict) -> Optional[ProposedAction]:
+async def route(message: dict, phone_number_id: Optional[str] = None) -> Optional[ProposedAction]:
     mtype = message.get("type")
     sender_raw = message.get("from", "")
 
@@ -76,11 +76,22 @@ async def route(message: dict) -> Optional[ProposedAction]:
     intent = await classify(text)
     entities = await extract(text, intent=intent.intent)
     action = generate(intent, entities, context={"contact": {"phone": contact_phone}})
-
     logger.info(
         "routed",
         extra={"intent": intent.intent, "action": action.action_type, "escalate": action.escalate},
     )
-    # TODO(LAK-18): if not escalate → confirm_engine.send_confirmation(action)
-    #               else            → escalate_to_owner(action)
+
+    # Uncertain / no automated action → don't send a confirmation (LAK-15+ will
+    # notify the owner to handle manually).
+    if action.escalate or action.action_type == "escalate_to_owner":
+        logger.info("escalated", extra={"intent": intent.intent})
+        return action
+
+    # Find which business this was sent to, then confirm with its owner.
+    business = await business_repo.get_by_phone_number_id(phone_number_id) if phone_number_id else None
+    if not business:
+        logger.info("no_business_for_phone_number_id", extra={"phone_number_id": phone_number_id})
+        return action
+
+    await send_confirmation(business, action)
     return action

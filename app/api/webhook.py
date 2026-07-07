@@ -85,26 +85,30 @@ async def receive_message(
         return {"status": "ok", "enqueued": 0}
 
     # 3) Extract → dedup → enqueue. No DB and no AI work here: keep it <1s.
+    #    We carry phone_number_id (which business the message was sent to) so the
+    #    consumer can route the confirmation to the right owner.
     redis = get_redis()
     enqueued = 0
-    for message in payload.iter_messages():
-        # Dedup via Redis SET NX: first writer wins, duplicates are skipped.
-        is_new = await redis.set(f"dedup:{message.id}", "1", nx=True, ex=DEDUP_TTL_SECONDS)
-        if not is_new:
-            logger.info("duplicate_skipped", extra={"wa_message_id": message.id})
-            continue
-        try:
-            # Enqueue the raw message dict for the consumer. We log ids/types
-            # only — never the message body (Critical rule #1).
-            await push(QUEUE_NAME, message.model_dump(by_alias=True))
-        except Exception:
-            # Enqueue failed — release the dedup claim so Meta's retry can
-            # reprocess this message, then fail so Meta actually retries.
-            await redis.delete(f"dedup:{message.id}")
-            logger.error("enqueue_failed", extra={"wa_message_id": message.id})
-            raise
-        logger.info("enqueued", extra={"wa_message_id": message.id, "type": message.type})
-        enqueued += 1
+    for entry in payload.entry:
+        for change in entry.changes:
+            phone_number_id = change.value.metadata.phone_number_id if change.value.metadata else None
+            for message in (change.value.messages or []):
+                # Dedup via Redis SET NX: first writer wins, duplicates are skipped.
+                is_new = await redis.set(f"dedup:{message.id}", "1", nx=True, ex=DEDUP_TTL_SECONDS)
+                if not is_new:
+                    logger.info("duplicate_skipped", extra={"wa_message_id": message.id})
+                    continue
+                item = {"message": message.model_dump(by_alias=True), "phone_number_id": phone_number_id}
+                try:
+                    # We log ids/types only — never the message body (Critical rule #1).
+                    await push(QUEUE_NAME, item)
+                except Exception:
+                    # Release the dedup claim so Meta's retry can reprocess, then fail.
+                    await redis.delete(f"dedup:{message.id}")
+                    logger.error("enqueue_failed", extra={"wa_message_id": message.id})
+                    raise
+                logger.info("enqueued", extra={"wa_message_id": message.id, "type": message.type})
+                enqueued += 1
 
     # 4) Ack immediately — Meta retries aggressively otherwise.
     return {"status": "ok", "enqueued": enqueued}

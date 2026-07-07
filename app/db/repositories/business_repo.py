@@ -13,3 +13,20 @@ async def get_by_phone(phone_number: str) -> Optional[dict]:
     client = await get_supabase()
     res = await client.table(TABLE).select("*").eq("phone_number", phone_number).limit(1).execute()
     return res.data[0] if res.data else None
+
+
+async def get_by_phone_number_id(phone_number_id: str) -> Optional[dict]:
+    """Look up a business by the Meta phone_number_id its WhatsApp number maps to.
+
+    Incoming webhooks carry this in metadata.phone_number_id — it's how we know
+    which business (and therefore which owner) a message was sent to.
+    """
+    client = await get_supabase()
+    res = (
+        await client.table(TABLE)
+        .select("*")
+        .eq("whatsapp_phone_number_id", phone_number_id)
+        .limit(1)
+        .execute()
+    )
+    return res.data[0] if res.data else None

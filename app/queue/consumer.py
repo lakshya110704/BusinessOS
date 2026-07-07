@@ -19,11 +19,15 @@ QUEUE_NAME = "incoming_messages"
 
 
 async def handle(payload: dict) -> None:
+    # payload = {"message": {...}, "phone_number_id": "..."} (webhook), with a
+    # fallback for a bare message dict.
+    message = payload.get("message", payload)
+    phone_number_id = payload.get("phone_number_id")
     # One bad message must not kill the worker loop.
     try:
-        await route(payload)
+        await route(message, phone_number_id)
     except Exception:
-        logger.exception("route_failed", extra={"wa_message_id": payload.get("id")})
+        logger.exception("route_failed", extra={"wa_message_id": message.get("id")})
 
 
 async def run() -> None:
