@@ -13,10 +13,11 @@ from string import Template
 from typing import Optional
 
 from app.ai.openai_client import complete_json
+from app.core.action_executor import execute
 from app.core.action_generator import ProposedAction
 from app.db.repositories import pending_confirmation_repo as repo
 from app.utils.logger import get_logger
-from app.whatsapp.sender import send_interactive
+from app.whatsapp.sender import send_interactive, send_text
 
 logger = get_logger("confirm")
 
@@ -89,3 +90,49 @@ async def send_confirmation(
         extra={"confirmation_id": confirmation_id, "action": proposed_action.action_type},
     )
     return confirmation_id
+
+
+async def handle_reply(business_id: str, owner_phone: str, reply_value: str) -> str:
+    """Process an owner's tap (1/2/3) on the latest pending confirmation.
+
+    1 → confirmed + execute the action; 2 → edited; 3 → ignored;
+    anything else → re-send the confirmation. Returns the outcome string.
+    """
+    pending = await repo.get_latest_pending(business_id)
+    if not pending:
+        await send_text(owner_phone, "Koi pending confirmation nahi hai.")
+        return "no_pending"
+
+    confirmation_id = pending["id"]
+
+    if reply_value == "1":
+        # Atomically claim pending→confirmed; only the winner executes (no dup orders).
+        if not await repo.claim_pending(confirmation_id, "confirmed"):
+            logger.info("reply_already_handled", extra={"confirmation_id": confirmation_id})
+            return "already_handled"
+        result = await execute(pending["proposed_action"], business_id)
+        order_number = result.get("order_number")
+        await send_text(owner_phone, f"✅ Order logged.{f' ({order_number})' if order_number else ''}")
+        logger.info("reply_handled", extra={"confirmation_id": confirmation_id, "reply": "1", "outcome": "confirmed"})
+        return "confirmed"
+
+    if reply_value == "2":
+        if not await repo.claim_pending(confirmation_id, "edited"):
+            return "already_handled"
+        await send_text(owner_phone, "✏️ Theek hai — sahi details bhej dijiye.")
+        logger.info("reply_handled", extra={"confirmation_id": confirmation_id, "reply": "2", "outcome": "edited"})
+        return "edited"
+
+    if reply_value == "3":
+        if not await repo.claim_pending(confirmation_id, "ignored"):
+            return "already_handled"
+        await send_text(owner_phone, "👍 Theek hai, ignore kar diya.")
+        logger.info("reply_handled", extra={"confirmation_id": confirmation_id, "reply": "3", "outcome": "ignored"})
+        return "ignored"
+
+    # Unknown reply → re-send the confirmation buttons.
+    action = ProposedAction(**pending["proposed_action"])
+    body = await _generate_message(action)
+    await send_interactive(owner_phone, body, _BUTTONS)
+    logger.info("reply_unknown_resend", extra={"confirmation_id": confirmation_id, "reply": reply_value})
+    return "resent"

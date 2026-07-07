@@ -42,6 +42,44 @@ async def get_by_id(confirmation_id: str) -> Optional[dict]:
     return res.data[0] if res.data else None
 
 
+async def get_latest_pending(business_id: str) -> Optional[dict]:
+    """Most recent still-pending confirmation for a business (what a reply refers to)."""
+    client = await get_supabase()
+    res = (
+        await client.table(TABLE)
+        .select("*")
+        .eq("business_id", business_id)
+        .eq("status", "pending")
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    )
+    return res.data[0] if res.data else None
+
+
+async def update_status(confirmation_id: str, status: str) -> None:
+    client = await get_supabase()
+    await client.table(TABLE).update({"status": status}).eq("id", confirmation_id).execute()
+
+
+async def claim_pending(confirmation_id: str, status: str) -> bool:
+    """Atomically move a confirmation from `pending` to `status`.
+
+    The `.eq("status", "pending")` makes this a conditional update: only the first
+    caller flips it and gets rows back; a concurrent second tap gets 0 rows and
+    must NOT execute the action (guards against duplicate orders).
+    """
+    client = await get_supabase()
+    res = (
+        await client.table(TABLE)
+        .update({"status": status})
+        .eq("id", confirmation_id)
+        .eq("status", "pending")
+        .execute()
+    )
+    return bool(res.data)
+
+
 async def expire_old() -> int:
     """Mark still-pending confirmations past their expiry as expired. Returns count."""
     client = await get_supabase()
