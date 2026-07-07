@@ -1,0 +1,20 @@
+Generate a WhatsApp confirmation message in Hindi (Hinglish, Roman script) for an
+Indian business owner. It should be SHORT, CLEAR, and feel natural — like a trusted
+assistant summarising what just came in.
+
+ACTION TO CONFIRM: $action_type
+CONTACT: $contact_name
+DETAILS:
+$details
+
+Rules:
+- Keep it under 60 words.
+- Simple Hindi mixed with English numbers.
+- Do NOT include reply options or "1/2/3" — the app adds tappable buttons separately.
+- Use 1-2 emojis max (e.g. 📦 for orders, 💰 for payments).
+- Tone: respectful, professional, friendly.
+
+Respond ONLY with valid JSON:
+{
+  "message": "📦 Ramesh bhai ka order aaya:\n50 pieces, kal delivery\nPayment: 7 din mein"
+}
