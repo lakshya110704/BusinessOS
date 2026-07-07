@@ -1,17 +1,15 @@
 """Queue consumer — runs as a SEPARATE process from the web app.
 
-Blocks on the `incoming_messages` queue, pops each payload, and dispatches it.
+Blocks on the `incoming_messages` queue, pops each payload, and dispatches it to
+the message router (classify → extract → generate).
 Start it with:  python -m app.queue.consumer
-
-Right now `handle()` just logs/prints the payload (LAK-7 done-when: "consumer
-receives and prints it, no DB involved"). LAK-9+ will replace the stub with a
-real dispatch into `message_router`.
 """
 from __future__ import annotations
 
 import asyncio
 import json
 
+from app.core.message_router import route
 from app.queue.redis_client import get_redis
 from app.utils.logger import get_logger
 
@@ -21,9 +19,11 @@ QUEUE_NAME = "incoming_messages"
 
 
 async def handle(payload: dict) -> None:
-    # TODO(LAK-9+): dispatch to app.core.message_router instead of printing.
-    logger.info("consumed", extra={"queue": QUEUE_NAME, "fields": list(payload.keys())})
-    print("CONSUMED:", payload)
+    # One bad message must not kill the worker loop.
+    try:
+        await route(payload)
+    except Exception:
+        logger.exception("route_failed", extra={"wa_message_id": payload.get("id")})
 
 
 async def run() -> None:
