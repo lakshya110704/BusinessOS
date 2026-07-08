@@ -95,3 +95,24 @@ async def send_message(payload: dict) -> dict:
         return data
 
     return {}  # unreachable — loop either returns or raises
+
+
+def _auth_headers() -> dict:
+    return {"Authorization": f"Bearer {settings.WHATSAPP_ACCESS_TOKEN}"}
+
+
+async def get_media_url(media_id: str) -> str:
+    """Resolve a WhatsApp media_id to its (temporary) download URL."""
+    url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{media_id}"
+    async with httpx.AsyncClient(timeout=REQUEST_TIMEOUT) as client:
+        resp = await client.get(url, headers=_auth_headers())
+        resp.raise_for_status()
+        return resp.json()["url"]
+
+
+async def download_media(url: str) -> bytes:
+    """Download media bytes from a Meta media URL (requires the access token)."""
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(url, headers=_auth_headers())
+        resp.raise_for_status()
+        return resp.content

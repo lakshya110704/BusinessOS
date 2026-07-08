@@ -18,6 +18,7 @@ from app.core.confirm_engine import handle_reply, send_confirmation
 from app.core.entity_extractor import extract
 from app.core.intent_classifier import classify
 from app.db.repositories import business_repo
+from app.parsers import voice_parser
 from app.utils.logger import get_logger
 from app.utils.phone import normalize_phone
 
@@ -59,12 +60,24 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
         await _handle_owner_reply(message, sender_raw)
         return None
 
-    if mtype != "text":
+    # Get the message text — directly for text, via transcription for voice.
+    if mtype == "text":
+        text = (message.get("text") or {}).get("body", "")
+    elif mtype == "audio":
+        media_id = (message.get("audio") or {}).get("id")
+        if not media_id:
+            logger.info("audio_without_media_id")
+            return None
+        try:
+            text = await voice_parser.parse(media_id)
+        except Exception:
+            logger.exception("voice_parse_failed", extra={"media_id": media_id})
+            return None
+    else:
         logger.info("skipped_unsupported_type", extra={"type": mtype})
         return None
 
-    text = (message.get("text") or {}).get("body", "")
-    if not text.strip():
+    if not text or not text.strip():
         return None
 
     try:
