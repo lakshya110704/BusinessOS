@@ -112,7 +112,11 @@ async def handle_reply(business_id: str, owner_phone: str, reply_value: str) -> 
             return "already_handled"
         result = await execute(pending["proposed_action"], business_id)
         order_number = result.get("order_number")
-        await send_text(owner_phone, f"✅ Order logged.{f' ({order_number})' if order_number else ''}")
+        reminder_date = result.get("reminder_date")
+        message = f"✅ Order logged.{f' ({order_number})' if order_number else ''}"
+        if reminder_date:
+            message += f" Payment reminder set for {reminder_date}."
+        await send_text(owner_phone, message)
         logger.info("reply_handled", extra={"confirmation_id": confirmation_id, "reply": "1", "outcome": "confirmed"})
         return "confirmed"
 
