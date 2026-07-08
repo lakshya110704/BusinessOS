@@ -1,7 +1,7 @@
 """Repository for the `orders` table."""
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from app.db.supabase_client import get_supabase
 
@@ -13,6 +13,21 @@ async def create(order: dict) -> dict:
     client = await get_supabase()
     res = await client.table(TABLE).insert(order).execute()
     return res.data[0]
+
+
+async def get_recent_for_contact(business_id: str, contact_id: str, days: int = 30) -> list:
+    """Orders for a contact within the last `days` (newest first) — read-only context."""
+    client = await get_supabase()
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    return (
+        await client.table(TABLE)
+        .select("*")
+        .eq("business_id", business_id)
+        .eq("contact_id", contact_id)
+        .gte("created_at", cutoff)
+        .order("created_at", desc=True)
+        .execute()
+    ).data
 
 
 async def next_order_number(business_id: str) -> str:

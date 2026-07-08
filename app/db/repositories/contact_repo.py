@@ -9,6 +9,12 @@ from app.db.supabase_client import get_supabase
 TABLE = "contacts"
 
 
+async def get_by_id(contact_id: str) -> Optional[dict]:
+    client = await get_supabase()
+    res = await client.table(TABLE).select("*").eq("id", contact_id).limit(1).execute()
+    return res.data[0] if res.data else None
+
+
 async def get_or_create(
     business_id: str,
     phone_number: Optional[str],

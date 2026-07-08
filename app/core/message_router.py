@@ -15,6 +15,7 @@ from typing import Optional
 
 from app.core.action_generator import ProposedAction, generate
 from app.core.confirm_engine import handle_reply, send_confirmation
+from app.core.context_enricher import enrich
 from app.core.entity_extractor import extract
 from app.core.intent_classifier import classify
 from app.db.repositories import business_repo, contact_repo, message_repo
@@ -92,6 +93,10 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
         else None
     )
 
+    # Enrich with prior history + relationship context BEFORE persisting the
+    # current message (so history is genuinely the earlier messages).
+    enriched = await enrich(business["id"], contact["id"] if contact else None) if business else None
+
     # Persist the inbound message (the memory record). Only for a known business.
     message_row = None
     if business:
@@ -105,9 +110,11 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
             "voice_transcript": text if mtype == "audio" else None,
         })
 
-    # Understand.
-    intent = await classify(text)
-    entities = await extract(text, intent=intent.intent)
+    # Understand — with context.
+    ctx_contact = enriched.contact if enriched else None
+    ctx_history = enriched.history if enriched else None
+    intent = await classify(text, contact=ctx_contact, history=ctx_history)
+    entities = await extract(text, intent=intent.intent, contact_history=ctx_history)
     action = generate(
         intent, entities,
         context={"contact": {"phone": contact_phone, "name": (contact or {}).get("name")}},
