@@ -18,8 +18,9 @@ async def create(order: dict) -> dict:
 async def next_order_number(business_id: str) -> str:
     """Next per-business, per-year sequential number: ORD-YYYY-NNN.
 
-    Counts this year's orders for the business and adds one. At Phase-1 volume the
-    small race window is acceptable; a Postgres sequence would make it airtight.
+    Uses MAX(existing suffix) + 1 (not count), so deleting an order never causes a
+    collision with a still-existing number. At Phase-1 volume the small concurrent
+    race is acceptable; a Postgres sequence + UNIQUE(order_number) would make it airtight.
     """
     client = await get_supabase()
     prefix = f"ORD-{datetime.now(timezone.utc).year}-"
@@ -30,4 +31,9 @@ async def next_order_number(business_id: str) -> str:
         .like("order_number", f"{prefix}%")
         .execute()
     ).data
-    return f"{prefix}{len(rows) + 1:03d}"
+    highest = 0
+    for row in rows:
+        suffix = (row.get("order_number") or "").rsplit("-", 1)[-1]
+        if suffix.isdigit():
+            highest = max(highest, int(suffix))
+    return f"{prefix}{highest + 1:03d}"
