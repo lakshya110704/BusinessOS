@@ -110,7 +110,7 @@ async def handle_reply(business_id: str, owner_phone: str, reply_value: str) -> 
         if not await repo.claim_pending(confirmation_id, "confirmed"):
             logger.info("reply_already_handled", extra={"confirmation_id": confirmation_id})
             return "already_handled"
-        result = await execute(pending["proposed_action"], business_id)
+        result = await execute(pending["proposed_action"], business_id, source_message_id=pending.get("message_id"))
         order_number = result.get("order_number")
         reminder_date = result.get("reminder_date")
         message = f"✅ Order logged.{f' ({order_number})' if order_number else ''}"

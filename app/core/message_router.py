@@ -17,7 +17,7 @@ from app.core.action_generator import ProposedAction, generate
 from app.core.confirm_engine import handle_reply, send_confirmation
 from app.core.entity_extractor import extract
 from app.core.intent_classifier import classify
-from app.db.repositories import business_repo
+from app.db.repositories import business_repo, contact_repo, message_repo
 from app.parsers import voice_parser
 from app.utils.logger import get_logger
 from app.utils.phone import normalize_phone
@@ -80,31 +80,62 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
     if not text or not text.strip():
         return None
 
+    # Resolve which business this was sent to + the contact who sent it.
+    business = await business_repo.get_by_phone_number_id(phone_number_id) if phone_number_id else None
     try:
         contact_phone = normalize_phone(sender_raw)
     except ValueError:
         contact_phone = None
+    contact = (
+        await contact_repo.get_or_create(business["id"], contact_phone)
+        if business and contact_phone
+        else None
+    )
 
-    # LAK-15 will enrich contact + history here; empty context for now.
+    # Persist the inbound message (the memory record). Only for a known business.
+    message_row = None
+    if business:
+        message_row = await message_repo.create({
+            "business_id": business["id"],
+            "contact_id": contact["id"] if contact else None,
+            "whatsapp_message_id": message.get("id"),
+            "direction": "inbound",
+            "message_type": "voice" if mtype == "audio" else "text",
+            "raw_content": text if mtype == "text" else None,
+            "voice_transcript": text if mtype == "audio" else None,
+        })
+
+    # Understand.
     intent = await classify(text)
     entities = await extract(text, intent=intent.intent)
-    action = generate(intent, entities, context={"contact": {"phone": contact_phone}})
+    action = generate(
+        intent, entities,
+        context={"contact": {"phone": contact_phone, "name": (contact or {}).get("name")}},
+    )
     logger.info(
         "routed",
         extra={"intent": intent.intent, "action": action.action_type, "escalate": action.escalate},
     )
 
-    # Uncertain / no automated action → don't send a confirmation (LAK-15+ will
-    # notify the owner to handle manually).
+    # Attach the AI results back onto the stored message.
+    if message_row:
+        await message_repo.update_analysis(
+            message_row["id"],
+            intent=intent.intent,
+            entities=entities.model_dump(),
+            confidence=intent.confidence,
+            processed_content=text,
+        )
+
+    # Uncertain / no automated action → don't send a confirmation.
     if action.escalate or action.action_type == "escalate_to_owner":
         logger.info("escalated", extra={"intent": intent.intent})
         return action
 
-    # Find which business this was sent to, then confirm with its owner.
-    business = await business_repo.get_by_phone_number_id(phone_number_id) if phone_number_id else None
     if not business:
         logger.info("no_business_for_phone_number_id", extra={"phone_number_id": phone_number_id})
         return action
 
-    await send_confirmation(business, action)
+    source_message_id = message_row["id"] if message_row else None
+    await send_confirmation(business, action, source_message_id=source_message_id)
     return action

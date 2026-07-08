@@ -39,7 +39,7 @@ def _reminder_date(fields: dict) -> Optional[str]:
     return None
 
 
-async def _create_order(proposed_action: dict, business_id: str) -> dict:
+async def _create_order(proposed_action: dict, business_id: str, source_message_id: Optional[str] = None) -> dict:
     fields = proposed_action.get("fields", {})
     contact_info = proposed_action.get("contact", {})
 
@@ -57,6 +57,7 @@ async def _create_order(proposed_action: dict, business_id: str) -> dict:
     order = await order_repo.create({
         "business_id": business_id,
         "contact_id": contact_id,
+        "source_message_id": source_message_id,
         "order_number": order_number,
         "direction": "incoming",
         "items": [{
@@ -109,10 +110,10 @@ async def _record_payment(proposed_action: dict, business_id: str) -> dict:
     return {"action": "record_payment", "payment_id": payment["id"]}
 
 
-async def execute(proposed_action: dict, business_id: str) -> dict:
+async def execute(proposed_action: dict, business_id: str, source_message_id: Optional[str] = None) -> dict:
     action_type = proposed_action.get("action_type")
     if action_type == "create_order":
-        return await _create_order(proposed_action, business_id)
+        return await _create_order(proposed_action, business_id, source_message_id)
     if action_type == "record_payment":
         return await _record_payment(proposed_action, business_id)
 
