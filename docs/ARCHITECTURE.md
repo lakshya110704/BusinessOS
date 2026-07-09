@@ -186,3 +186,115 @@ bad input is rejected. Run: `python -m pytest tests/ -v`.
 | Wrong AI output | Print raw `complete_json` response; confirm `temperature=0`; restart if a prompt changed |
 | DB errors | Foreign-key insert order, or connection-string format |
 | Redis connection errors | `rediss://` scheme + native (not REST) creds |
+
+---
+---
+
+# Part 2 — The "Act & Remember" half
+
+Part 1 covered *understanding* a message. This part covers everything after: talking back
+on WhatsApp, asking permission, writing to the DB, voice notes, and the memory layer.
+
+## The full loop
+
+```
+WhatsApp msg (text OR voice)
+   → webhook: verify sig, dedup, enqueue {message, phone_number_id}
+   → consumer → route():
+        ├─ voice? → whisper transcribe                 (ears)
+        ├─ resolve business + contact
+        ├─ enrich: recall history + relationship        (memory)
+        ├─ persist message                              (memory)
+        ├─ classify → extract → generate (with context) (brain)
+        └─ send_confirmation → 📱 "📦 … [Confirm][Edit][Skip]"   (manners → mouth)
+   → you tap "1" → webhook → route → handle_reply
+        └─ claim_pending (once!) → execute:             (hands)
+             contact upsert → order (ORD-…) → stats → reminder
+        └─ "✅ Order logged (ORD-2026-001). Reminder set for …"
+```
+The web server and consumer are separate processes; they only talk through Redis.
+
+## Group 1 — The mouth (`app/whatsapp/`)
+
+### `client.py` — low-level HTTP to Meta
+- `_RateLimiter` enforces ≤80 msg/s (Rule #9): a lock + last-send timestamp spaces sends to
+  1/80s apart. Uses `time.monotonic()` (forward-only clock).
+- `send_message()` — the single outbound choke point. Retry loop: 429/5xx → wait + exponential
+  backoff; 4xx → raise immediately (no point retrying a bad request). Logs `wa_message_id` only.
+- `get_media_url()` / `download_media()` — the two-hop voice download (id → temp URL → bytes);
+  both require the access token.
+- 🐛 4xx `wa_send_failed` body = the real reason (bad number / expired token / outside 24h).
+
+### `sender.py` — the three send helpers
+- `send_text` (session), `send_interactive` (the 1/2/3 buttons), `send_template` (works anytime).
+- Each normalizes the number first (`_wa_number` strips `+` → Meta's format).
+- 🐛 `send_text`/`send_interactive` are **session** messages — only within 24h of the user
+  messaging you. `send_template` is the only cold-open path (why first contact used `hello_world`).
+
+### `templates.py` — registry mapping internal names → approved template + params.
+
+## Group 2 — The manners (`app/core/confirm_engine.py`)
+
+- `send_confirmation(business, action, source_message_id)` — LLM writes a short Hindi summary
+  (`summary_generator.txt`), `send_interactive` the buttons, THEN write the `pending_confirmations`
+  row (so `whatsapp_confirm_sent=True` is honest). `proposed_action.model_dump()` freezes the whole
+  action as JSON — the reply button only says "1", so the details must be stored to replay.
+- `handle_reply(business_id, owner_phone, reply)`:
+  - `get_latest_pending()` — the tap doesn't say which confirmation; grab newest `pending`.
+  - **`claim_pending()`** = conditional update `SET status=... WHERE id=X AND status='pending'`.
+    Only the first caller flips it and gets rows; a concurrent/duplicate tap gets 0 rows →
+    `already_handled`, does NOT execute. This is the duplicate-order guard.
+  - `1` → claim + `execute()`; `2` → edited; `3` → ignored; else → re-send buttons.
+- 🐛 tapped 1 but no order → `reply_already_handled` (race) vs `no_pending` (status not pending).
+
+## Group 3 — The hands (`app/core/action_executor.py` + repos)
+
+- Repository pattern: one file per table under `app/db/repositories/`. No raw queries elsewhere.
+- `execute(action, business_id, source_message_id)` routes by `action_type`.
+- `_create_order`: (1) `contact_repo.get_or_create` → (2) `order_repo.next_order_number` + insert
+  (with `source_message_id`, `confirmed_by_owner=True`) → (3) `contact_repo.increment_stats` →
+  (4) `task_repo.create` a reminder if `_reminder_date` resolves (`net-7 → today+7` in IST).
+- `order_repo.next_order_number` = **MAX(suffix)+1** (survives deletions; count would collide).
+- `contact_repo.get_or_create` catches the UNIQUE race and re-fetches.
+- `contact_repo.increment_stats` = read-modify-write (documented Phase-1 race).
+- 🐛 order missing → check `executed` log then Supabase; FK violation → child before parent.
+
+## Group 4 — The ears (`app/ai/whisper.py`, `app/parsers/voice_parser.py`)
+
+- `whisper.transcribe(bytes, filename, language="hi")` — `file=(name, bytes)` tuple (SDK detects
+  format from the name extension); `language="hi"` boosts Hindi accuracy; inherits SDK retries.
+- `voice_parser.parse(media_id)` = `get_media_url` → `download_media` → `transcribe`. Logs id +
+  length only, never the transcript (Rule #1).
+- Voice adds NO second pipeline — it produces text that flows into the same classify→extract→confirm.
+- 🐛 `voice_parse_failed` → 401 (expired token) or 404 (media URL expired — download promptly).
+
+## Group 5 — The memory + the conductor
+
+### `app/db/repositories/message_repo.py`
+- `create` (idempotent on `whatsapp_message_id`) stores the raw message immediately;
+  `update_analysis` attaches intent/entities *after* the AI runs (two-phase, so a failed AI step
+  never loses the raw message). `get_recent` powers history recall.
+
+### `app/core/context_enricher.py`
+- `enrich(business_id, contact_id)` → `EnrichedContext(contact, history, recent_orders, is_known)`.
+- `_history` = cache-aside: Redis (`contact:{id}`) → miss → DB `get_recent` → repopulate (300s TTL).
+- Unknown/new contact → empty defaults (pipeline behaves as pre-enrichment for strangers).
+
+### `app/core/message_router.py` — the conductor
+- Holds no business logic; pure orchestration calling every group.
+- Order matters: **enrich BEFORE persisting the current message** so history = earlier messages.
+- Fed by the webhook (`{message, phone_number_id}`) via the consumer. `phone_number_id` is how it
+  knows which business received the message.
+- 🐛 Follow the breadcrumbs: `enqueued → enriched → routed → confirmation_sent/escalated →
+  reply_handled → executed`. Where the chain stops is where to look.
+
+## Debugging by symptom (Part 2)
+
+| Symptom | Look here |
+|---|---|
+| Confirmation sent but no DB row | `send_interactive` ok, `repo.create` threw (Supabase creds/schema) |
+| No confirmation arrives | 24h session window closed, or wrong owner phone |
+| Tapped 1, no order | `reply_already_handled` (race) vs `no_pending` (status/expired) |
+| Voice fails | `voice_parse_failed` → 401 (token) / 404 (media URL expired) |
+| Stale contact history | 5-min Redis cache — clear `contact:{id}:context` |
+| Duplicate order numbers | Concurrent orders — needs Postgres sequence + `UNIQUE(order_number)` |
