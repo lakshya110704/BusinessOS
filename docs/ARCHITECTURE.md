@@ -298,3 +298,30 @@ The web server and consumer are separate processes; they only talk through Redis
 | Voice fails | `voice_parse_failed` → 401 (token) / 404 (media URL expired) |
 | Stale contact history | 5-min Redis cache — clear `contact:{id}:context` |
 | Duplicate order numbers | Concurrent orders — needs Postgres sequence + `UNIQUE(order_number)` |
+
+---
+---
+
+# Part 3 — Testing
+
+Layout under `tests/`:
+- `conftest.py` — loads the fixture corpus; the `patch_json` fixture stubs `complete_json` with a
+  canned async response (mocks the LLM without hitting OpenAI).
+- `fixtures/sample_messages.json` — 50 labeled Hindi/Hinglish messages (all 8 intents, 11 flagged
+  ambiguous). `fixtures/sample_voice_notes/` — 3 `.ogg`/opus notes + `labels.json`.
+- `test_intent_classifier.py` / `test_entity_extractor.py` — **mocked** logic tests (confidence
+  gate → unknown+escalate, type coercion, null handling, nested-shape) that always run, PLUS
+  **live** eval tests gated behind `RUN_LIVE_EVAL=1` (real classifier vs corpus → ≥90% intent
+  accuracy, `kal → tomorrow` date resolution, entity-ambiguity flagging).
+- `test_webhook.py` — signature valid/invalid/missing/tampered → 200/403, duplicate id → idempotent.
+  Redis + `push` are mocked so it stays pure/fast.
+- `test_phone_normalizer.py` — every format + 9-digit / non-numeric edge cases.
+
+Run: `pytest tests/` (mocked, ~0.5s) or `RUN_LIVE_EVAL=1 pytest tests/` (adds ~50 OpenAI calls).
+
+**Design note — two kinds of ambiguity.** *Intent*-ambiguity (gibberish → `unknown`) is caught by
+the classifier; *entity*-ambiguity ("kuch piece bhej do" — clear intent, missing quantity) is caught
+by the extractor (null qty + `ambiguities`). Tests assert each at the correct layer.
+
+**`app/parsers/text_parser.py`** (LAK-12): extracts the text body and NFC-normalizes it (so Hindi
+combining characters store/compare consistently). `route()` uses it for `type == "text"`.

@@ -5,6 +5,31 @@
 
 **Note on naming:** Internal docs may say "Dhaaga." The project's real name is **BusinessOS**. Use BusinessOS in code, commits, and user-facing text.
 
+---
+
+## Current status (updated 2026-07-09)
+
+**Phase 1 core is built, tested, and pushed** — 19 tickets done (LAK-5→20, 23, 24, 25). The full
+loop works end to end against real infra (Meta, Supabase, OpenAI, Upstash): **message (text or
+voice) → understand → confirm on WhatsApp → owner taps 1/2/3 → order logged + remembered.**
+
+**Done:** FastAPI skeleton · Supabase schema · Redis queue · signed webhook (verify + receive +
+dedup) · Meta sender · phone normalizer · intent classifier · entity extractor · action
+generator + executor · confirm engine + reply handling · voice notes (Whisper) · context
+enricher · message persistence · message router · unit tests + opt-in live accuracy eval + Hindi fixtures.
+
+**Not done (4 tickets):** LAK-21 daily-summary job · LAK-22 payment-reminder scheduler (both need
+scheduler wiring — `app/scheduler/jobs.py` currently has only `expire_confirmations`) · LAK-26/27
+integration tests · LAK-28 health-check upgrade.
+
+**Known blocker — live phone demo:** everything is wired, but Meta only delivers real webhooks in
+**Live mode** (needs Privacy Policy URL + Business Verification review). Dev mode delivers only
+dashboard "Test" webhooks. To resume: add privacy URL → verify business → flip App Mode to Live →
+restart server/consumer/ngrok → update the Meta callback URL (ngrok's free URL changes each restart).
+See memory note `businessos-meta-live-blocker`. Also onboard a fresh `businesses` row (DB was wiped).
+
+---
+
 ## How to work in this repo
 
 - **Plan first, point to learning (don't lecture).** At the start of a task, state the plan — what we're about to do — before acting. The user learns by watching videos on their own, so do NOT teach inline. When new concepts come up, surface a concise list of topic names to go study (grouped, prioritized) rather than explaining them, and tag them inline with **📺 worth a video**. Routine/familiar work can move fast.
@@ -54,19 +79,22 @@ Pipeline: `incoming message → type detector → parser (text/voice/pdf/image) 
 
 ```
 app/
-  main.py            FastAPI entry
-  api/               webhook, health, dashboard
-  core/              message_router, intent_classifier, entity_extractor,
-                     context_enricher, action_generator, confirm_engine, action_executor
-  parsers/           text, voice (Whisper), pdf, image
-  whatsapp/          Meta Cloud API client, message_types, templates, sender
-  ai/                openai_client, whisper, embeddings, prompts/
-  db/                supabase_client, migrations/, repositories/
-  queue/             redis_client, producer, consumer (separate worker)
-  scheduler/         jobs.py (payment reminders, daily summaries)
-  utils/             language, phone, logger
-tests/               unit + integration + fixtures (real Hindi messages)
-scripts/             setup_db, test_webhook_local, onboard_business
+  main.py            FastAPI app (lifespan) + router mounts
+  config.py          pydantic-settings (all env vars; source of truth for names)
+  api/               webhook.py (GET verify + signed POST), health.py
+  core/              message_router · intent_classifier · entity_extractor · context_enricher
+                     action_generator · action_executor · confirm_engine
+  parsers/           text_parser · voice_parser (Whisper)     (pdf/image = Phase 2)
+  whatsapp/          client (send + media download) · sender · templates · message_types
+  ai/                openai_client · whisper · prompts/*.txt   (embeddings = later)
+  db/                supabase_client · migrations/001_initial.sql
+     repositories/   business · contact · message · order · payment · task · pending_confirmation
+  queue/             redis_client · producer · consumer (SEPARATE worker process)
+  scheduler/         jobs.py (expire_confirmations; daily-summary + reminders TBD = LAK-21/22)
+  utils/             phone · logger
+tests/               unit tests + conftest + fixtures/ (50-msg corpus + 3 .ogg voice notes)
+scripts/             setup_db · test_webhook_local
+docs/ARCHITECTURE.md   full file-by-file code walkthrough (read this to understand the code)
 ```
 
 ---
@@ -81,8 +109,12 @@ scripts/             setup_db, test_webhook_local, onboard_business
 
 - **Branches:** `main` (prod, deployable) ← `dev` (integration) ← `feature/xxx` / `fix/xxx`.
 - **Commits:** `feat:` / `fix:` / `test:` prefix, imperative.
-- **Local dev:** `uvicorn app.main:app --reload --port 8000`, tunnel via `ngrok http 8000`, simulate with `scripts/test_webhook_local.py`.
-- **Tests:** `pytest tests/ -v` — must pass before merge to `main`.
+- **Local dev — TWO processes** (the consumer is separate; uvicorn does NOT start it):
+  - server: `uvicorn app.main:app --reload --port 8000`
+  - consumer: `python -m app.queue.consumer`
+  - tunnel: `ngrok http 8000` · simulate inbound: `python scripts/test_webhook_local.py`
+- **Tests:** `pytest tests/` (fast, mocked — no API). Live model eval: `RUN_LIVE_EVAL=1 pytest tests/` (uses OpenAI).
+- **DB migrations:** `python scripts/setup_db.py` (needs `SUPABASE_DB_URL`).
 - **Deploy:** `railway up` (or push to `main`).
 
 ## Before merging / shipping
