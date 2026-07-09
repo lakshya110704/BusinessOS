@@ -1,0 +1,69 @@
+{
+  "_meta": {
+    "description": "Ground-truth Hindi/Hinglish message corpus for pipeline tests (LAK-23).",
+    "count": 50,
+    "intents": ["order_placed", "order_inquiry", "payment_sent", "payment_request", "delivery_update", "complaint", "greeting", "unknown"],
+    "schema": "each: {message, expected_intent, expected_entities, relative_date, ambiguous, notes}",
+    "note": "relative_date holds the Hindi date token (kal/parso/...) so date-resolution tests can compute the absolute date at run time. ambiguous=true means the classifier should return low confidence."
+  },
+  "fixtures": [
+    {"message": "Ramesh bhai 50 piece bhejo kal tak", "expected_intent": "order_placed", "expected_entities": {"quantity": 50, "unit": "piece"}, "relative_date": "kal", "ambiguous": false, "notes": "clear order"},
+    {"message": "100 meter cotton chahiye parso tak", "expected_intent": "order_placed", "expected_entities": {"quantity": 100, "unit": "meter"}, "relative_date": "parso", "ambiguous": false, "notes": "clear order"},
+    {"message": "bhai 20 dozen bangles ka order hai, agle hafte delivery", "expected_intent": "order_placed", "expected_entities": {"quantity": 20, "unit": "dozen"}, "relative_date": "agle hafte", "ambiguous": false, "notes": "clear order"},
+    {"message": "5 box bhej dena, payment advance", "expected_intent": "order_placed", "expected_entities": {"quantity": 5, "unit": "box", "payment_terms": "advance"}, "relative_date": null, "ambiguous": false, "notes": "clear order with advance payment"},
+    {"message": "200 piece red saree, delivery kal, 15 din payment", "expected_intent": "order_placed", "expected_entities": {"quantity": 200, "unit": "piece", "payment_terms": "net-15"}, "relative_date": "kal", "ambiguous": false, "notes": "clear order net-15"},
+    {"message": "30 kg dhaaga chahiye is hafte tak", "expected_intent": "order_placed", "expected_entities": {"quantity": 30, "unit": "kg"}, "relative_date": "is hafte", "ambiguous": false, "notes": "clear order"},
+    {"message": "10 carton bhejo, paisa delivery pe", "expected_intent": "order_placed", "expected_entities": {"quantity": 10, "unit": "carton", "payment_terms": "on-delivery"}, "relative_date": null, "ambiguous": false, "notes": "clear order, on-delivery"},
+    {"message": "75 piece ka order, kal subah tak pahunch jaye", "expected_intent": "order_placed", "expected_entities": {"quantity": 75, "unit": "piece"}, "relative_date": "kal", "ambiguous": false, "notes": "clear order"},
+    {"message": "150 meter silk, hafte bhar mein, 7 din payment", "expected_intent": "order_placed", "expected_entities": {"quantity": 150, "unit": "meter", "payment_terms": "net-7"}, "relative_date": null, "ambiguous": false, "notes": "clear order net-7"},
+    {"message": "12 dozen buttons bhejo jaldi", "expected_intent": "order_placed", "expected_entities": {"quantity": 12, "unit": "dozen"}, "relative_date": null, "ambiguous": false, "notes": "clear order"},
+
+    {"message": "kuch piece bhej do", "expected_intent": "order_placed", "expected_entities": {"quantity": null, "unit": "piece"}, "relative_date": null, "ambiguous": true, "notes": "ambiguous: no quantity"},
+    {"message": "maal chahiye kal tak", "expected_intent": "order_placed", "expected_entities": {"quantity": null}, "relative_date": "kal", "ambiguous": true, "notes": "ambiguous: no qty, no sku"},
+    {"message": "wahi wala order dubara bhej dena", "expected_intent": "order_placed", "expected_entities": {"quantity": null}, "relative_date": null, "ambiguous": true, "notes": "ambiguous: refers to past order"},
+    {"message": "thoda saara bhejo", "expected_intent": "order_placed", "expected_entities": {"quantity": null}, "relative_date": null, "ambiguous": true, "notes": "ambiguous: vague quantity"},
+    {"message": "50 bhejo", "expected_intent": "order_placed", "expected_entities": {"quantity": 50, "unit": null}, "relative_date": null, "ambiguous": true, "notes": "ambiguous: qty but no unit/sku"},
+
+    {"message": "payment kab karoge bhai", "expected_intent": "payment_request", "expected_entities": {"amount": null}, "relative_date": null, "ambiguous": false, "notes": "asking for payment"},
+    {"message": "kal tak paise clear kar dena", "expected_intent": "payment_request", "expected_entities": {"amount": null}, "relative_date": "kal", "ambiguous": false, "notes": "requesting payment"},
+    {"message": "2000 baaki hai, transfer kar do", "expected_intent": "payment_request", "expected_entities": {"amount": 2000}, "relative_date": null, "ambiguous": false, "notes": "requesting payment with amount"},
+    {"message": "bhai udhaar chuka do ab", "expected_intent": "payment_request", "expected_entities": {"amount": null}, "relative_date": null, "ambiguous": false, "notes": "requesting due payment"},
+    {"message": "invoice ka payment pending hai, kar dijiye", "expected_intent": "payment_request", "expected_entities": {"amount": null}, "relative_date": null, "ambiguous": false, "notes": "requesting invoice payment"},
+
+    {"message": "paise bhej diye 5000", "expected_intent": "payment_sent", "expected_entities": {"amount": 5000}, "relative_date": null, "ambiguous": false, "notes": "confirming payment sent"},
+    {"message": "payment kar diya maine, check karlo", "expected_intent": "payment_sent", "expected_entities": {"amount": null}, "relative_date": null, "ambiguous": false, "notes": "confirming payment"},
+    {"message": "abhi UPI kiya hai 10000", "expected_intent": "payment_sent", "expected_entities": {"amount": 10000}, "relative_date": null, "ambiguous": false, "notes": "payment via UPI"},
+    {"message": "advance transfer kar diya 2000", "expected_intent": "payment_sent", "expected_entities": {"amount": 2000}, "relative_date": null, "ambiguous": false, "notes": "advance sent"},
+    {"message": "Ramesh ka payment aa gaya", "expected_intent": "payment_sent", "expected_entities": {"amount": null}, "relative_date": null, "ambiguous": false, "notes": "payment received/confirmed"},
+
+    {"message": "maal nikal gaya, kal pahunch jayega", "expected_intent": "delivery_update", "expected_entities": {}, "relative_date": "kal", "ambiguous": false, "notes": "dispatch update"},
+    {"message": "gaadi rawana ho gayi hai", "expected_intent": "delivery_update", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "vehicle dispatched"},
+    {"message": "parcel dispatch kar diya aaj", "expected_intent": "delivery_update", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "parcel dispatched"},
+    {"message": "aaj shaam tak deliver ho jayega", "expected_intent": "delivery_update", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "delivery ETA"},
+    {"message": "transporter ne pickup kar liya", "expected_intent": "delivery_update", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "pickup done"},
+
+    {"message": "maal kharab nikla, wapas lo", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "quality complaint"},
+    {"message": "quality bilkul theek nahi hai", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "quality complaint"},
+    {"message": "galat item bhej diya aapne", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "wrong item"},
+    {"message": "3 din ho gaye maal abhi tak nahi aaya, bahut kharab service", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "delay complaint"},
+    {"message": "piece kam nikle box mein", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "short quantity"},
+
+    {"message": "bhai namaste", "expected_intent": "greeting", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "greeting"},
+    {"message": "kya haal hai", "expected_intent": "greeting", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "greeting"},
+    {"message": "Ram Ram bhai sahab", "expected_intent": "greeting", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "greeting"},
+    {"message": "good morning ji", "expected_intent": "greeting", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "greeting"},
+    {"message": "🙏 namaskar", "expected_intent": "greeting", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "greeting with emoji"},
+
+    {"message": "asdfgh jklqwe zxcvb", "expected_intent": "unknown", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "gibberish"},
+    {"message": "😂😂😂👍", "expected_intent": "unknown", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "only emojis"},
+    {"message": "[location shared]", "expected_intent": "unknown", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "location placeholder"},
+    {"message": "hmmmm", "expected_intent": "unknown", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "non-committal"},
+    {"message": "https://some-random-link.example.com", "expected_intent": "unknown", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "bare link"},
+
+    {"message": "50 piece bhejo aur pichhla payment bhi clear karo", "expected_intent": "order_placed", "expected_entities": {"quantity": 50, "unit": "piece"}, "relative_date": null, "ambiguous": false, "notes": "multi-intent: order + payment_request (primary=order)"},
+    {"message": "maal aa gaya lekin quality kharab hai", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": false, "notes": "multi-intent: delivery + complaint (primary=complaint)"},
+    {"message": "namaste bhai, 100 meter chahiye kal tak", "expected_intent": "order_placed", "expected_entities": {"quantity": 100, "unit": "meter"}, "relative_date": "kal", "ambiguous": false, "notes": "multi-intent: greeting + order (primary=order)"},
+    {"message": "payment kar diya, ab agla order 20 box bhejo", "expected_intent": "order_placed", "expected_entities": {"quantity": 20, "unit": "box"}, "relative_date": null, "ambiguous": false, "notes": "multi-intent: payment_sent + order (primary=order)"},
+    {"message": "order cancel karo aur paise wapas karo", "expected_intent": "complaint", "expected_entities": {}, "relative_date": null, "ambiguous": true, "notes": "multi-intent: cancel + refund (edge case)"}
+  ]
+}

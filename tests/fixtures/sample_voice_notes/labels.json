@@ -1,0 +1,5 @@
+{
+  "order.ogg":    {"expected_transcript_contains": ["पचास", "पीस", "कल"], "expected_intent": "order_placed"},
+  "payment.ogg":  {"expected_transcript_contains": ["पेमेंट", "हज़ार"], "expected_intent": "payment_sent"},
+  "delivery.ogg": {"expected_transcript_contains": ["माल", "निकल"], "expected_intent": "delivery_update"}
+}
