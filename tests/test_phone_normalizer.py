@@ -25,9 +25,10 @@ def test_all_formats_normalize(raw):
         "",                 # empty
         "   ",              # whitespace only
         "12345",            # too short
+        "987654321",        # 9 digits (one short)
         "123456789012345",  # too long
         "5876543210",       # invalid leading digit (5)
-        "abcd",             # no digits
+        "abcd",             # no digits (non-numeric)
     ],
 )
 def test_invalid_raises_valueerror(bad):
