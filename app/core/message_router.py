@@ -19,7 +19,7 @@ from app.core.context_enricher import enrich
 from app.core.entity_extractor import extract
 from app.core.intent_classifier import classify
 from app.db.repositories import business_repo, contact_repo, message_repo
-from app.parsers import voice_parser
+from app.parsers import text_parser, voice_parser
 from app.utils.logger import get_logger
 from app.utils.phone import normalize_phone
 
@@ -61,9 +61,9 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
         await _handle_owner_reply(message, sender_raw)
         return None
 
-    # Get the message text — directly for text, via transcription for voice.
+    # Get the message text — via the text parser, or transcription for voice.
     if mtype == "text":
-        text = (message.get("text") or {}).get("body", "")
+        text = text_parser.parse(message)
     elif mtype == "audio":
         media_id = (message.get("audio") or {}).get("id")
         if not media_id:
