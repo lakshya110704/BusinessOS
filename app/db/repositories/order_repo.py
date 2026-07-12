@@ -15,6 +15,20 @@ async def create(order: dict) -> dict:
     return res.data[0]
 
 
+async def count_created_between(business_id: str, start_iso: str, end_iso: str) -> int:
+    """Count orders created in [start, end) for a business (for the daily summary)."""
+    client = await get_supabase()
+    rows = (
+        await client.table(TABLE)
+        .select("id")
+        .eq("business_id", business_id)
+        .gte("created_at", start_iso)
+        .lt("created_at", end_iso)
+        .execute()
+    ).data
+    return len(rows)
+
+
 async def get_recent_for_contact(business_id: str, contact_id: str, days: int = 30) -> list:
     """Orders for a contact within the last `days` (newest first) — read-only context."""
     client = await get_supabase()

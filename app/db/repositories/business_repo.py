@@ -30,3 +30,15 @@ async def get_by_phone_number_id(phone_number_id: str) -> Optional[dict]:
         .execute()
     )
     return res.data[0] if res.data else None
+
+
+async def get_by_id(business_id: str) -> Optional[dict]:
+    client = await get_supabase()
+    res = await client.table(TABLE).select("*").eq("id", business_id).limit(1).execute()
+    return res.data[0] if res.data else None
+
+
+async def get_active() -> list:
+    """All active businesses (for scheduled jobs)."""
+    client = await get_supabase()
+    return (await client.table(TABLE).select("*").eq("is_active", True).execute()).data
