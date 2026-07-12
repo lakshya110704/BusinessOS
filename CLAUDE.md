@@ -9,18 +9,17 @@
 
 ## Current status (updated 2026-07-09)
 
-**Phase 1 core is built, tested, and pushed** — 19 tickets done (LAK-5→20, 23, 24, 25). The full
-loop works end to end against real infra (Meta, Supabase, OpenAI, Upstash): **message (text or
-voice) → understand → confirm on WhatsApp → owner taps 1/2/3 → order logged + remembered.**
+**Phase 1 MVP is COMPLETE** — all 24 tickets (LAK-5 through LAK-28) built, tested, and marked Done in
+Linear. The full loop works end to end against real infra (Meta, Supabase, OpenAI, Upstash):
+**message (text or voice) → understand (with contact context) → confirm on WhatsApp → owner taps
+1/2/3 → order logged + remembered**, plus proactive **daily summaries (8 PM IST)** and **payment
+reminders (9 AM IST)** via APScheduler in the lifespan.
 
-**Done:** FastAPI skeleton · Supabase schema · Redis queue · signed webhook (verify + receive +
-dedup) · Meta sender · phone normalizer · intent classifier · entity extractor · action
-generator + executor · confirm engine + reply handling · voice notes (Whisper) · context
-enricher · message persistence · message router · unit tests + opt-in live accuracy eval + Hindi fixtures.
+**Test suite:** `pytest tests/` = 31 passing (unit + mocked webhook/health + integration flows).
+Opt-in live model eval: `RUN_LIVE_EVAL=1 pytest tests/`. Integration tests skip without DB/Redis creds.
 
-**Not done (4 tickets):** LAK-21 daily-summary job · LAK-22 payment-reminder scheduler (both need
-scheduler wiring — `app/scheduler/jobs.py` currently has only `expire_confirmations`) · LAK-26/27
-integration tests · LAK-28 health-check upgrade.
+**Remaining = external only:** Meta **Business Verification** to unblock the live phone demo (see
+blocker below). Phase 2 ideas: PDF/image parsing, embeddings + semantic search, autopilot, dashboard.
 
 **Known blocker — live phone demo:** everything is wired, but Meta only delivers real webhooks in
 **Live mode** (needs Privacy Policy URL + Business Verification review). Dev mode delivers only
