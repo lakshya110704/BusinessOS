@@ -6,6 +6,11 @@ Usage:
 Prompts for the owner + WhatsApp details and inserts an active business row.
 """
 import asyncio
+import sys
+from pathlib import Path
+
+# Make `app` importable when run as `python scripts/onboard_business.py`.
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from dotenv import load_dotenv
 
