@@ -98,16 +98,27 @@ async def _record_payment(proposed_action: dict, business_id: str) -> dict:
     fields = proposed_action.get("fields", {})
     contact_info = proposed_action.get("contact", {})
     contact = await contact_repo.get_or_create(business_id, phone_number=contact_info.get("phone"))
+    contact_id = contact["id"] if contact else None
+
     payment = await payment_repo.create({
         "business_id": business_id,
-        "contact_id": contact["id"] if contact else None,
+        "contact_id": contact_id,
         "amount": fields.get("amount") or 0,
         "direction": "receivable",
         "status": "paid",
         "paid_date": datetime.now(IST).date().isoformat(),
     })
-    logger.info("executed", extra={"action": "record_payment", "payment_id": payment["id"]})
-    return {"action": "record_payment", "payment_id": payment["id"]}
+
+    # Settle the contact's most recent unpaid order, if any (LAK-34).
+    settled_order_id = None
+    if contact_id:
+        order = await order_repo.latest_unpaid_for_contact(business_id, contact_id)
+        if order:
+            await order_repo.set_payment_status(order["id"], "paid")
+            settled_order_id = order["id"]
+
+    logger.info("executed", extra={"action": "record_payment", "payment_id": payment["id"], "settled_order": settled_order_id})
+    return {"action": "record_payment", "payment_id": payment["id"], "order_id": settled_order_id}
 
 
 async def execute(proposed_action: dict, business_id: str, source_message_id: Optional[str] = None) -> dict:

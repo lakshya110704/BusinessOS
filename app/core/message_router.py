@@ -115,6 +115,12 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
     ctx_history = enriched.history if enriched else None
     intent = await classify(text, contact=ctx_contact, history=ctx_history)
     entities = await extract(text, intent=intent.intent, contact_history=ctx_history)
+
+    # Learn the contact's name from the message if we don't have it yet (LAK-33).
+    if contact and not contact.get("name") and entities.vendor_name:
+        await contact_repo.update_name(contact["id"], entities.vendor_name)
+        contact["name"] = entities.vendor_name
+
     action = generate(
         intent, entities,
         context={"contact": {"phone": contact_phone, "name": (contact or {}).get("name")}},

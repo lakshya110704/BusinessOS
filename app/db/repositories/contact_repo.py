@@ -61,6 +61,11 @@ async def get_or_create(
         return again[0] if again else None
 
 
+async def update_name(contact_id: str, name: str) -> None:
+    client = await get_supabase()
+    await client.table(TABLE).update({"name": name}).eq("id", contact_id).execute()
+
+
 async def increment_stats(contact_id: str, orders_delta: int = 0, amount_delta: float = 0) -> None:
     """Bump total_orders / total_amount_transacted (read-modify-write; Phase-1 scale)."""
     client = await get_supabase()

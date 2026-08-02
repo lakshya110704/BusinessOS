@@ -2,10 +2,32 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from typing import Optional
 
 from app.db.supabase_client import get_supabase
 
 TABLE = "orders"
+
+
+async def latest_unpaid_for_contact(business_id: str, contact_id: str) -> Optional[dict]:
+    """Most recent order for a contact that isn't fully paid — the one a payment likely settles."""
+    client = await get_supabase()
+    res = (
+        await client.table(TABLE)
+        .select("*")
+        .eq("business_id", business_id)
+        .eq("contact_id", contact_id)
+        .neq("payment_status", "paid")
+        .order("created_at", desc=True)
+        .limit(1)
+        .execute()
+    ).data
+    return res[0] if res else None
+
+
+async def set_payment_status(order_id: str, status: str) -> None:
+    client = await get_supabase()
+    await client.table(TABLE).update({"payment_status": status}).eq("id", order_id).execute()
 
 
 async def create(order: dict) -> dict:
