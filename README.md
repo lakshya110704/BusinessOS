@@ -67,7 +67,19 @@ Test corpus: 50 labeled Hindi/Hinglish messages + 3 `.ogg` voice notes in `tests
 
 ## Deploy
 
-Railway, auto-deploying from `main`. Config in `railway.toml` (`/health` is the health check).
+Railway, auto-deploying from `main`. `/health` reports dependency status (used as the health check).
+
+**Two processes** — the consumer is separate from the web server. The `Procfile` defines both:
+```
+web:    uvicorn app.main:app --host 0.0.0.0 --port $PORT
+worker: python -m app.queue.consumer
+```
+
+**Production checklist:**
+- **Permanent WhatsApp token** — the temp API-Setup token expires every 24h; use a Meta *System User* token.
+- **⚠️ Do NOT run production on free Supabase/Upstash tiers.** Both auto-pause after ~1 week idle — a paused DB/Redis means an incoming order is silently dropped. Use paid tiers (or a keep-warm ping) before onboarding real businesses.
+- **Migrations** — run `python scripts/setup_db.py` on deploy (idempotent; applies `app/db/migrations/*.sql` in order).
+- **RLS is on** — server access uses the service key (bypasses RLS); add per-business policies before any client/dashboard reads the data.
 
 ## Stack
 
