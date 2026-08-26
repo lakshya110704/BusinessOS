@@ -23,9 +23,16 @@ blocker below). Phase 2 ideas: PDF/image parsing, embeddings + semantic search, 
 
 **Known blocker — live phone demo:** everything is wired, but Meta only delivers real webhooks in
 **Live mode** (needs Privacy Policy URL + Business Verification review). Dev mode delivers only
-dashboard "Test" webhooks. To resume: add privacy URL → verify business → flip App Mode to Live →
-restart server/consumer/ngrok → update the Meta callback URL (ngrok's free URL changes each restart).
-See memory note `businessos-meta-live-blocker`. Also onboard a fresh `businesses` row (DB was wiped).
+dashboard "Test" webhooks. Full go-live walkthrough: **[docs/GO_LIVE.md](docs/GO_LIVE.md)**.
+To resume: add privacy URL → verify business → flip App Mode to Live → restart server/consumer/tunnel
+→ update the Meta callback URL. See memory note `businessos-meta-live-blocker`. Also onboard a fresh
+`businesses` row (DB was wiped).
+
+**Public URL — Cloudflare Tunnel (free self-host).** `scripts/run_with_tunnel.ps1` (Windows PC, the
+always-on host) or `scripts/run_with_tunnel.sh` (Mac/Linux) starts server + consumer + tunnel and
+prints an `https://<random>.trycloudflare.com` URL (pins `--protocol http2` — quic/UDP drops on NAT'd
+networks). URL is random per run; a stable URL needs a domain on Cloudflare (named tunnel). Replaces
+ngrok. Railway is still an option but needs a paid/active plan (trial expired).
 
 ---
 

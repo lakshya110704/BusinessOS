@@ -67,7 +67,13 @@ Test corpus: 50 labeled Hindi/Hinglish messages + 3 `.ogg` voice notes in `tests
 
 ## Deploy
 
-Railway, auto-deploying from `main`. `/health` reports dependency status (used as the health check).
+**Going live? See [docs/GO_LIVE.md](docs/GO_LIVE.md)** — the full public-URL + Meta setup walkthrough.
+
+Two options for the public URL:
+- **Cloudflare Tunnel (free, self-host)** — `scripts/run_with_tunnel.ps1` (Windows) or `scripts/run_with_tunnel.sh` (Mac/Linux) runs server + consumer + tunnel together and prints a public URL. Uses `--protocol http2` for a stable edge connection.
+- **Railway** — auto-deploying from `main` (needs a paid/active plan).
+
+`/health` reports dependency status (used as the health check).
 
 **Two processes** — the consumer is separate from the web server. The `Procfile` defines both:
 ```
