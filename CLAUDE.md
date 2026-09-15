@@ -7,7 +7,7 @@
 
 ---
 
-## Current status (updated 2026-07-09)
+## Current status (updated 2026-08-27)
 
 **Phase 1 MVP is COMPLETE** — all 24 tickets (LAK-5 through LAK-28) built, tested, and marked Done in
 Linear. The full loop works end to end against real infra (Meta, Supabase, OpenAI, Upstash):
