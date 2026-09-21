@@ -1,0 +1,351 @@
+<title>BusinessOS Pitch</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --paper:#F7F4EE; --surface:#FFFFFF; --surface-2:#F1ECE2; --surface-3:#EBE4D6;
+    --ink:#1C1A17; --ink-2:#514B42; --ink-3:#8A8073; --hair:#DED6C6;
+    --ochre:#BA7517; --ochre-soft:#FAEEDA; --ochre-ink:#633806;
+    --emerald:#0B7A5B; --emerald-soft:#DEF1E9; --emerald-ink:#053D2C;
+    --wa-bubble:#0B7A5B; --wa-card:#EDE7DB; --wa-card-ink:#1C1A17;
+    --radius:14px; --radius-sm:9px;
+    --maxw:720px;
+  }
+  :root:not([data-theme="light"]){ }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14130F; --surface:#1C1A16; --surface-2:#211E19; --surface-3:#2A261F;
+      --ink:#F2ECE0; --ink-2:#C3BAA9; --ink-3:#8E8676; --hair:#332E25;
+      --ochre:#E5A54B; --ochre-soft:#33280F; --ochre-ink:#F4D9A6;
+      --emerald:#4BC79A; --emerald-soft:#10312479; --emerald-ink:#BEEBD9;
+      --wa-bubble:#0E5F48; --wa-card:#26221B; --wa-card-ink:#F2ECE0;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14130F; --surface:#1C1A16; --surface-2:#211E19; --surface-3:#2A261F;
+    --ink:#F2ECE0; --ink-2:#C3BAA9; --ink-3:#8E8676; --hair:#332E25;
+    --ochre:#E5A54B; --ochre-soft:#33280F; --ochre-ink:#F4D9A6;
+    --emerald:#4BC79A; --emerald-soft:#10312479; --emerald-ink:#BEEBD9;
+    --wa-bubble:#0E5F48; --wa-card:#26221B; --wa-card-ink:#F2ECE0;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:'DM Sans',system-ui,sans-serif;font-weight:300;
+    -webkit-font-smoothing:antialiased;line-height:1.6}
+  .deck{max-width:var(--maxw);margin:0 auto;padding:0 22px 4rem}
+  .serif{font-family:'Playfair Display',Georgia,serif}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace}
+
+  section{padding:3rem 0;border-bottom:0.5px solid var(--hair)}
+  section:last-child{border-bottom:none}
+  .eyebrow{font-size:10.5px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--ink-3);margin-bottom:1.1rem}
+  h1,h2{font-family:'Playfair Display',Georgia,serif;color:var(--ink);text-wrap:balance;line-height:1.13}
+  h1{font-size:clamp(34px,7vw,50px);font-weight:900;letter-spacing:-.01em}
+  h1 em,h2 em{font-style:italic;font-weight:400}
+  h2{font-size:clamp(24px,5vw,32px);font-weight:700;margin-bottom:.9rem}
+  p{color:var(--ink-2);font-size:15.5px;font-weight:400;margin-bottom:1rem;max-width:62ch}
+  p strong{color:var(--ink);font-weight:600}
+  .lead{font-size:17px;color:var(--ink-2)}
+
+  /* cover */
+  .cover{padding-top:3.4rem;padding-bottom:3.2rem}
+  .brandline{display:flex;align-items:center;gap:.6rem;margin-bottom:1.6rem}
+  .mark{width:26px;height:26px;border-radius:8px;background:var(--emerald);
+    display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
+  .brandname{font-weight:600;font-size:15px;letter-spacing:.02em;color:var(--ink)}
+  .pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.8rem}
+  .pill{font-size:11.5px;font-weight:500;padding:5px 11px;border-radius:20px;
+    background:var(--surface-2);color:var(--ink-2);border:0.5px solid var(--hair)}
+  .pill.live{background:var(--emerald-soft);color:var(--emerald-ink);border-color:transparent;
+    display:inline-flex;align-items:center;gap:6px}
+  .pill.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald)}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);
+    border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.6rem 0 .4rem}
+  .stat{background:var(--surface);padding:1.2rem 1.1rem}
+  .stat .n{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;line-height:1;
+    color:var(--ochre);margin-bottom:6px;font-variant-numeric:tabular-nums}
+  .stat .l{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+
+  /* pull quote (real trader line) */
+  .quote{border-left:2px solid var(--ochre);padding:.4rem 0 .4rem 1.2rem;margin:1.4rem 0}
+  .quote .hi{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;
+    line-height:1.5;color:var(--ink)}
+  .quote .tr{font-size:13px;color:var(--ink-3);margin-top:.5rem}
+
+  /* flow */
+  .flow{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--hair);
+    border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.5rem 0 .3rem}
+  .step{background:var(--surface);padding:1.1rem 1.15rem}
+  .step .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre);
+    font-weight:600;margin-bottom:.4rem}
+  .step .t{font-weight:600;font-size:15px;color:var(--ink);margin-bottom:.25rem}
+  .step .d{font-size:13px;color:var(--ink-2);line-height:1.5}
+
+  /* PROOF — phone + log */
+  .proof{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.6rem;align-items:start;margin-top:1.6rem}
+  @media (max-width:620px){ .proof{grid-template-columns:1fr} .flow,.stats{grid-template-columns:1fr 1fr} }
+  .phone{background:var(--surface-3);border:0.5px solid var(--hair);border-radius:22px;
+    padding:12px 12px 16px}
+  .wa-head{display:flex;align-items:center;gap:8px;padding:2px 4px 10px;border-bottom:0.5px solid var(--hair)}
+  .wa-av{width:24px;height:24px;border-radius:50%;background:var(--ink-3);flex:none}
+  .wa-num{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .wa-card{background:var(--wa-card);color:var(--wa-card-ink);border-radius:10px;
+    padding:11px 12px;margin-top:12px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+  .wa-card .bar{color:var(--wa-bubble);font-weight:600;font-size:12px;margin-bottom:5px}
+  .wa-msg{font-size:13.5px;line-height:1.5;color:var(--wa-card-ink)}
+  .wa-msg .u{border-bottom:1px solid var(--ink-3)}
+  .wa-btns{margin-top:10px;border-top:0.5px solid var(--hair)}
+  .wa-btn{text-align:center;padding:8px;font-size:13.5px;font-weight:500;color:var(--wa-bubble);
+    border-top:0.5px solid var(--hair)}
+  .wa-btn:first-child{border-top:none}
+  .wa-cap{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:10px}
+
+  .log{background:var(--surface);border:0.5px solid var(--hair);border-radius:var(--radius-sm);
+    padding:1rem 1.05rem;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;
+    color:var(--ink-2);overflow-x:auto}
+  .log .ln{white-space:nowrap}
+  .log .g{color:var(--emerald);font-weight:500}
+  .log .a{color:var(--ochre);font-weight:500}
+  .log .m{color:var(--ink-3)}
+  .proof-note{margin-top:1rem;font-size:13.5px;color:var(--ink-2)}
+
+  /* brain table */
+  .tbl{width:100%;border-collapse:collapse;margin:1.4rem 0 .3rem;font-size:13.5px}
+  .tbl th{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+    text-align:left;font-weight:600;padding:.5rem .7rem;border-bottom:0.5px solid var(--hair)}
+  .tbl td{padding:.62rem .7rem;border-bottom:0.5px solid var(--hair);color:var(--ink-2);vertical-align:top}
+  .tbl td.msg{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
+  .tbl td .chip{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap}
+  .chip.ord{background:var(--emerald-soft);color:var(--emerald-ink)}
+  .chip.pay{background:var(--ochre-soft);color:var(--ochre-ink)}
+  .chip.esc{background:var(--surface-3);color:var(--ink-2)}
+  .tbl tr:last-child td{border-bottom:none}
+  .tnum{font-variant-numeric:tabular-nums}
+
+  /* callout */
+  .call{background:var(--surface-2);border-radius:var(--radius-sm);padding:1.1rem 1.25rem;margin:1.2rem 0}
+  .call .h{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:.3rem}
+  .call .b{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin:0}
+  .call.em{background:var(--emerald-soft)}
+  .call.em .h{color:var(--emerald-ink)}
+  .call.em .b{color:var(--emerald-ink);opacity:.92}
+
+  /* money table */
+  .money{width:100%;border-collapse:collapse;margin:1.3rem 0 .3rem;font-size:13.5px}
+  .money th{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
+    text-align:left;font-weight:600;padding:.5rem .7rem;border-bottom:0.5px solid var(--hair)}
+  .money td{padding:.65rem .7rem;border-bottom:0.5px solid var(--hair);color:var(--ink-2)}
+  .money td:first-child{color:var(--ink);font-weight:500}
+  .money tr:last-child td{border-bottom:none}
+
+  /* ask */
+  .ask{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);
+    border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.5rem 0 .3rem}
+  .ask .c{background:var(--surface);padding:1.15rem 1.25rem}
+  .ask .lbl{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+    font-weight:600;margin-bottom:.5rem}
+  .ask .v{font-family:'Playfair Display',serif;font-weight:900;font-size:26px;color:var(--ink);margin-bottom:.35rem}
+  .ask .dd{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+
+  .foot{font-size:12.5px;color:var(--ink-3);margin-top:1.6rem;padding-top:1rem;
+    border-top:0.5px solid var(--hair)}
+  .status-line{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin:1.3rem 0 .2rem;
+    font-size:13px;color:var(--ink-2)}
+  .status-line .ok{color:var(--emerald);font-weight:600}
+  @media (prefers-reduced-motion:no-preference){
+    section{opacity:1}
+  }
+</style>
+
+<div class="deck">
+
+  <!-- COVER -->
+  <section class="cover">
+    <div class="brandline">
+      <span class="mark">◆</span>
+      <span class="brandname">BusinessOS</span>
+    </div>
+    <p class="eyebrow">Seed — India — 2026</p>
+    <h1>The operating system<br>for India's <em>real economy</em>,<br>hiding inside WhatsApp.</h1>
+    <p class="lead" style="margin-top:1.1rem">63 million small businesses run India from a single app — orders, payments, vendors, all in Hindi voice notes and group-chat threads. BusinessOS turns that chaos into structured operations automatically, and asks the owner before it ever acts. <strong>The product is built and running today.</strong></p>
+    <div class="pills">
+      <span class="pill live">Live end-to-end on real WhatsApp</span>
+      <span class="pill">Hindi / Hinglish · text + voice</span>
+      <span class="pill">Confirm-before-act</span>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section>
+    <p class="eyebrow">The problem</p>
+    <h2>The owner <em>is</em> the system.</h2>
+    <p>A textile trader in Surat gets 300 WhatsApp messages before noon. Orders are buried in group chats. Payment terms are agreed by voice. Invoices arrive as blurry PDFs. There is no ERP, no CRM, no ops tool — there never was. Every missed follow-up is a lost order; every forgotten commitment is a cash-flow crisis.</p>
+    <div class="quote">
+      <div class="hi">"Bhai 50 piece bhejo kal tak, payment Diwali ke baad."</div>
+      <div class="tr">— buried in a 400-message group. Nobody followed up. The order was lost.</div>
+    </div>
+  </section>
+
+  <!-- SCALE -->
+  <section>
+    <p class="eyebrow">The scale</p>
+    <div class="stats">
+      <div class="stat"><div class="n">63M</div><div class="l">Indian SMBs with zero operational software</div></div>
+      <div class="stat"><div class="n">500M</div><div class="l">WhatsApp users — already their primary tool</div></div>
+      <div class="stat"><div class="n">₹60L Cr</div><div class="l">annual revenue flowing through these businesses</div></div>
+    </div>
+    <p style="margin-top:1.3rem">They skipped every prior wave of business software because every wave demanded behavior change — new apps, new dashboards, new habits. They rejected all of it. The market isn't unserved because it's small. It's unserved because everyone tried to move the merchant off WhatsApp.</p>
+  </section>
+
+  <!-- INSIGHT / SOLUTION -->
+  <section>
+    <p class="eyebrow">The insight</p>
+    <h2>Don't change the behavior.<br><em>Upgrade the infrastructure.</em></h2>
+    <p>WhatsApp is already the OS. We don't replace it — we become the invisible layer underneath: reading every message, extracting structure from the chaos, and surfacing only what needs a human decision. The merchant keeps doing exactly what they already do.</p>
+    <div class="flow">
+      <div class="step"><div class="k">01 · Listen</div><div class="t">Reads it all</div><div class="d">Messages and Hindi/Hinglish voice notes across chats — no typing, no app-switching.</div></div>
+      <div class="step"><div class="k">02 · Understand</div><div class="t">Extracts the deal</div><div class="d">Item, quantity, delivery date, payment terms — with a confidence score, not a guess.</div></div>
+      <div class="step"><div class="k">03 · Confirm</div><div class="t">Owner stays in control</div><div class="d">"Confirm this order? Tap 1." One tap on WhatsApp. Never autonomous on day one.</div></div>
+      <div class="step"><div class="k">04 · Remember</div><div class="t">Builds the graph</div><div class="d">Every vendor, every order, every commitment — a memory unique to each business.</div></div>
+    </div>
+  </section>
+
+  <!-- PROOF: IT'S REAL -->
+  <section>
+    <p class="eyebrow" style="color:var(--emerald)">It's real — not a mockup</p>
+    <h2>A live order, understood and confirmed<br>on an <em>actual phone.</em></h2>
+    <p>Below is a real run: a vendor's Hinglish message goes in, and seconds later the owner gets this card on WhatsApp. Tap <strong>Confirm</strong> and the order is logged. This ran end-to-end against Meta's WhatsApp Cloud API, GPT-4o, and a live database.</p>
+
+    <div class="proof">
+      <div>
+        <div class="phone">
+          <div class="wa-head"><span class="wa-av"></span><span class="wa-num">BusinessOS · +1 555 605-5464</span></div>
+          <div class="wa-card">
+            <div class="bar">Order</div>
+            <div class="wa-msg">📦 Suresh ji ka order confirm hua: 80 pieces, delivery <span class="u">23 September 2026</span><br>Payment: net-10</div>
+            <div class="wa-btns">
+              <div class="wa-btn">Confirm</div>
+              <div class="wa-btn">Edit</div>
+              <div class="wa-btn">Skip</div>
+            </div>
+          </div>
+          <div class="wa-cap">Delivered on WhatsApp · owner taps to confirm</div>
+        </div>
+      </div>
+      <div>
+        <div class="log" aria-label="pipeline log">
+          <div class="ln"><span class="m">enricher</span>  is_known=<span class="g">true</span> recent_orders=2</div>
+          <div class="ln"><span class="m">intent</span>    <span class="g">order_placed</span>  conf 0.95</div>
+          <div class="ln"><span class="m">entities</span>  qty=<span class="a">80</span> unit=piece  HIGH</div>
+          <div class="ln"><span class="m">action</span>    propose create_order</div>
+          <div class="ln"><span class="m">wa_client</span> <span class="g">wa_sent</span> → owner</div>
+          <div class="ln"><span class="m">executor</span>  <span class="g">executed</span>  ORD-2026-002</div>
+          <div class="ln"><span class="m">confirm</span>   reply=1  <span class="g">confirmed</span></div>
+        </div>
+        <p class="proof-note">Message → understand → confirm on WhatsApp → order logged → reply sent back. The whole loop, in seconds. Owner never left their chat.</p>
+      </div>
+    </div>
+
+    <div class="status-line">
+      <span><span class="ok">✓</span> Meta WhatsApp Cloud API</span>
+      <span><span class="ok">✓</span> Voice (Whisper) + GPT-4o</span>
+      <span><span class="ok">✓</span> Postgres + queue</span>
+      <span><span class="ok">✓</span> Daily summaries &amp; payment reminders</span>
+    </div>
+  </section>
+
+  <!-- THE BRAIN, SHOWN -->
+  <section>
+    <p class="eyebrow">The brain, shown</p>
+    <h2>Real trader messages,<br>correctly understood.</h2>
+    <p>Not curated demos — messy, code-switched Hindi/Hinglish. The system classifies intent, pulls the numbers, and <strong>escalates instead of guessing</strong> when it isn't sure.</p>
+    <table class="tbl">
+      <thead><tr><th>Message (as sent)</th><th>Understood</th><th>Extracted</th></tr></thead>
+      <tbody>
+        <tr><td class="msg">Ramesh bhai 50 piece cotton bhejo kal tak</td><td><span class="chip ord">order</span></td><td class="tnum">qty 50 · due tomorrow</td></tr>
+        <tr><td class="msg">bhai payment ho gaya 25000 ka</td><td><span class="chip pay">payment</span></td><td class="tnum">₹25,000</td></tr>
+        <tr><td class="msg">2 dozen silk saree chahiye friday tak</td><td><span class="chip ord">order</span></td><td class="tnum">qty 24 · due Fri</td></tr>
+        <tr><td class="msg">aaj ka total kitna hua?</td><td><span class="chip esc">escalated</span></td><td>a question — asks the owner</td></tr>
+      </tbody>
+    </table>
+    <div class="call em">
+      <p class="h">The memory, proven</p>
+      <p class="b">A returning vendor sends <span class="mono">"woh pichla order ready hai?"</span> — no product, no number, meaningless to a stateless bot. Because the system had loaded that vendor's <strong>two prior orders</strong> as context, it correctly read it as an <strong>order enquiry</strong> and surfaced it to the owner. Same text, different outcome — that's memory changing behavior.</p>
+    </div>
+    <p style="margin-top:1.2rem">This is <strong>relational memory</strong> — who the contact is, what they've ordered, running stats — and it's live today. Phase 2 deepens it into <strong>semantic memory</strong>: every conversation embedded and searchable, so the system can recall <em>"what rate did we quote him for silk last month"</em> from free text, not just structured fields.</p>
+  </section>
+
+  <!-- ROADMAP / PHASE 2 -->
+  <section>
+    <p class="eyebrow">Roadmap</p>
+    <h2>Phase 1 is live.<br>Phase 2 turns it into a <em>brain</em>.</h2>
+    <p>The confirm-before-act loop works today. The next release compounds it — deeper memory, more input types, and graduated autonomy as trust is earned.</p>
+    <div class="flow" style="grid-template-columns:1fr 1fr">
+      <div class="step"><div class="k">Phase 2 · Memory</div><div class="t">Semantic recall</div><div class="d">Conversation embeddings + vector search — recall any past discussion, price, or promise from plain language.</div></div>
+      <div class="step"><div class="k">Phase 2 · Inputs</div><div class="t">Invoices &amp; images</div><div class="d">Parse PDF invoices and photographed bills — the other half of how deals actually arrive on WhatsApp.</div></div>
+      <div class="step"><div class="k">Phase 2 · Autonomy</div><div class="t">Graduated autopilot</div><div class="d">As confidence proves out, routine follow-ups and reminders go out on their own — owner sets the leash.</div></div>
+      <div class="step"><div class="k">Phase 2 · Visibility</div><div class="t">Owner dashboard</div><div class="d">A read-only cockpit — live orders, receivables, vendor ledgers — built on the same structured record.</div></div>
+    </div>
+    <p style="margin-top:1.2rem;font-size:13.5px;color:var(--ink-3)">Beyond Phase 2: embedded collections &amp; working capital, and a verified buyer–supplier network — the monetization layers above.</p>
+  </section>
+
+  <!-- MOAT -->
+  <section>
+    <p class="eyebrow">The moat</p>
+    <h2>The AI isn't the moat.<br>The <em>memory</em> is.</h2>
+    <p>The models are a commodity everyone can buy. What compounds is the <strong>relational memory graph</strong> — after six months we know every vendor a business works with, every customer's ordering rhythm, every payment commitment ever made, and the owner's own way of speaking.</p>
+    <p>Switching to a competitor means losing that — the operational equivalent of firing your most experienced employee. We're building on existing behavior, not asking for new behavior. <strong>WhatsApp is the front door. We are the house.</strong></p>
+  </section>
+
+  <!-- BUSINESS MODEL -->
+  <section>
+    <p class="eyebrow">Business model</p>
+    <h2>Free to run on.<br>We earn when money moves.</h2>
+    <p>No subscriptions to sell against a merchant who's never paid for software. We give the operations layer away to acquire, and monetize the financial flow it sits on top of.</p>
+    <table class="money">
+      <thead><tr><th>Layer</th><th>What it does</th><th>How it earns</th></tr></thead>
+      <tbody>
+        <tr><td>Operations</td><td>Order capture, follow-ups, reminders</td><td>Free — pure acquisition</td></tr>
+        <tr><td>Collections</td><td>Auto reminders + UPI payment links</td><td>~0.4% of GMV collected</td></tr>
+        <tr><td>Credit</td><td>Cash-flow visibility → working capital</td><td>Interest spread via NBFC partner</td></tr>
+        <tr><td>Network</td><td>Verified buyer–supplier marketplace</td><td>Transaction take-rate</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- GTM -->
+  <section>
+    <p class="eyebrow">Go-to-market</p>
+    <h2>Go impossibly deep<br>into <em>one</em> cluster first.</h2>
+    <p>Not horizontal. We win a single dense trade cluster — textile traders in Surat, then adjacent mandis — where everyone knows everyone and one happy merchant triggers ten referrals. Structured vocabulary, tight networks, and daily order volume make the AI near-perfect and the word-of-mouth free.</p>
+    <div class="call">
+      <p class="h">Distribution without a sales team</p>
+      <p class="b">CA / accountant partnerships (every SMB trusts theirs), trade-association intros, and the anchor-supplier play: onboard the biggest supplier in a cluster and their buyers follow.</p>
+    </div>
+  </section>
+
+  <!-- ASK -->
+  <section>
+    <p class="eyebrow">The ask</p>
+    <h2>Raising to turn a working<br>product into a moat.</h2>
+    <div class="ask">
+      <div class="c"><div class="lbl">Raising</div><div class="v">$2M</div><div class="dd">Seed — 18 months to verticalize one cluster and prove retention + collections GMV.</div></div>
+      <div class="c"><div class="lbl">Status today</div><div class="v">Live</div><div class="dd">Phase-1 product built and running end-to-end on real infrastructure. Pilot-ready.</div></div>
+      <div class="c"><div class="lbl">18-month milestone</div><div class="v">5,000+</div><div class="dd">Active merchants in one vertical, meaningful GMV through collections, Series-A ready.</div></div>
+      <div class="c"><div class="lbl">Use of funds</div><div class="v">60 / 40</div><div class="dd">AI &amp; multilingual/voice accuracy · cluster GTM and CA partnerships.</div></div>
+    </div>
+  </section>
+
+  <!-- CLOSER -->
+  <section>
+    <p class="eyebrow">Why now · why us</p>
+    <h2>India's informal economy<br>never had infrastructure.<br><em>Now it does — and it works.</em></h2>
+    <p style="margin-top:1rem">Indian-language AI just crossed the accuracy threshold. The WhatsApp Business API matured. 500 million people already run their entire business lives on one app. The behavior exists, the technology exists — and unlike every pitch that stops there, <strong>the product exists and runs today.</strong></p>
+    <p>We're not building an app for Indian SMBs. We're building the invisible operating system of the Indian economy — one WhatsApp message at a time.</p>
+    <div class="foot">BusinessOS &nbsp;·&nbsp; Seed 2026 &nbsp;·&nbsp; Confidential</div>
+  </section>
+
+</div>

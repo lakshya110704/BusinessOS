@@ -21,6 +21,15 @@ Opt-in live model eval: `RUN_LIVE_EVAL=1 pytest tests/`. Integration tests skip 
 **Remaining = external only:** Meta **Business Verification** to unblock the live phone demo (see
 blocker below). Phase 2 ideas: PDF/image parsing, embeddings + semantic search, autopilot, dashboard.
 
+**✅ Live WhatsApp demo achieved (2026-09-21).** Permanent System-User token set (LAK-30 done, never
+expires). Full loop ran on a real phone: simulated vendor order → AI understood → Confirm/Edit/Skip
+card delivered to owner's WhatsApp → Confirm → order logged (ORD-2026-002). Two dev-mode caveats
+learned: (1) **outbound free-form messages need an open 24-h window** — the owner must message the
+business first (or a template opens it); (2) **proactive messages (8 PM summary, 9 AM reminders) will
+need pre-approved WhatsApp templates**, not free-form text. Owner button taps still don't route back
+in dev mode (simulated via `test_webhook_local.py --type interactive`); real taps need Live mode
+(LAK-32). Demo run locally on port 8010 (port 8000 is a separate Django "inventory" app on this Mac).
+
 **Known blocker — live phone demo:** everything is wired, but Meta only delivers real webhooks in
 **Live mode** (needs Privacy Policy URL + Business Verification review). Dev mode delivers only
 dashboard "Test" webhooks. Full go-live walkthrough: **[docs/GO_LIVE.md](docs/GO_LIVE.md)**.
