@@ -1,0 +1,268 @@
+<title>BusinessOS Unit Economics</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --paper:#F7F4EE; --surface:#FFFFFF; --surface-2:#F1ECE2; --surface-3:#EBE4D6;
+    --ink:#1C1A17; --ink-2:#514B42; --ink-3:#8A8073; --hair:#DED6C6;
+    --ochre:#BA7517; --ochre-soft:#FAEEDA;
+    --emerald:#0B7A5B; --emerald-soft:#DEF1E9;
+    --red:#B03A2E; --red-soft:#FBE9E6; --amber:#B9770B; --amber-soft:#FBF0D8;
+    --radius:14px; --radius-sm:9px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#14130F; --surface:#1C1A16; --surface-2:#211E19; --surface-3:#2A261F;
+      --ink:#F2ECE0; --ink-2:#C3BAA9; --ink-3:#8E8676; --hair:#332E25;
+      --ochre:#E5A54B; --ochre-soft:#33280F;
+      --emerald:#4BC79A; --emerald-soft:#103124;
+      --red:#E8705F; --red-soft:#3A1A15; --amber:#E0A23C; --amber-soft:#332611;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#14130F; --surface:#1C1A16; --surface-2:#211E19; --surface-3:#2A261F;
+    --ink:#F2ECE0; --ink-2:#C3BAA9; --ink-3:#8E8676; --hair:#332E25;
+    --ochre:#E5A54B; --ochre-soft:#33280F;
+    --emerald:#4BC79A; --emerald-soft:#103124;
+    --red:#E8705F; --red-soft:#3A1A15; --amber:#E0A23C; --amber-soft:#332611;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1000px;margin:0 auto;padding:1.8rem 20px 4rem}
+  .mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+  h1{font-family:'Playfair Display',serif;font-weight:900;font-size:clamp(26px,5vw,36px);letter-spacing:-.01em;line-height:1.12;margin-bottom:.4rem}
+  .sub{color:var(--ink-2);font-size:15px;max-width:66ch;margin-bottom:.5rem}
+  .disc{color:var(--ink-3);font-size:12.5px;max-width:70ch;margin-bottom:1.5rem}
+
+  .verdict{border-radius:var(--radius);padding:1rem 1.2rem;margin-bottom:1.6rem;border:0.5px solid var(--hair);font-size:15px;line-height:1.5}
+  .verdict b{font-weight:600}
+  .verdict.good{background:var(--emerald-soft)} .verdict.bad{background:var(--red-soft)} .verdict.mid{background:var(--amber-soft)}
+
+  .grid{display:grid;grid-template-columns:300px 1fr;gap:1.4rem;align-items:start}
+  @media (max-width:800px){ .grid{grid-template-columns:1fr} }
+
+  .panel{background:var(--surface);border:0.5px solid var(--hair);border-radius:var(--radius);padding:1.1rem 1.15rem}
+  .panel h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:.9rem;padding-bottom:.6rem;border-bottom:0.5px solid var(--hair)}
+  .panel h2:not(:first-child){margin-top:1.3rem}
+  .fld{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.55rem}
+  .fld label{font-size:13px;color:var(--ink-2);flex:1}
+  .fld input{width:88px;padding:5px 8px;font-family:'IBM Plex Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;
+    text-align:right;background:var(--surface-2);color:var(--ink);border:0.5px solid var(--hair);border-radius:7px}
+  .fld input:focus{outline:2px solid var(--ochre);outline-offset:1px}
+  .fld select{padding:5px 6px;font-size:12.5px;background:var(--surface-2);color:var(--ink);border:0.5px solid var(--hair);border-radius:7px}
+
+  .scen{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem}
+  @media (max-width:560px){ .scen{grid-template-columns:1fr} }
+  .card{background:var(--surface);border:0.5px solid var(--hair);border-radius:var(--radius);padding:1.15rem 1.2rem}
+  .card .tag{font-size:11px;letter-spacing:.09em;text-transform:uppercase;font-weight:600;margin-bottom:.7rem;display:inline-block;padding:3px 9px;border-radius:20px}
+  .tag.wa{background:var(--emerald-soft);color:var(--emerald)} .tag.call{background:var(--ochre-soft);color:var(--ochre)}
+  .big{font-family:'Playfair Display',serif;font-weight:900;font-size:30px;line-height:1;font-variant-numeric:tabular-nums}
+  .big.pos{color:var(--emerald)} .big.neg{color:var(--red)}
+  .biglbl{font-size:12px;color:var(--ink-2);margin-top:5px;margin-bottom:1rem}
+  .row{display:flex;justify-content:space-between;font-size:12.5px;padding:3px 0;color:var(--ink-2)}
+  .row .v{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;color:var(--ink)}
+  .row.tot{border-top:0.5px solid var(--hair);margin-top:4px;padding-top:6px;font-weight:600;color:var(--ink)}
+  .bars{margin-top:.7rem}
+  .bar{height:7px;border-radius:4px;margin-bottom:3px}
+
+  .be{background:var(--surface);border:0.5px solid var(--hair);border-radius:var(--radius);padding:1.15rem 1.2rem;margin-bottom:1.2rem}
+  .be h3{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:.8rem}
+  .be-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  @media (max-width:560px){ .be-grid{grid-template-columns:1fr} }
+  .be-cell{background:var(--surface-2);border-radius:var(--radius-sm);padding:.85rem 1rem}
+  .be-cell .n{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:22px;font-variant-numeric:tabular-nums}
+  .be-cell .l{font-size:12px;color:var(--ink-2);margin-top:3px}
+
+  .notes{background:var(--surface-2);border-radius:var(--radius);padding:1.1rem 1.25rem;font-size:13px;color:var(--ink-2);line-height:1.65}
+  .notes b{color:var(--ink);font-weight:600}
+  .notes ul{margin:.4rem 0 0 1.1rem} .notes li{margin-bottom:.35rem}
+</style>
+
+<div class="wrap">
+  <h1>Can BusinessOS make money per customer?</h1>
+  <p class="sub">A live cost model. The question the council said nobody answered: at ₹500–1,000/month, does serving one trader actually turn a profit — on WhatsApp alone, and once you add call capture?</p>
+  <p class="disc">Defaults are grounded estimates (GPT-4o-mini $0.15/$0.60 per 1M tok · Whisper $0.006/min · WhatsApp utility template ~₹0.12 · telephony ~₹0.60/min · USD→₹88). Every number is editable — change any assumption and everything recomputes. <b>CAC (cost to acquire a trader) is deliberately excluded</b> — this models cost-to-serve only; see the note at the bottom.</p>
+
+  <div class="verdict" id="verdict"></div>
+
+  <div class="grid">
+    <!-- INPUTS -->
+    <div class="panel">
+      <h2>Volume &amp; pricing</h2>
+      <div class="fld"><label>Paying merchants</label><input id="merchants" type="number" value="10"></div>
+      <div class="fld"><label>ARPU — ₹ / merchant / mo</label><input id="arpu" type="number" value="500"></div>
+      <div class="fld"><label>Target profit — ₹ / mo</label><input id="target" type="number" value="50000"></div>
+      <div class="fld"><label>USD → ₹</label><input id="fx" type="number" value="88"></div>
+
+      <h2>WhatsApp activity / merchant</h2>
+      <div class="fld"><label>Order/payment msgs / day</label><input id="msgs" type="number" value="40"></div>
+      <div class="fld"><label>Working days / mo</label><input id="days" type="number" value="26"></div>
+      <div class="fld"><label>% that are voice notes</label><input id="pctVoice" type="number" value="30"></div>
+      <div class="fld"><label>Avg voice note — sec</label><input id="voiceSec" type="number" value="20"></div>
+      <div class="fld"><label>LLM model</label>
+        <select id="model"><option value="mini">GPT-4o-mini</option><option value="4o">GPT-4o</option></select></div>
+      <div class="fld"><label>Proactive templates / day</label><input id="tmpl" type="number" value="3"></div>
+      <div class="fld"><label>Template cost — ₹</label><input id="tmplCost" type="number" value="0.12" step="0.01"></div>
+
+      <h2>Call capture / merchant</h2>
+      <div class="fld"><label>Business call min / day</label><input id="callMin" type="number" value="90"></div>
+      <div class="fld"><label>Calls / day</label><input id="calls" type="number" value="30"></div>
+      <div class="fld"><label>Telephony — ₹ / min</label><input id="telMin" type="number" value="0.60" step="0.05"></div>
+      <div class="fld"><label>Number rental — ₹ / mo</label><input id="numRent" type="number" value="700"></div>
+
+      <h2>Fixed infra (shared)</h2>
+      <div class="fld"><label>Supabase+Redis+host — $ / mo</label><input id="infra" type="number" value="50"></div>
+    </div>
+
+    <!-- RESULTS -->
+    <div>
+      <div class="scen">
+        <div class="card">
+          <span class="tag wa">WhatsApp only (40% of business)</span>
+          <div class="big" id="waMargin">—</div>
+          <div class="biglbl">margin / merchant / mo <span id="waPct" class="mono"></span></div>
+          <div class="row"><span>LLM (classify + extract)</span><span class="v mono" id="waLLM"></span></div>
+          <div class="row"><span>Whisper (voice notes)</span><span class="v mono" id="waWhisper"></span></div>
+          <div class="row"><span>WhatsApp templates</span><span class="v mono" id="waTmpl"></span></div>
+          <div class="row"><span>Infra share</span><span class="v mono" id="waInfra"></span></div>
+          <div class="row tot"><span>Cost to serve</span><span class="v mono" id="waCost"></span></div>
+          <div class="bars" id="waBars"></div>
+        </div>
+        <div class="card">
+          <span class="tag call">WhatsApp + Call capture (100%)</span>
+          <div class="big" id="callMarginBig">—</div>
+          <div class="biglbl">margin / merchant / mo <span id="callPct" class="mono"></span></div>
+          <div class="row"><span>Everything above</span><span class="v mono" id="cBase"></span></div>
+          <div class="row"><span>Telephony + number</span><span class="v mono" id="cTel"></span></div>
+          <div class="row"><span>Call transcription (Whisper)</span><span class="v mono" id="cTrans"></span></div>
+          <div class="row"><span>Call LLM extraction</span><span class="v mono" id="cLLM"></span></div>
+          <div class="row tot"><span>Cost to serve</span><span class="v mono" id="cCost"></span></div>
+          <div class="bars" id="cBars"></div>
+        </div>
+      </div>
+
+      <div class="be">
+        <h3>Break-even — merchants needed to clear your target profit</h3>
+        <div class="be-grid">
+          <div class="be-cell"><div class="n" id="beWA">—</div><div class="l">WhatsApp-only merchants (at current ARPU)</div></div>
+          <div class="be-cell"><div class="n" id="beCall">—</div><div class="l">Call-capture merchants (at current ARPU)</div></div>
+        </div>
+        <div class="be-grid" style="margin-top:1rem">
+          <div class="be-cell"><div class="n" id="plNow">—</div><div class="l">Monthly P&amp;L at <span id="mNow" class="mono"></span> merchants (WhatsApp-only)</div></div>
+          <div class="be-cell"><div class="n" id="minArpu">—</div><div class="l">Min ARPU to break even on a call-capture merchant</div></div>
+        </div>
+      </div>
+
+      <div class="notes">
+        <b>How to read this</b>
+        <ul>
+          <li><b>WhatsApp-only cost-to-serve is tiny</b> (mostly a rupee or two of OpenAI) — so the margin per merchant is almost all ARPU. The real barrier to profit here is <b>fixed infra at low scale</b> and, far bigger, <b>CAC</b> (below), not compute.</li>
+          <li><b>Call capture is the economics bomb.</b> Telephony minutes + per-minute transcription scale with how much they talk — and these traders talk a lot. Watch the margin flip <span style="color:var(--red)">red</span> and the "min ARPU to break even" jump. If it exceeds what a trader will pay, call capture needs cheaper transcription (self-hosted Whisper), fewer routed minutes (only key calls), or a much higher price.</li>
+          <li><b>CAC is not in here.</b> Selling in-person to price-sensitive, anti-SaaS traders could cost ₹1,000s per signup. A merchant contributing ₹385/mo takes months just to repay acquisition — model that separately before trusting any break-even number above.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var ids=["merchants","arpu","target","fx","msgs","days","pctVoice","voiceSec","model","tmpl","tmplCost","callMin","calls","telMin","numRent","infra"];
+  var el={}; ids.forEach(function(i){el[i]=document.getElementById(i);});
+  function n(id){return parseFloat(el[id].value)||0;}
+  var INR=function(x){return "₹"+Math.round(x).toLocaleString("en-IN");};
+  function setBars(container, parts){
+    var tot=parts.reduce(function(s,p){return s+p.v;},0)||1;
+    container.innerHTML="";
+    parts.forEach(function(p){
+      if(p.v<=0) return;
+      var b=document.createElement("div"); b.className="bar";
+      b.style.width=Math.max(2,(p.v/tot*100))+"%"; b.style.background=p.c;
+      b.title=p.name+": "+INR(p.v);
+      container.appendChild(b);
+    });
+  }
+  function calc(){
+    var fx=n("fx"), days=n("days"), msgs=n("msgs")*days, merchants=Math.max(1,n("merchants"));
+    var arpu=n("arpu"), target=n("target"), infraTot=n("infra")*fx;
+    // LLM rates per 1M tokens (in,out) USD
+    var rIn = el.model.value==="4o"?2.50:0.15, rOut = el.model.value==="4o"?10.0:0.60;
+    // WhatsApp message LLM: ~2000 in + 400 out per msg (classify+extract combined)
+    var llmUSD = msgs*(2000*rIn + 400*rOut)/1e6;
+    var voiceMin = msgs*(n("pctVoice")/100)*(n("voiceSec")/60);
+    var whisperUSD = voiceMin*0.006;
+    var waLLM=llmUSD*fx, waWhisper=whisperUSD*fx;
+    var waTmpl=n("tmpl")*days*n("tmplCost");
+    var infraPer=infraTot/merchants;
+    var waVar=waLLM+waWhisper+waTmpl;            // variable only
+    var waCost=waVar+infraPer;                   // incl infra share
+    var waMargin=arpu-waCost;
+
+    // Call capture add-on
+    var callMin=n("callMin")*days, calls=n("calls")*days;
+    var tel=callMin*n("telMin")+n("numRent");
+    var transUSD=callMin*0.006;                  // whisper on call audio
+    var callLLMUSD=calls*(3000*rIn+300*rOut)/1e6; // one extraction per call, longer transcript
+    var cTrans=transUSD*fx, cLLM=callLLMUSD*fx;
+    var callAddon=tel+cTrans+cLLM;
+    var cVar=waVar+callAddon;
+    var cCost=cVar+infraPer;
+    var cMargin=arpu-cCost;
+
+    // write WA card
+    document.getElementById("waLLM").textContent=INR(waLLM);
+    document.getElementById("waWhisper").textContent=INR(waWhisper);
+    document.getElementById("waTmpl").textContent=INR(waTmpl);
+    document.getElementById("waInfra").textContent=INR(infraPer);
+    document.getElementById("waCost").textContent=INR(waCost);
+    var wm=document.getElementById("waMargin"); wm.textContent=INR(waMargin);
+    wm.className="big "+(waMargin>=0?"pos":"neg");
+    document.getElementById("waPct").textContent="("+Math.round(waMargin/arpu*100)+"% of ARPU)";
+    setBars(document.getElementById("waBars"),[
+      {name:"LLM",v:waLLM,c:"var(--ochre)"},{name:"Whisper",v:waWhisper,c:"var(--emerald)"},
+      {name:"Templates",v:waTmpl,c:"var(--amber)"},{name:"Infra",v:infraPer,c:"var(--ink-3)"}]);
+
+    // write Call card
+    document.getElementById("cBase").textContent=INR(waVar+infraPer);
+    document.getElementById("cTel").textContent=INR(tel);
+    document.getElementById("cTrans").textContent=INR(cTrans);
+    document.getElementById("cLLM").textContent=INR(cLLM);
+    document.getElementById("cCost").textContent=INR(cCost);
+    var cm=document.getElementById("callMarginBig"); cm.textContent=INR(cMargin);
+    cm.className="big "+(cMargin>=0?"pos":"neg");
+    document.getElementById("callPct").textContent="("+Math.round(cMargin/arpu*100)+"% of ARPU)";
+    setBars(document.getElementById("cBars"),[
+      {name:"Base",v:waVar+infraPer,c:"var(--ink-3)"},{name:"Telephony",v:tel,c:"var(--ochre)"},
+      {name:"Transcription",v:cTrans,c:"var(--emerald)"},{name:"Call LLM",v:cLLM,c:"var(--amber)"}]);
+
+    // break-even merchant counts: merchants*(ARPU - var) - infraTot = target
+    function be(varCost){ var contrib=arpu-varCost; if(contrib<=0) return null; return Math.ceil((target+infraTot)/contrib); }
+    var beWA=be(waVar), beCall=be(cVar);
+    document.getElementById("beWA").textContent = beWA===null?"∞ (loses money)":beWA.toLocaleString("en-IN");
+    document.getElementById("beCall").textContent = beCall===null?"∞ (loses money)":beCall.toLocaleString("en-IN");
+
+    // P&L at current merchant count (WhatsApp-only)
+    var pl=merchants*(arpu-waVar)-infraTot;
+    var plEl=document.getElementById("plNow"); plEl.textContent=INR(pl); plEl.style.color=pl>=0?"var(--emerald)":"var(--red)";
+    document.getElementById("mNow").textContent=merchants;
+    // min ARPU to break even on a call merchant = its variable cost (+infra share)
+    document.getElementById("minArpu").textContent=INR(cVar+infraPer);
+
+    // verdict
+    var v=document.getElementById("verdict");
+    var line;
+    if(cMargin<0 && waMargin>0){
+      v.className="verdict mid";
+      line="<b>WhatsApp-only works; call capture doesn't — yet.</b> Each WhatsApp merchant nets <b>"+INR(waMargin)+"/mo</b>, but adding calls turns that into <b style='color:var(--red)'>"+INR(cMargin)+"/mo (a loss)</b>. A call-capture merchant needs ARPU ≥ <b>"+INR(cVar+infraPer)+"</b> just to break even. Either price call plans far higher, cut routed minutes, or use cheaper transcription before building telephony.";
+    } else if(waMargin<0){
+      v.className="verdict bad";
+      line="<b>Underwater even on WhatsApp.</b> At "+INR(arpu)+" ARPU with "+n("merchants")+" merchants, fixed infra isn't covered — cost to serve ("+INR(waCost)+") exceeds ARPU. Raise ARPU or merchant count: you break even past <b>"+(beWA===null?"∞":beWA)+"</b> WhatsApp merchants.";
+    } else {
+      v.className="verdict good";
+      line="<b>Both scenarios profitable at these inputs.</b> WhatsApp merchant nets "+INR(waMargin)+"/mo; call-capture merchant nets "+INR(cMargin)+"/mo. But remember — <b>CAC is not in this model</b>, and it's your real constraint.";
+    }
+    v.innerHTML=line;
+  }
+  ids.forEach(function(i){ el[i].addEventListener("input",calc); el[i].addEventListener("change",calc); });
+  calc();
+})();
+</script>
