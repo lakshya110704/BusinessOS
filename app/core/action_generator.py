@@ -57,6 +57,8 @@ def _entity_fields(entities: EntityResult) -> dict:
         }.items()
         if value is not None
     }
+    if entities.items:
+        fields["items"] = [li.model_dump() for li in entities.items]
     if entities.ambiguities:
         fields["ambiguities"] = entities.ambiguities
     return fields

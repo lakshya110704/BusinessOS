@@ -54,17 +54,26 @@ async def _create_order(proposed_action: dict, business_id: str, source_message_
     # 2) Insert the order with a sequential number.
     order_number = await order_repo.next_order_number(business_id)
     amount = fields.get("amount")
+
+    # Line items: use the extracted list; fall back to a single item synthesized
+    # from the flat fields for simple/older single-item messages.
+    items = fields.get("items") or [{
+        "description": fields.get("sku"),
+        "quantity": fields.get("quantity"),
+        "unit": fields.get("unit"),
+    }]
+
+    # Direction from the contact's role: a vendor we buy from => purchase (a payable);
+    # a customer who buys from us => sale (a receivable). Default to sale.
+    direction = "purchase" if (contact or {}).get("role") == "vendor" else "sale"
+
     order = await order_repo.create({
         "business_id": business_id,
         "contact_id": contact_id,
         "source_message_id": source_message_id,
         "order_number": order_number,
-        "direction": "incoming",
-        "items": [{
-            "quantity": fields.get("quantity"),
-            "unit": fields.get("unit"),
-            "description": fields.get("sku"),
-        }],
+        "direction": direction,
+        "items": items,
         "total_amount": amount,
         "delivery_date": fields.get("delivery_date"),
         "payment_terms": fields.get("payment_terms"),

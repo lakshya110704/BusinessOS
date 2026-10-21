@@ -27,3 +27,6 @@ logs/
 .coverage
 htmlcov/
 .envrc
+
+# graphify generated code-graph (regenerate with: /graphify . --update)
+graphify-out/

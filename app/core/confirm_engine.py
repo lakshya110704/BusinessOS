@@ -38,7 +38,21 @@ _CONFIRMATION_TYPE = {
 def _details(action: ProposedAction) -> str:
     f = action.fields
     lines = []
-    if f.get("quantity"):
+    items = f.get("items") or []
+    if items:
+        for it in items:
+            qty = it.get("quantity")
+            if qty is not None:
+                try:
+                    qty = int(qty) if float(qty).is_integer() else qty
+                except (TypeError, ValueError):
+                    pass
+                qpart = f"{qty} {it.get('unit') or ''}".strip()
+            else:
+                qpart = ""
+            label = f"{qpart} {it.get('description') or ''}".strip() or "(item)"
+            lines.append(f"• {label}")
+    elif f.get("quantity"):
         lines.append(f"Quantity: {f['quantity']} {f.get('unit', '')}".strip())
     if f.get("amount"):
         lines.append(f"Amount: ₹{f['amount']}")

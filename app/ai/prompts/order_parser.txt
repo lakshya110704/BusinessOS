@@ -1,6 +1,8 @@
 REFINEMENT — this is an ORDER message. Prioritise these fields:
-- quantity + unit (most important for orders — if unclear, add to "ambiguities")
-- sku / product description
+- items (MOST IMPORTANT): list EVERY distinct product as its own entry with
+  description + quantity + unit. A single message often has several
+  ("2 kg cheeni, 1 Maggi, 1 bread" = three items). If a quantity is unclear,
+  add a note to "ambiguities".
 - delivery_date (resolve relative dates to absolute ISO)
 - vendor_name (who is placing or receiving the order)
 Only fill payment fields if payment is explicitly mentioned.
