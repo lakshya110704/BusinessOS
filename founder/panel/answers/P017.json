@@ -3,11 +3,11 @@
   "buys": false,
   "purchases_first_month": 0,
   "reason_code": "trust",
-  "reason": "I don't see rupees coming back into my till from this, it just promises to tidy things I already manage. A wrong order card that I tap by mistake costs me a customer, and that costs more than 500 a month.",
-  "objection": "What if it writes the wrong order and I lose a customer's trust? Hindi voice notes and phone calls are messy, and I'd end up checking every card myself anyway, so where is the saving?",
-  "would_change_my_mind": "Seeing it run on my own real orders for a couple of weeks, with a written promise that I pay nothing if it logs wrong orders or I can't show it saved me money.",
+  "reason": "I take dozens of orders a day and one wrong order hurts me more than 500 rupees saves. Nobody has shown me it puts money back in my till, and my udhaar diary already works for me.",
+  "objection": "What if it writes the wrong order, or mishears a Hindi voice note, and I lose a customer's trust? Then I am checking every card anyway and it saves me nothing.",
+  "would_change_my_mind": "A shop like mine, which I can phone, that has used it for a few months and can show me it cut wrong orders or got back udhaar I would have lost, plus a promise that I pay nothing if it makes mistakes.",
   "price_too_cheap": 100,
   "price_cheap": 250,
-  "price_expensive": 700,
-  "price_too_expensive": 1200
+  "price_expensive": 800,
+  "price_too_expensive": 1500
 }

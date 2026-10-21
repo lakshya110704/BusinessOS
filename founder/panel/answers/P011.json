@@ -1,13 +1,13 @@
 {
   "id": "P011",
-  "buys": true,
-  "purchases_first_month": 1,
-  "reason_code": "trust",
-  "reason": "I already take most orders on WhatsApp text and voice, and three months free with someone setting it up at my shop costs me nothing to try. I would sign up to test it, but I would only pay the 500 after the free months if it really gets my Hindi right.",
-  "objection": "Will it understand my Hindi, my regional words and my item names? If it keeps mixing up items or udhaar amounts, I will be fixing its cards all day and it is useless to me.",
-  "would_change_my_mind": "If the person who visits my shop tests it live on my own voice notes and my own item names and it gets them right, I would be fully in. If it gets them wrong in front of me, I would say no.",
-  "price_too_cheap": 100,
-  "price_cheap": 300,
-  "price_expensive": 800,
-  "price_too_expensive": 1500
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My paper diary and my head already work, I know every customer and what they owe. Orders already come on WhatsApp and I handle them fine, so I do not feel a problem big enough to change how I do things.",
+  "objection": "My udhaar khata is my most important thing. Why would I hand it to some unknown company's assistant, and what if it picks up an order wrong or the khata goes wrong and a customer argues with me?",
+  "would_change_my_mind": "Seeing it work on a neighbouring kirana owner I know, for a few weeks, with his khata correct, and the paper diary kept running alongside so I lose nothing if it fails.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 400,
+  "price_too_expensive": 800
 }

@@ -3,11 +3,11 @@
   "buys": false,
   "purchases_first_month": 0,
   "reason_code": "habit",
-  "reason": "My customers call me, they don't type on WhatsApp, and I already do UPI QR and my diary works. Another thing to learn and keep up every day is not what I need.",
-  "objection": "Most of my orders come by phone call. Recording every call is a hassle, and I don't believe it will understand my customers. If I have to fix its cards every day, it is more work than my diary.",
-  "would_change_my_mind": "If it worked on phone calls on its own without me doing anything, and the person who sets it up stayed and showed me it working with my own customers' udhaar for a week.",
+  "reason": "Mere customers phone karke order dete hain, WhatsApp pe type bahut kam karte hain. Udhaar meri diary mein hai aur kaam chal raha hai, UPI QR bhi hai. Ek aur cheez roz sambhalni padegi, mujhe nahi chahiye.",
+  "objection": "Phone call ka order khud se kaise pakdega? Galat card aaya to mujhe hi check karna padega, kaam badhega. Aur meri diary ka udhaar ka hisaab is mein daalega kaun?",
+  "would_change_my_mind": "Agar koi aadmi meri dukaan pe aakar diary ka poora udhaar khud daal de aur ek hafte mein dikha de ki phone ke orders sahi pakde, bina mere kuch kiye.",
   "price_too_cheap": 50,
   "price_cheap": 150,
   "price_expensive": 400,
-  "price_too_expensive": 700
+  "price_too_expensive": 800
 }

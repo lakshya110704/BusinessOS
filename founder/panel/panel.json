@@ -69,12 +69,12 @@
   ],
   "objections": [
    "I don't trust an app or AI with my customers' udhaar details",
-   "Half my orders come by call, so this misses them",
+   "Will it really catch my phone-call orders correctly without me doing anything?",
    "Another thing to learn and keep up every day",
    "What if it writes the wrong order and I lose a customer's trust?",
-   "Chasing udhaar through a bot will upset my regulars",
    "Is 500 rupees a month worth it, and what happens after the free 3 months?",
-   "Will it understand my Hindi, my regional words and my item names?"
+   "Will it understand my Hindi, my regional words and my item names?",
+   "My paper diary already works, why change?"
   ],
   "habits": [
    "you take orders by call and WhatsApp voice note while serving customers at the counter",
@@ -83,5 +83,5 @@
    "you already use UPI QR at the counter"
   ]
  },
- "pitch": "BusinessOS, a WhatsApp assistant for your shop. First 3 months free, then 500 rupees a month.\nForward or speak your orders in Hindi on WhatsApp, text or voice note, and it reads each one and sends you a card to confirm with one tap. No new app or number.\nIt builds each customer's udhaar khata and keeps your stock for you, and you can ask it in Hindi who owes you and what to reorder.\nIt can also send polite reminders for unpaid udhaar when you tell it to. Phone-call orders can be added by recording the call.\nSet up by a person visiting your shop."
+ "pitch": "BusinessOS, a WhatsApp assistant for your shop. First 3 months free, then 500 rupees a month.\nOrders that come by WhatsApp text, voice note or phone call are picked up automatically and sent to you as a card to confirm with one tap. You don't record anything, and there is no new app or number.\nIt keeps every customer's udhaar khata and your stock, so unpaid udhaar never gets lost, and you can ask it in Hindi who owes you and what to reorder.\nWe do the complete setup for you, and your khata can be exported whenever you want."
 }

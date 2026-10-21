@@ -1,0 +1,87 @@
+{
+ "n": 20,
+ "seed": 573737,
+ "customer": {
+  "business": "BusinessOS (a WhatsApp-native AI assistant that captures a shop's orders and keeps its udhaar book)",
+  "target": "Owners of small neighbourhood shops in India (kirana and similar) who take dozens of orders a day by phone call and WhatsApp and keep udhaar in a paper diary",
+  "where": "Dense urban and semi-urban neighbourhoods in India (guess: Hindi-speaking north and west India first)",
+  "age": [
+   28,
+   58
+  ],
+  "segments": [
+   {
+    "name": "Small kirana owner, one counter",
+    "share": 0.45,
+    "income": [
+     150000,
+     360000
+    ]
+   },
+   {
+    "name": "Established shop, 1-2 helpers",
+    "share": 0.4,
+    "income": [
+     360000,
+     900000
+    ]
+   },
+   {
+    "name": "Larger store or small wholesaler",
+    "share": 0.15,
+    "income": [
+     900000,
+     2400000
+    ]
+   }
+  ],
+  "behaviours": [
+   {
+    "name": "Paper-diary loyalist",
+    "share": 0.2,
+    "how": "Has kept the udhaar diary for years and trusts it more than any phone."
+   },
+   {
+    "name": "WhatsApp-heavy",
+    "share": 0.2,
+    "how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone."
+   },
+   {
+    "name": "Phone-call ordering",
+    "share": 0.18,
+    "how": "Most customers just call; rarely types anything."
+   },
+   {
+    "name": "Tried a ledger app",
+    "share": 0.15,
+    "how": "Installed Khatabook or OkCredit once and stopped updating it."
+   },
+   {
+    "name": "Family-run, son or daughter handles the phone",
+    "share": 0.12,
+    "how": "A younger family member manages apps; the owner decides."
+   },
+   {
+    "name": "Cost-sensitive skeptic",
+    "share": 0.15,
+    "how": "Will not pay for anything that is not clearly putting rupees back in the till."
+   }
+  ],
+  "objections": [
+   "I don't trust an app or AI with my customers' udhaar details",
+   "Half my orders come by call, so this misses them",
+   "Another thing to learn and keep up every day",
+   "What if it writes the wrong order and I lose a customer's trust?",
+   "Chasing udhaar through a bot will upset my regulars",
+   "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+   "Will it understand my Hindi, my regional words and my item names?"
+  ],
+  "habits": [
+   "you take orders by call and WhatsApp voice note while serving customers at the counter",
+   "you write udhaar in a paper diary at the end of the day",
+   "you keep stock in your head and order from the same two or three vendors",
+   "you already use UPI QR at the counter"
+  ]
+ },
+ "pitch": "BusinessOS, a WhatsApp assistant for your shop. First 3 months free, then 500 rupees a month.\nForward or speak your orders in Hindi on WhatsApp, text or voice note, and it reads each one and sends you a card to confirm with one tap. No new app or number.\nIt builds each customer's udhaar khata and keeps your stock for you, and you can ask it in Hindi who owes you and what to reorder.\nIt can also send polite reminders for unpaid udhaar when you tell it to. Phone-call orders can be added by recording the call.\nSet up by a person visiting your shop."
+}

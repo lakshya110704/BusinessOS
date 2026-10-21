@@ -3,11 +3,11 @@
   "buys": false,
   "purchases_first_month": 0,
   "reason_code": "habit",
-  "reason": "My customers call me, they don't type, and I write udhaar in my diary at night and it works. I don't want one more thing to learn and keep up every day, even if the first 3 months are free.",
-  "objection": "Most of my orders come by phone call, and this works best when orders come as WhatsApp messages. Recording every call sounds like extra work, and I don't trust it with my udhaar, which is my money.",
-  "would_change_my_mind": "If it worked on phone calls by itself, with no recording or typing from me, and the person who sets it up stayed until my helpers could use it and my diary matched it for a month.",
-  "price_too_cheap": 100,
-  "price_cheap": 200,
-  "price_expensive": 500,
-  "price_too_expensive": 900
+  "reason": "My customers just call me and I write the udhaar in my diary at night, and that works. Another thing to learn and look at every day, I will not keep it up even if the first 3 months are free.",
+  "objection": "Most of my orders come on the phone call, I don't type. I don't believe it will pick up a call properly, and I don't want to put my whole udhaar khata in something I can't see on paper.",
+  "would_change_my_mind": "Someone from my own market, a shop like mine, showing me that it really catches phone-call orders and that my diary udhaar gets copied in for me, with nothing for me to do daily.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 300,
+  "price_too_expensive": 500
 }

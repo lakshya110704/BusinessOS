@@ -18,7 +18,7 @@
   "income": 246000,
   "behaviour": "WhatsApp-heavy",
   "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
-  "objection": "Half my orders come by call, so this misses them",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything?",
   "habit": "you already use UPI QR at the counter"
  },
  {
@@ -29,7 +29,7 @@
   "income": 603000,
   "behaviour": "Tried a ledger app",
   "behaviour_how": "Installed Khatabook or OkCredit once and stopped updating it.",
-  "objection": "Half my orders come by call, so this misses them",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything?",
   "habit": "you keep stock in your head and order from the same two or three vendors"
  },
  {
@@ -51,7 +51,7 @@
   "income": 227000,
   "behaviour": "Tried a ledger app",
   "behaviour_how": "Installed Khatabook or OkCredit once and stopped updating it.",
-  "objection": "Half my orders come by call, so this misses them",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything?",
   "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
  },
  {
@@ -62,7 +62,7 @@
   "income": 631000,
   "behaviour": "Paper-diary loyalist",
   "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
-  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "objection": "Will it understand my Hindi, my regional words and my item names?",
   "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
  },
  {
@@ -73,7 +73,7 @@
   "income": 293000,
   "behaviour": "Family-run, son or daughter handles the phone",
   "behaviour_how": "A younger family member manages apps; the owner decides.",
-  "objection": "Chasing udhaar through a bot will upset my regulars",
+  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
   "habit": "you already use UPI QR at the counter"
  },
  {
@@ -95,7 +95,7 @@
   "income": 502000,
   "behaviour": "Paper-diary loyalist",
   "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
-  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "objection": "Will it understand my Hindi, my regional words and my item names?",
   "habit": "you keep stock in your head and order from the same two or three vendors"
  },
  {
@@ -117,7 +117,7 @@
   "income": 312000,
   "behaviour": "WhatsApp-heavy",
   "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
-  "objection": "Will it understand my Hindi, my regional words and my item names?",
+  "objection": "My paper diary already works, why change?",
   "habit": "you keep stock in your head and order from the same two or three vendors"
  },
  {
@@ -128,7 +128,7 @@
   "income": 2216000,
   "behaviour": "Paper-diary loyalist",
   "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
-  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "objection": "Will it understand my Hindi, my regional words and my item names?",
   "habit": "you already use UPI QR at the counter"
  },
  {
@@ -150,7 +150,7 @@
   "income": 220000,
   "behaviour": "Cost-sensitive skeptic",
   "behaviour_how": "Will not pay for anything that is not clearly putting rupees back in the till.",
-  "objection": "Half my orders come by call, so this misses them",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything?",
   "habit": "you keep stock in your head and order from the same two or three vendors"
  },
  {
@@ -194,7 +194,7 @@
   "income": 1353000,
   "behaviour": "Family-run, son or daughter handles the phone",
   "behaviour_how": "A younger family member manages apps; the owner decides.",
-  "objection": "Will it understand my Hindi, my regional words and my item names?",
+  "objection": "My paper diary already works, why change?",
   "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
  },
  {
@@ -216,7 +216,7 @@
   "income": 856000,
   "behaviour": "WhatsApp-heavy",
   "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
-  "objection": "Half my orders come by call, so this misses them",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything?",
   "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
  }
 ]

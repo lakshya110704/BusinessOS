@@ -4,19 +4,19 @@
  "dealt": 20,
  "answered": 20,
  "skipped": [],
- "buys": 1,
- "passes": 19,
- "buy_rate": 0.05,
+ "buys": 3,
+ "passes": 17,
+ "buy_rate": 0.15,
  "by_segment": [
   [
    "Small kirana owner, one counter",
    9,
-   0.1111111111111111
+   0.2222222222222222
   ],
   [
    "Established shop, 1-2 helpers",
    8,
-   0.0
+   0.125
   ],
   [
    "Larger store or small wholesaler",
@@ -28,7 +28,7 @@
   [
    "WhatsApp-heavy",
    4,
-   0.25
+   0.75
   ],
   [
    "Phone-call ordering",
@@ -58,91 +58,89 @@
  ],
  "by_income": [
   [
-   "$293,000 to $631,000",
+   "under $293,000",
+   6,
+   0.3333333333333333
+  ],
+  [
+   "$631,000 and up",
    7,
    0.14285714285714285
   ],
   [
-   "under $293,000",
-   6,
-   0.0
-  ],
-  [
-   "$631,000 and up",
+   "$293,000 to $631,000",
    7,
    0.0
   ]
  ],
  "why_not": [
   [
-   "habit",
-   12,
+   "trust",
+   10,
    [
-    "Most of my customers just call me, I hardly type anything, and I already have my UPI QR and my diary working. Another thing to learn and keep up every day, no thanks.",
-    "Half my orders come by call, and recording every call sounds like extra work I won't keep up with. My paper udhaar diary and UPI QR already work, so I don't see enough reason to change right now."
+    "I already installed Khatabook once and stopped updating it, so I don't believe another tool will stick. My orders come by phone call and I keep stock in my head, so I don't see it getting that right.",
+    "I put Khatabook on my phone once and stopped updating it in a week, so I don't believe another app will stick. Phone calls come while I'm weighing atta for someone, and I don't think it will catch those right."
+   ],
+   [
+    "P003",
+    "P005"
+   ]
+  ],
+  [
+   "habit",
+   7,
+   [
+    "My customers call me, I don't type. UPI QR and my diary already work, and this sounds like one more thing to learn and check every day.",
+    "Mere customers phone karke order dete hain, WhatsApp pe type bahut kam karte hain. Udhaar meri diary mein hai aur kaam chal raha hai, UPI QR bhi hai. Ek aur cheez roz sambhalni padegi, mujhe nahi chahiye."
    ],
    [
     "P001",
-    "P002"
-   ]
-  ],
-  [
-   "trust",
-   5,
-   [
-    "My diary and my memory already work, and customers who take udhaar are regulars I have known for years. A bot messaging them about money will upset them, and I will not risk that for an app.",
-    "Mere customers ka udhaar ka hisaab ek AI ko dene ka mann nahi hai. Maine Khatabook aur OkCredit pehle bhi daala tha, kuch din baad update karna chhod diya; kaagaz ki diary hi chal rahi hai."
-   ],
-   [
-    "P007",
-    "P008"
-   ]
-  ],
-  [
-   "need",
-   2,
-   [
-    "Half my orders come by call, so this misses them, and recording every call is a hassle. My stock is in my head and my udhaar is in my diary, and both work fine. I don't see rupees coming back into my till.",
-    "Half my orders come by call while I'm serving at the counter, and I can't stop to record each call. So it only covers half my work, and my paper diary already does the udhaar job."
-   ],
-   [
-    "P014",
-    "P020"
+    "P004"
    ]
   ]
  ],
  "why_yes": [
   [
-   "trust",
-   1,
+   "need",
+   2,
    [
-    "I already take most orders on WhatsApp text and voice, and three months free with someone setting it up at my shop costs me nothing to try. I would sign up to test it, but I would only pay the 500 after the free months if it really gets my Hindi right."
+    "Udhaar slipping through my paper diary is a real loss, and I already take orders on WhatsApp, so a card I just tap is not a big change. Three months free and they do the setup, so I will try it once; money is not the issue, my time is.",
+    "Free for 3 months and they do the setup, so I can try it without risk. I already take most orders on WhatsApp and the udhaar diary does get messy, so I'd give it a go. I'd only keep paying if it proves itself."
    ],
    [
-    "P011"
+    "P015",
+    "P020"
+   ]
+  ],
+  [
+   "convenience",
+   1,
+   [
+    "Three months free and they do the setup, so I lose nothing by trying. I already take orders on WhatsApp, and the udhaar going from my paper diary into one place is what pulls me."
+   ],
+   [
+    "P002"
    ]
   ]
  ],
  "flip": [
-  "If it worked with my phone calls on its own with no extra work from me, and a person in my shop showed me it was right with my own udhaar for a few weeks before I paid anything.",
-  "If the person who sets it up stays in my shop for a week, moves my udhaar diary in for me, and I see it catch my phone-call orders without any extra effort from me.",
-  "If it picked up my phone-call orders by itself without me recording anything, and the person who sets it up stayed with me for a couple of weeks until it was part of my routine.",
-  "If it worked on phone calls on its own without me doing anything, and the person who sets it up stayed and showed me it working with my own customers' udhaar for a week.",
-  "If it picked up my phone calls on its own without me recording anything, and the person who visits sets up my existing udhaar diary entries for me, I would try it.",
-  "A person from the company sits in my shop for a week and enters my diary into it. I keep the diary running alongside. I can take my full khata out whenever I want, and the price after 3 months stays well under 500.",
-  "If my son tried it free on my own real orders for a few weeks and it got them right, and I could see that reminders go out only when I choose, one customer at a time.",
-  "If a person I know and trust in my area already uses it for their own shop and shows me that it works, and the khata stays only on my phone and nobody else can see it.",
-  "Seeing it work in my own shop for a few weeks, with my diary kept alongside it, and being told the exact price and what happens to my records if I stop paying.",
-  "If it worked on its own from my phone calls without me doing anything extra, and the person who sets it up stayed with me until I was comfortable.",
-  "A person from the company sits in my shop for a few weeks and runs it alongside my diary, so I can check every entry against the diary. I also need a written promise that I can export my khata and that the price stays fixed after the free months.",
-  "Seeing it recover real unpaid udhaar in my own shop within the free months, with the person who sets it up doing the work and entering my old diary for me, and no charge until it has brought in more than 500 rupees.",
-  "If it showed me, on my own customers, that it got back more than 500 rupees a month in udhaar I would have forgotten to collect, and it caught phone orders without me recording anything.",
-  "If the person who visits sets it up and sits with me for a week, and I see it get my own customers' voice orders right with no extra work from me, I would try the free months.",
-  "If it worked on phone calls by itself, with no recording or typing from me, and the person who sets it up stayed until my helpers could use it and my diary matched it for a month.",
-  "Seeing it run on my own real orders for a couple of weeks, with a written promise that I pay nothing if it logs wrong orders or I can't show it saved me money.",
-  "A person comes to my shop and shows it reading my own real voice notes and my own item names correctly, a day of my actual orders, with no mistakes. Then I would let my son try it free for the 3 months alongside the diary.",
-  "If a shopkeeper I know and trust in my own area had been using it for a year, and the diary stayed as my main record while it only copied things down, I would try it for the free months.",
-  "If it picked up phone-call orders on its own with no recording, and a person sat with me at the shop for a week showing it gets my udhaar right."
+  "Seeing it work on my own phone for a week with my real calls and my regular customers, with no typing from me and my paper diary still kept alongside.",
+  "Seeing it work on my own shop's real phone-call and WhatsApp orders for a week, with someone setting it up and my udhaar already entered, and nothing for me to do except tap.",
+  "Agar koi aadmi meri dukaan pe aakar diary ka poora udhaar khud daal de aur ek hafte mein dikha de ki phone ke orders sahi pakde, bina mere kuch kiye.",
+  "Seeing it work on my own phone for a few days, with real calls and voice notes from my customers, and getting every order and udhaar entry right, with no extra work from me.",
+  "Let me try it free on my own voice notes for a few weeks, side by side with my diary, and see it get my item names and udhaar amounts right without mistakes.",
+  "Another kirana owner I know personally showing me it running in his shop, plus a clear promise that the khata stays mine and nothing is charged after 3 months unless I say yes.",
+  "A neighbouring shopkeeper I know personally has been using it for months and tells me the khata was never wrong or leaked, plus someone sits at my shop and sets it up beside my diary so I can run both side by side before I drop anything.",
+  "Another shopkeeper I know, in my own area, showing me it correctly caught his Hindi voice notes and udhaar for a month, while he kept his diary running alongside.",
+  "If someone sat in my shop for a week, set it up, and showed that phone calls get picked up with no typing from me, and my paper diary udhaar was entered for me.",
+  "Seeing it work on a neighbouring kirana owner I know, for a few weeks, with his khata correct, and the paper diary kept running alongside so I lose nothing if it fails.",
+  "A trial on my own real orders, with someone showing me it gets my item names and regional words right, while I keep writing my diary alongside it for a few months.",
+  "Seeing it work on my own real orders for a few weeks, free, and a shop owner I know saying it actually got him back udhaar money he would have lost.",
+  "Seeing it work on a neighbouring kirana owner's real phone-call orders for a few weeks with hardly any mistakes, and a clear case that it recovers udhaar I would otherwise lose, so it pays for itself.",
+  "Someone from my own market, a shop like mine, showing me that it really catches phone-call orders and that my diary udhaar gets copied in for me, with nothing for me to do daily.",
+  "A shop like mine, which I can phone, that has used it for a few months and can show me it cut wrong orders or got back udhaar I would have lost, plus a promise that I pay nothing if it makes mistakes.",
+  "Seeing it run live in a nearby shop like mine for a week, getting my son to set it up beside my diary so I can keep both, and being sure my khata data stays mine.",
+  "If a shop owner I know and trust, who has used it for a year, showed me it never got his udhaar wrong. I would also want to keep my paper diary running alongside it."
  ],
  "purchases_first_month_per_buyer": 1.0,
  "price_answers": 20

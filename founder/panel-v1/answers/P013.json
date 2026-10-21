@@ -1,0 +1,13 @@
+{
+  "id": "P013",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My diary and my memory already work, and I am at the counter all day with customers in front of me. Another thing to learn and check every day, and I do not see rupees coming back into the till from it.",
+  "objection": "I do not have time to tap cards and fix mistakes while serving customers. If it misreads a Hindi voice note, I lose money on a wrong udhaar entry. Free for 3 months is fine, but then I am locked into 500 a month for something I cannot see paying for itself.",
+  "would_change_my_mind": "Seeing it recover real unpaid udhaar in my own shop within the free months, with the person who sets it up doing the work and entering my old diary for me, and no charge until it has brought in more than 500 rupees.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 400,
+  "price_too_expensive": 700
+}

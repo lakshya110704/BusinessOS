@@ -1,0 +1,13 @@
+{
+  "id": "P006",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "My udhaar diary has worked for years and I trust it more than any phone. Free for 3 months is fine, but I would have to put every customer's old balance into it, and then I am paying 500 a month for something my diary already does.",
+  "objection": "What happens after the free 3 months? If my khata is in their system and I stop paying, do I lose my records, or have I only made things harder for myself? I also do not know how it understands my customers' voice notes.",
+  "would_change_my_mind": "A person from the company sits in my shop for a week and enters my diary into it. I keep the diary running alongside. I can take my full khata out whenever I want, and the price after 3 months stays well under 500.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 350,
+  "price_too_expensive": 600
+}

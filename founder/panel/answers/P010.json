@@ -3,11 +3,11 @@
   "buys": false,
   "purchases_first_month": 0,
   "reason_code": "habit",
-  "reason": "My customers call me, I keep the stock in my head and I order from the same two or three vendors. It's one more thing to learn and keep up every day, and the paper diary works for me.",
-  "objection": "Nobody who orders from me types anything, they just call. If I have to record calls or forward things every day, that is extra work, not less.",
-  "would_change_my_mind": "If it worked on its own from my phone calls without me doing anything extra, and the person who sets it up stayed with me until I was comfortable.",
+  "reason": "My customers just call me and I keep the stock in my head, so I don't need a card to tap every day. It sounds like another thing to learn and keep up, and I'm used to my two or three vendors and my diary.",
+  "objection": "Another thing to learn and keep up every day, when phone calls and my memory already work for me. I also don't know if it will really catch a phone call correctly.",
+  "would_change_my_mind": "If someone sat in my shop for a week, set it up, and showed that phone calls get picked up with no typing from me, and my paper diary udhaar was entered for me.",
   "price_too_cheap": 50,
   "price_cheap": 150,
-  "price_expensive": 500,
-  "price_too_expensive": 900
+  "price_expensive": 400,
+  "price_too_expensive": 800
 }

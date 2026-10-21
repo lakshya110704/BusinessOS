@@ -1,0 +1,222 @@
+[
+ {
+  "id": "P001",
+  "name": "Daniel",
+  "age": 45,
+  "segment": "Small kirana owner, one counter",
+  "income": 289000,
+  "behaviour": "Phone-call ordering",
+  "behaviour_how": "Most customers just call; rarely types anything.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P002",
+  "name": "Pablo",
+  "age": 48,
+  "segment": "Small kirana owner, one counter",
+  "income": 246000,
+  "behaviour": "WhatsApp-heavy",
+  "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
+  "objection": "Half my orders come by call, so this misses them",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P003",
+  "name": "Aisha",
+  "age": 43,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 603000,
+  "behaviour": "Tried a ledger app",
+  "behaviour_how": "Installed Khatabook or OkCredit once and stopped updating it.",
+  "objection": "Half my orders come by call, so this misses them",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P004",
+  "name": "Hamza",
+  "age": 29,
+  "segment": "Small kirana owner, one counter",
+  "income": 209000,
+  "behaviour": "Phone-call ordering",
+  "behaviour_how": "Most customers just call; rarely types anything.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P005",
+  "name": "Jonah",
+  "age": 47,
+  "segment": "Small kirana owner, one counter",
+  "income": 227000,
+  "behaviour": "Tried a ledger app",
+  "behaviour_how": "Installed Khatabook or OkCredit once and stopped updating it.",
+  "objection": "Half my orders come by call, so this misses them",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ },
+ {
+  "id": "P006",
+  "name": "Kofi",
+  "age": 40,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 631000,
+  "behaviour": "Paper-diary loyalist",
+  "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
+  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ },
+ {
+  "id": "P007",
+  "name": "Seth",
+  "age": 48,
+  "segment": "Small kirana owner, one counter",
+  "income": 293000,
+  "behaviour": "Family-run, son or daughter handles the phone",
+  "behaviour_how": "A younger family member manages apps; the owner decides.",
+  "objection": "Chasing udhaar through a bot will upset my regulars",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P008",
+  "name": "Keisha",
+  "age": 51,
+  "segment": "Small kirana owner, one counter",
+  "income": 330000,
+  "behaviour": "Tried a ledger app",
+  "behaviour_how": "Installed Khatabook or OkCredit once and stopped updating it.",
+  "objection": "I don't trust an app or AI with my customers' udhaar details",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ },
+ {
+  "id": "P009",
+  "name": "Jade",
+  "age": 36,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 502000,
+  "behaviour": "Paper-diary loyalist",
+  "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
+  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P010",
+  "name": "Mira",
+  "age": 57,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 404000,
+  "behaviour": "Phone-call ordering",
+  "behaviour_how": "Most customers just call; rarely types anything.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P011",
+  "name": "Ezra",
+  "age": 58,
+  "segment": "Small kirana owner, one counter",
+  "income": 312000,
+  "behaviour": "WhatsApp-heavy",
+  "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
+  "objection": "Will it understand my Hindi, my regional words and my item names?",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P012",
+  "name": "Lena",
+  "age": 58,
+  "segment": "Larger store or small wholesaler",
+  "income": 2216000,
+  "behaviour": "Paper-diary loyalist",
+  "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
+  "objection": "Is 500 rupees a month worth it, and what happens after the free 3 months?",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P013",
+  "name": "Esme",
+  "age": 35,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 886000,
+  "behaviour": "Cost-sensitive skeptic",
+  "behaviour_how": "Will not pay for anything that is not clearly putting rupees back in the till.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ },
+ {
+  "id": "P014",
+  "name": "Clara",
+  "age": 46,
+  "segment": "Small kirana owner, one counter",
+  "income": 220000,
+  "behaviour": "Cost-sensitive skeptic",
+  "behaviour_how": "Will not pay for anything that is not clearly putting rupees back in the till.",
+  "objection": "Half my orders come by call, so this misses them",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P015",
+  "name": "Julian",
+  "age": 58,
+  "segment": "Small kirana owner, one counter",
+  "income": 193000,
+  "behaviour": "WhatsApp-heavy",
+  "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P016",
+  "name": "Hana",
+  "age": 38,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 496000,
+  "behaviour": "Phone-call ordering",
+  "behaviour_how": "Most customers just call; rarely types anything.",
+  "objection": "Another thing to learn and keep up every day",
+  "habit": "you write udhaar in a paper diary at the end of the day"
+ },
+ {
+  "id": "P017",
+  "name": "Jasper",
+  "age": 41,
+  "segment": "Larger store or small wholesaler",
+  "income": 1571000,
+  "behaviour": "Cost-sensitive skeptic",
+  "behaviour_how": "Will not pay for anything that is not clearly putting rupees back in the till.",
+  "objection": "What if it writes the wrong order and I lose a customer's trust?",
+  "habit": "you already use UPI QR at the counter"
+ },
+ {
+  "id": "P018",
+  "name": "Quinn",
+  "age": 31,
+  "segment": "Larger store or small wholesaler",
+  "income": 1353000,
+  "behaviour": "Family-run, son or daughter handles the phone",
+  "behaviour_how": "A younger family member manages apps; the owner decides.",
+  "objection": "Will it understand my Hindi, my regional words and my item names?",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ },
+ {
+  "id": "P019",
+  "name": "Leah",
+  "age": 56,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 697000,
+  "behaviour": "Paper-diary loyalist",
+  "behaviour_how": "Has kept the udhaar diary for years and trusts it more than any phone.",
+  "objection": "I don't trust an app or AI with my customers' udhaar details",
+  "habit": "you keep stock in your head and order from the same two or three vendors"
+ },
+ {
+  "id": "P020",
+  "name": "Maeve",
+  "age": 43,
+  "segment": "Established shop, 1-2 helpers",
+  "income": 856000,
+  "behaviour": "WhatsApp-heavy",
+  "behaviour_how": "Takes most orders on WhatsApp text and voice notes already, comfortable with the phone.",
+  "objection": "Half my orders come by call, so this misses them",
+  "habit": "you take orders by call and WhatsApp voice note while serving customers at the counter"
+ }
+]

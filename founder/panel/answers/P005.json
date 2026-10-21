@@ -2,12 +2,12 @@
   "id": "P005",
   "buys": false,
   "purchases_first_month": 0,
-  "reason_code": "habit",
-  "reason": "Half my orders come by call, so this misses them, and I am at the counter with customers, I cannot sit and tap cards. I already put Khatabook on my phone once and stopped updating it, this will go the same way.",
-  "objection": "Half my orders come by call and recording every call is extra work I will not do during rush. If I do not keep it updated it is useless, like the ledger app I left.",
-  "would_change_my_mind": "If it picked up my phone calls on its own without me recording anything, and the person who visits sets up my existing udhaar diary entries for me, I would try it.",
-  "price_too_cheap": 100,
-  "price_cheap": 250,
-  "price_expensive": 600,
-  "price_too_expensive": 1000
+  "reason_code": "trust",
+  "reason": "I put Khatabook on my phone once and stopped updating it in a week, so I don't believe another app will stick. Phone calls come while I'm weighing atta for someone, and I don't think it will catch those right.",
+  "objection": "Will it really catch my phone-call orders correctly without me doing anything? If it gets one wrong and I miss a customer's udhaar, I'm back to my paper diary and have wasted my time.",
+  "would_change_my_mind": "Seeing it work on my own phone for a few days, with real calls and voice notes from my customers, and getting every order and udhaar entry right, with no extra work from me.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 500,
+  "price_too_expensive": 900
 }

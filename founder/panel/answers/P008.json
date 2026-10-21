@@ -3,11 +3,11 @@
   "buys": false,
   "purchases_first_month": 0,
   "reason_code": "trust",
-  "reason": "Mere customers ka udhaar ka hisaab ek AI ko dene ka mann nahi hai. Maine Khatabook aur OkCredit pehle bhi daala tha, kuch din baad update karna chhod diya; kaagaz ki diary hi chal rahi hai.",
-  "objection": "I don't trust an app or AI with my customers' udhaar details, and I know I will stop using it when the counter gets busy, like I did with the ledger apps.",
-  "would_change_my_mind": "If a person I know and trust in my area already uses it for their own shop and shows me that it works, and the khata stays only on my phone and nobody else can see it.",
-  "price_too_cheap": 50,
-  "price_cheap": 150,
-  "price_expensive": 300,
-  "price_too_expensive": 500
+  "reason": "I don't trust an app or AI with my customers' udhaar details. My paper diary is mine, and I already installed Khatabook once and stopped updating it, so why would this be different.",
+  "objection": "Who sees my customers' udhaar names and amounts? If it picks up an order wrong, or a customer finds out his khata is sitting on some AI, I lose the customer. Free for 3 months and then they charge me, and I am back to my diary anyway.",
+  "would_change_my_mind": "A neighbouring shopkeeper I know personally has been using it for months and tells me the khata was never wrong or leaked, plus someone sits at my shop and sets it up beside my diary so I can run both side by side before I drop anything.",
+  "price_too_cheap": 100,
+  "price_cheap": 200,
+  "price_expensive": 500,
+  "price_too_expensive": 900
 }
