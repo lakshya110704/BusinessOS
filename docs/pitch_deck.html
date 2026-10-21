@@ -48,7 +48,6 @@
   p strong{color:var(--ink);font-weight:600}
   .lead{font-size:17px;color:var(--ink-2)}
 
-  /* cover */
   .cover{padding-top:3.4rem;padding-bottom:3.2rem}
   .brandline{display:flex;align-items:center;gap:.6rem;margin-bottom:1.6rem}
   .mark{width:26px;height:26px;border-radius:8px;background:var(--emerald);
@@ -61,7 +60,6 @@
     display:inline-flex;align-items:center;gap:6px}
   .pill.live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--emerald)}
 
-  /* stat row */
   .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--hair);
     border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.6rem 0 .4rem}
   .stat{background:var(--surface);padding:1.2rem 1.1rem}
@@ -69,13 +67,11 @@
     color:var(--ochre);margin-bottom:6px;font-variant-numeric:tabular-nums}
   .stat .l{font-size:12.5px;color:var(--ink-2);line-height:1.45}
 
-  /* pull quote (real trader line) */
   .quote{border-left:2px solid var(--ochre);padding:.4rem 0 .4rem 1.2rem;margin:1.4rem 0}
   .quote .hi{font-family:'Playfair Display',serif;font-style:italic;font-size:20px;
     line-height:1.5;color:var(--ink)}
   .quote .tr{font-size:13px;color:var(--ink-3);margin-top:.5rem}
 
-  /* flow */
   .flow{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--hair);
     border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.5rem 0 .3rem}
   .step{background:var(--surface);padding:1.1rem 1.15rem}
@@ -84,13 +80,12 @@
   .step .t{font-weight:600;font-size:15px;color:var(--ink);margin-bottom:.25rem}
   .step .d{font-size:13px;color:var(--ink-2);line-height:1.5}
 
-  /* PROOF — phone + log */
   .proof{display:grid;grid-template-columns:minmax(0,260px) 1fr;gap:1.6rem;align-items:start;margin-top:1.6rem}
   @media (max-width:620px){ .proof{grid-template-columns:1fr} .flow,.stats{grid-template-columns:1fr 1fr} }
   .phone{background:var(--surface-3);border:0.5px solid var(--hair);border-radius:22px;
     padding:12px 12px 16px}
   .wa-head{display:flex;align-items:center;gap:8px;padding:2px 4px 10px;border-bottom:0.5px solid var(--hair)}
-  .wa-av{width:24px;height:24px;border-radius:50%;background:var(--ink-3);flex:none}
+  .wa-av{width:24px;height:24px;border-radius:50%;background:var(--emerald);flex:none}
   .wa-num{font-size:12.5px;font-weight:600;color:var(--ink)}
   .wa-card{background:var(--wa-card);color:var(--wa-card-ink);border-radius:10px;
     padding:11px 12px;margin-top:12px;box-shadow:0 1px 2px rgba(0,0,0,.08)}
@@ -103,6 +98,13 @@
   .wa-btn:first-child{border-top:none}
   .wa-cap{font-size:11.5px;color:var(--ink-3);text-align:center;margin-top:10px}
 
+  /* chat bubbles (ask-your-business hero) */
+  .chat{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+  .b{max-width:86%;padding:8px 11px;border-radius:13px;font-size:12.5px;line-height:1.45}
+  .b.me{align-self:flex-end;background:var(--wa-bubble);color:#fff;border-bottom-right-radius:4px}
+  .b.os{align-self:flex-start;background:var(--wa-card);color:var(--wa-card-ink);border-bottom-left-radius:4px}
+  .b .n{font-variant-numeric:tabular-nums;font-weight:500}
+
   .log{background:var(--surface);border:0.5px solid var(--hair);border-radius:var(--radius-sm);
     padding:1rem 1.05rem;font-family:'IBM Plex Mono',monospace;font-size:12px;line-height:1.85;
     color:var(--ink-2);overflow-x:auto}
@@ -112,28 +114,13 @@
   .log .m{color:var(--ink-3)}
   .proof-note{margin-top:1rem;font-size:13.5px;color:var(--ink-2)}
 
-  /* brain table */
-  .tbl{width:100%;border-collapse:collapse;margin:1.4rem 0 .3rem;font-size:13.5px}
-  .tbl th{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
-    text-align:left;font-weight:600;padding:.5rem .7rem;border-bottom:0.5px solid var(--hair)}
-  .tbl td{padding:.62rem .7rem;border-bottom:0.5px solid var(--hair);color:var(--ink-2);vertical-align:top}
-  .tbl td.msg{color:var(--ink);font-family:'IBM Plex Mono',monospace;font-size:12px}
-  .tbl td .chip{font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;white-space:nowrap}
-  .chip.ord{background:var(--emerald-soft);color:var(--emerald-ink)}
-  .chip.pay{background:var(--ochre-soft);color:var(--ochre-ink)}
-  .chip.esc{background:var(--surface-3);color:var(--ink-2)}
-  .tbl tr:last-child td{border-bottom:none}
-  .tnum{font-variant-numeric:tabular-nums}
-
-  /* callout */
   .call{background:var(--surface-2);border-radius:var(--radius-sm);padding:1.1rem 1.25rem;margin:1.2rem 0}
   .call .h{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:.3rem}
-  .call .b{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin:0}
+  .call .b{font-size:13.5px;color:var(--ink-2);line-height:1.6;margin:0;max-width:none}
   .call.em{background:var(--emerald-soft)}
   .call.em .h{color:var(--emerald-ink)}
   .call.em .b{color:var(--emerald-ink);opacity:.92}
 
-  /* money table */
   .money{width:100%;border-collapse:collapse;margin:1.3rem 0 .3rem;font-size:13.5px}
   .money th{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);
     text-align:left;font-weight:600;padding:.5rem .7rem;border-bottom:0.5px solid var(--hair)}
@@ -141,7 +128,6 @@
   .money td:first-child{color:var(--ink);font-weight:500}
   .money tr:last-child td{border-bottom:none}
 
-  /* ask */
   .ask{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--hair);
     border:0.5px solid var(--hair);border-radius:var(--radius);overflow:hidden;margin:1.5rem 0 .3rem}
   .ask .c{background:var(--surface);padding:1.15rem 1.25rem}
@@ -155,9 +141,6 @@
   .status-line{display:flex;flex-wrap:wrap;gap:.5rem 1.4rem;margin:1.3rem 0 .2rem;
     font-size:13px;color:var(--ink-2)}
   .status-line .ok{color:var(--emerald);font-weight:600}
-  @media (prefers-reduced-motion:no-preference){
-    section{opacity:1}
-  }
 </style>
 
 <div class="deck">
@@ -169,12 +152,13 @@
       <span class="brandname">BusinessOS</span>
     </div>
     <p class="eyebrow">Seed — India — 2026</p>
-    <h1>The operating system<br>for India's <em>real economy</em>,<br>hiding inside WhatsApp.</h1>
-    <p class="lead" style="margin-top:1.1rem">63 million small businesses run India from a single app — orders, payments, vendors, all in Hindi voice notes and group-chat threads. BusinessOS turns that chaos into structured operations automatically, and asks the owner before it ever acts. <strong>The product is built and running today.</strong></p>
+    <h1>A business partner that runs on <em>memory and data</em> — not gut.</h1>
+    <p class="lead" style="margin-top:1.1rem">Every small shop runs on what's in the owner's head — orders from vendors and customers, who owes what, what's in stock — scattered across phone calls and WhatsApp. <strong>BusinessOS captures all of it with zero typing, remembers everything, and the owner just asks it anything.</strong> The capture loop is live on real WhatsApp today.</p>
     <div class="pills">
-      <span class="pill live">Live end-to-end on real WhatsApp</span>
-      <span class="pill">Hindi / Hinglish · text + voice</span>
-      <span class="pill">Confirm-before-act</span>
+      <span class="pill live">Live on real WhatsApp</span>
+      <span class="pill">Orders: vendor + customer</span>
+      <span class="pill">WhatsApp + calls</span>
+      <span class="pill">Ask your business anything</span>
     </div>
   </section>
 
@@ -182,173 +166,198 @@
   <section>
     <p class="eyebrow">The problem</p>
     <h2>The owner <em>is</em> the system.</h2>
-    <p>A textile trader in Surat gets 300 WhatsApp messages before noon. Orders are buried in group chats. Payment terms are agreed by voice. Invoices arrive as blurry PDFs. There is no ERP, no CRM, no ops tool — there never was. Every missed follow-up is a lost order; every forgotten commitment is a cash-flow crisis.</p>
+    <p>A small shopkeeper takes dozens of orders a day — raw material from vendors, goods to customers — half by phone call, half on WhatsApp. The udhaar lives in a paper diary. The stock lives in his head. There is no ERP, no CRM, no ops tool — there never was. Every forgotten order is a lost sale; every un-chased payment is cash left on the table.</p>
     <div class="quote">
-      <div class="hi">"Bhai 50 piece bhejo kal tak, payment Diwali ke baad."</div>
-      <div class="tr">— buried in a 400-message group. Nobody followed up. The order was lost.</div>
+      <div class="hi">"Itne saare log call karke order dete hain — sab yaad rakhna mushkil ho jaata hai."</div>
+      <div class="tr">— a kirana owner, unprompted. "So many people call to order; keeping track of it all is hard." He asked us to build exactly this.</div>
     </div>
   </section>
 
-  <!-- SCALE -->
+  <!-- INSIGHT -->
   <section>
-    <p class="eyebrow">The scale</p>
-    <div class="stats">
-      <div class="stat"><div class="n">63M</div><div class="l">Indian SMBs with zero operational software</div></div>
-      <div class="stat"><div class="n">500M</div><div class="l">WhatsApp users — already their primary tool</div></div>
-      <div class="stat"><div class="n">₹60L Cr</div><div class="l">annual revenue flowing through these businesses</div></div>
+    <p class="eyebrow">Why nobody has won this</p>
+    <h2>Don't make them type.<br>Don't replace them with a bot.</h2>
+    <p>Two approaches have failed this merchant. BusinessOS is the third way.</p>
+    <div class="call">
+      <p class="h">The ledger apps (Khatabook, OkCredit) make them <em>type</em>.</p>
+      <p class="b">50M+ installs, yet accounts go stale within weeks — because the one thing a busy shopkeeper won't do is stop and enter every order by hand.</p>
     </div>
-    <p style="margin-top:1.3rem">They skipped every prior wave of business software because every wave demanded behavior change — new apps, new dashboards, new habits. They rejected all of it. The market isn't unserved because it's small. It's unserved because everyone tried to move the merchant off WhatsApp.</p>
+    <div class="call">
+      <p class="h">The new AI bots <em>replace</em> the shopkeeper on the call.</p>
+      <p class="b">But trade is a relationship — the customer calls because they trust that person, not a robot — and a bot that demands instant UPI ignores how most of this business actually runs: on monthly udhaar.</p>
+    </div>
+    <div class="call em">
+      <p class="h">BusinessOS keeps the human, and removes the work.</p>
+      <p class="b">Capture how they already talk — calls and WhatsApp, vendors and customers — build the books automatically, and give the owner a partner that acts on <strong>memory and data, not gut</strong>.</p>
+    </div>
   </section>
 
-  <!-- INSIGHT / SOLUTION -->
+  <!-- WHAT IT DOES -->
   <section>
-    <p class="eyebrow">The insight</p>
-    <h2>Don't change the behavior.<br><em>Upgrade the infrastructure.</em></h2>
-    <p>WhatsApp is already the OS. We don't replace it — we become the invisible layer underneath: reading every message, extracting structure from the chaos, and surfacing only what needs a human decision. The merchant keeps doing exactly what they already do.</p>
+    <p class="eyebrow">What it does</p>
+    <h2>Captures everything. Remembers everything.<br><em>Answers anything.</em></h2>
     <div class="flow">
-      <div class="step"><div class="k">01 · Listen</div><div class="t">Reads it all</div><div class="d">Messages and Hindi/Hinglish voice notes across chats — no typing, no app-switching.</div></div>
-      <div class="step"><div class="k">02 · Understand</div><div class="t">Extracts the deal</div><div class="d">Item, quantity, delivery date, payment terms — with a confidence score, not a guess.</div></div>
-      <div class="step"><div class="k">03 · Confirm</div><div class="t">Owner stays in control</div><div class="d">"Confirm this order? Tap 1." One tap on WhatsApp. Never autonomous on day one.</div></div>
-      <div class="step"><div class="k">04 · Remember</div><div class="t">Builds the graph</div><div class="d">Every vendor, every order, every commitment — a memory unique to each business.</div></div>
+      <div class="step"><div class="k">01 · Listen</div><div class="t">Every order, any channel</div><div class="d">Vendor orders and customer orders, by phone call or WhatsApp (text + Hindi voice). No new number, no new app.</div></div>
+      <div class="step"><div class="k">02 · Understand</div><div class="t">Turns talk into records</div><div class="d">Each message becomes a structured order — every item, quantity, amount, delivery, payment terms — with the owner confirming before anything is logged.</div></div>
+      <div class="step"><div class="k">03 · Remember</div><div class="t">The books build themselves</div><div class="d">Each customer's khata (what they ordered, what they owe) and the shop's stock are kept automatically — the owner never types a line.</div></div>
+      <div class="step"><div class="k">04 · Answer</div><div class="t">Just ask your business</div><div class="d">"Aaj ki sales? Kiska udhaar baaki hai? Kitna stock mangwana hai?" — one chat, instant answers from real data.</div></div>
     </div>
   </section>
 
-  <!-- PROOF: IT'S REAL -->
+  <!-- HERO: ASK YOUR BUSINESS -->
   <section>
-    <p class="eyebrow" style="color:var(--emerald)">It's real — not a mockup</p>
-    <h2>A live order, understood and confirmed<br>on an <em>actual phone.</em></h2>
-    <p>Below is a real run: a vendor's Hinglish message goes in, and seconds later the owner gets this card on WhatsApp. Tap <strong>Confirm</strong> and the order is logged. This ran end-to-end against Meta's WhatsApp Cloud API, GPT-4o, and a live database.</p>
+    <p class="eyebrow" style="color:var(--emerald)">The one that changes everything</p>
+    <h2>The owner just <em>talks</em> to their business.</h2>
+    <p>No dashboard to learn, no app to open. The shopkeeper opens the same WhatsApp he always uses and asks — in Hindi — and the business answers, because it has been quietly remembering every order all along.</p>
 
     <div class="proof">
       <div>
         <div class="phone">
-          <div class="wa-head"><span class="wa-av"></span><span class="wa-num">BusinessOS · +1 555 605-5464</span></div>
+          <div class="wa-head"><span class="wa-av"></span><span class="wa-num">BusinessOS</span></div>
+          <div class="chat">
+            <div class="b me">aaj ki sales kitni hui?</div>
+            <div class="b os">Aaj <span class="n">14 orders</span>, <span class="n">₹8,400</span> ka saman. Pichle mangalwar se <span class="n">20%</span> zyada. 📈</div>
+            <div class="b me">kiska udhaar baaki hai?</div>
+            <div class="b os">Flat 301 — <span class="n">₹2,400</span><br>Sharma ji — <span class="n">₹5,000</span><br>Verma store — <span class="n">₹1,150</span><br>Total pending: <span class="n">₹8,550</span></div>
+            <div class="b me">cheeni kitni mangwani hai?</div>
+            <div class="b os">Stock ~<span class="n">4 kg</span>. Hafte mein ~<span class="n">12 kg</span> bikti hai. <span class="n">15 kg</span> mangwa lo — Sharma vendor se. Bhej doon order? 👍</div>
+          </div>
+          <div class="wa-cap">the vision — powered by what it already captures</div>
+        </div>
+      </div>
+      <div>
+        <p style="margin-bottom:1rem">Every answer is computed from the shop's own captured orders — not guessed. And it works the other way too: the owner can <strong>tell</strong> it to act ("Sharma se 15 kg mangwa do"), and it drafts the order for a one-tap confirm.</p>
+        <div class="call em">
+          <p class="h">This is "acts on memory and data, not gut."</p>
+          <p class="b">The shopkeeper's intuition, backed by a system that never forgets an order, a balance, or a buying pattern — the way a great employee would, except it scales to every customer.</p>
+        </div>
+        <p style="font-size:13px;color:var(--ink-3);margin-top:1rem">Capture → confirm → logged is <strong style="color:var(--emerald)">live today</strong>; the conversational assistant is the next build, on top of the data it already collects.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNIFYING MODEL -->
+  <section>
+    <p class="eyebrow">The idea underneath</p>
+    <h2>Everything is an order<br>with a <em>direction</em>.</h2>
+    <p>One simple model powers the whole system — and it means there's no separate inventory tool to build or maintain. Stock, the khata, "what sold vs what I bought" are all <strong>computed</strong> from the two streams of orders.</p>
+    <div class="log" aria-label="the model">
+      <div class="ln"><span class="a">PURCHASE</span>  vendor → you   "50 kg cheeni bhej do"   <span class="m">stock +50, a payable</span></div>
+      <div class="ln"><span class="g">SALE</span>      customer → you "2 kg cheeni"           <span class="m">stock −2,  a receivable</span></div>
+      <div class="ln"><span class="m">────────────────────────────────────────────</span></div>
+      <div class="ln">current stock  = Σ purchases − Σ sales      <span class="m">(derived, never counted)</span></div>
+      <div class="ln">who owes me    = Σ unpaid sales per contact <span class="m">(the khata)</span></div>
+    </div>
+  </section>
+
+  <!-- IT'S REAL -->
+  <section>
+    <p class="eyebrow" style="color:var(--emerald)">It's real — not a mockup</p>
+    <h2>The capture loop runs <em>live</em> on a real phone.</h2>
+    <p>A vendor's Hinglish order goes in; seconds later the owner gets this card on WhatsApp — every item parsed. Tap Confirm and it's logged. Ran end-to-end against Meta's WhatsApp Cloud API, GPT-4o + Whisper, and a live database.</p>
+    <div class="proof">
+      <div>
+        <div class="phone">
+          <div class="wa-head"><span class="wa-av"></span><span class="wa-num">BusinessOS</span></div>
           <div class="wa-card">
-            <div class="bar">Order</div>
-            <div class="wa-msg">📦 Suresh ji ka order confirm hua: 80 pieces, delivery <span class="u">23 September 2026</span><br>Payment: net-10</div>
+            <div class="bar">New order · Flat 301</div>
+            <div class="wa-msg">📦 Order confirm karein?<br>• 2 kg cheeni<br>• 1 packet Maggi<br>• 1 bread<br>Payment: <span class="u">monthly udhaar</span></div>
             <div class="wa-btns">
               <div class="wa-btn">Confirm</div>
               <div class="wa-btn">Edit</div>
               <div class="wa-btn">Skip</div>
             </div>
           </div>
-          <div class="wa-cap">Delivered on WhatsApp · owner taps to confirm</div>
+          <div class="wa-cap">multi-item order · delivered on WhatsApp</div>
         </div>
       </div>
       <div>
         <div class="log" aria-label="pipeline log">
           <div class="ln"><span class="m">enricher</span>  is_known=<span class="g">true</span> recent_orders=2</div>
           <div class="ln"><span class="m">intent</span>    <span class="g">order_placed</span>  conf 0.95</div>
-          <div class="ln"><span class="m">entities</span>  qty=<span class="a">80</span> unit=piece  HIGH</div>
-          <div class="ln"><span class="m">action</span>    propose create_order</div>
-          <div class="ln"><span class="m">wa_client</span> <span class="g">wa_sent</span> → owner</div>
+          <div class="ln"><span class="m">entities</span>  items=<span class="a">3</span>  HIGH</div>
           <div class="ln"><span class="m">executor</span>  <span class="g">executed</span>  ORD-2026-002</div>
           <div class="ln"><span class="m">confirm</span>   reply=1  <span class="g">confirmed</span></div>
         </div>
-        <p class="proof-note">Message → understand → confirm on WhatsApp → order logged → reply sent back. The whole loop, in seconds. Owner never left their chat.</p>
+        <p class="proof-note">Message → understand → confirm on WhatsApp → logged to the khata. The whole loop, in seconds, and the owner never left their chat.</p>
       </div>
     </div>
-
     <div class="status-line">
       <span><span class="ok">✓</span> Meta WhatsApp Cloud API</span>
       <span><span class="ok">✓</span> Voice (Whisper) + GPT-4o</span>
-      <span><span class="ok">✓</span> Postgres + queue</span>
-      <span><span class="ok">✓</span> Daily summaries &amp; payment reminders</span>
+      <span><span class="ok">✓</span> Multi-item orders + khata</span>
+      <span><span class="ok">✓</span> Confirm-before-act</span>
     </div>
-  </section>
-
-  <!-- THE BRAIN, SHOWN -->
-  <section>
-    <p class="eyebrow">The brain, shown</p>
-    <h2>Real trader messages,<br>correctly understood.</h2>
-    <p>Not curated demos — messy, code-switched Hindi/Hinglish. The system classifies intent, pulls the numbers, and <strong>escalates instead of guessing</strong> when it isn't sure.</p>
-    <table class="tbl">
-      <thead><tr><th>Message (as sent)</th><th>Understood</th><th>Extracted</th></tr></thead>
-      <tbody>
-        <tr><td class="msg">Ramesh bhai 50 piece cotton bhejo kal tak</td><td><span class="chip ord">order</span></td><td class="tnum">qty 50 · due tomorrow</td></tr>
-        <tr><td class="msg">bhai payment ho gaya 25000 ka</td><td><span class="chip pay">payment</span></td><td class="tnum">₹25,000</td></tr>
-        <tr><td class="msg">2 dozen silk saree chahiye friday tak</td><td><span class="chip ord">order</span></td><td class="tnum">qty 24 · due Fri</td></tr>
-        <tr><td class="msg">aaj ka total kitna hua?</td><td><span class="chip esc">escalated</span></td><td>a question — asks the owner</td></tr>
-      </tbody>
-    </table>
-    <div class="call em">
-      <p class="h">The memory, proven</p>
-      <p class="b">A returning vendor sends <span class="mono">"woh pichla order ready hai?"</span> — no product, no number, meaningless to a stateless bot. Because the system had loaded that vendor's <strong>two prior orders</strong> as context, it correctly read it as an <strong>order enquiry</strong> and surfaced it to the owner. Same text, different outcome — that's memory changing behavior.</p>
-    </div>
-    <p style="margin-top:1.2rem">This is <strong>relational memory</strong> — who the contact is, what they've ordered, running stats — and it's live today. Phase 2 deepens it into <strong>semantic memory</strong>: every conversation embedded and searchable, so the system can recall <em>"what rate did we quote him for silk last month"</em> from free text, not just structured fields.</p>
-  </section>
-
-  <!-- ROADMAP / PHASE 2 -->
-  <section>
-    <p class="eyebrow">Roadmap</p>
-    <h2>Phase 1 is live.<br>Phase 2 turns it into a <em>brain</em>.</h2>
-    <p>The confirm-before-act loop works today. The next release compounds it — deeper memory, more input types, and graduated autonomy as trust is earned.</p>
-    <div class="flow" style="grid-template-columns:1fr 1fr">
-      <div class="step"><div class="k">Phase 2 · Memory</div><div class="t">Semantic recall</div><div class="d">Conversation embeddings + vector search — recall any past discussion, price, or promise from plain language.</div></div>
-      <div class="step"><div class="k">Phase 2 · Inputs</div><div class="t">Invoices &amp; images</div><div class="d">Parse PDF invoices and photographed bills — the other half of how deals actually arrive on WhatsApp.</div></div>
-      <div class="step"><div class="k">Phase 2 · Autonomy</div><div class="t">Graduated autopilot</div><div class="d">As confidence proves out, routine follow-ups and reminders go out on their own — owner sets the leash.</div></div>
-      <div class="step"><div class="k">Phase 2 · Visibility</div><div class="t">Owner dashboard</div><div class="d">A read-only cockpit — live orders, receivables, vendor ledgers — built on the same structured record.</div></div>
-    </div>
-    <div class="call em" style="margin-top:1.5rem">
-      <p class="h">Next · Call memory — from 40% to 100% of the business</p>
-      <p class="b">Merchants tell us <strong>~60% of their dealing happens on phone calls</strong>, not text — simply because talking is faster. WhatsApp captures the other 40% and gets us in the door; a BusinessOS business number then captures the calls too — recorded with consent, transcribed, and folded into the same memory graph. That's the jump from remembering the paper trail to <strong>remembering every deal, spoken or typed</strong> — full coverage of how the business actually runs.</p>
-    </div>
-    <p style="margin-top:1.2rem;font-size:13.5px;color:var(--ink-3)">Beyond that: embedded collections &amp; working capital, and a verified buyer–supplier network — the monetization layers above.</p>
   </section>
 
   <!-- MOAT -->
   <section>
     <p class="eyebrow">The moat</p>
-    <h2>The AI isn't the moat.<br>The <em>memory</em> is.</h2>
-    <p>The models are a commodity everyone can buy. What compounds is the <strong>relational memory graph</strong> — after six months we know every vendor a business works with, every customer's ordering rhythm, every payment commitment ever made, and the owner's own way of speaking.</p>
-    <p>Switching to a competitor means losing that — the operational equivalent of firing your most experienced employee. We're building on existing behavior, not asking for new behavior. <strong>WhatsApp is the front door. We are the house.</strong></p>
+    <h2>The models are rented.<br>The <em>memory</em> is owned.</h2>
+    <p>Anyone can call the same AI. What compounds — and can't be copied — is each business's own accumulated memory: every vendor and customer, every order and balance, the shop's own normalized list of what it buys and sells, the owner's way of speaking.</p>
+    <p>After six months, leaving BusinessOS means losing all of it — the operational equivalent of firing your most experienced employee. We build on behavior that already exists instead of demanding new habits. <strong>The phone is the front door. The memory is the house.</strong></p>
+  </section>
+
+  <!-- VS THE FIELD -->
+  <section>
+    <p class="eyebrow">Where we sit</p>
+    <h2>Same shop. A different kind of tool.</h2>
+    <table class="money">
+      <thead><tr><th>&nbsp;</th><th>Captures calls + WhatsApp</th><th>No typing</th><th>Handles udhaar</th><th>Keeps the human</th></tr></thead>
+      <tbody>
+        <tr><td>Khatabook / OkCredit</td><td>—</td><td>✕ (manual)</td><td>✓</td><td>✓</td></tr>
+        <tr><td>AI call-bots</td><td>calls only</td><td>✓</td><td>✕ (instant UPI)</td><td>✕ (a bot)</td></tr>
+        <tr><td><strong>BusinessOS</strong></td><td><strong>✓ both</strong></td><td><strong>✓</strong></td><td><strong>✓</strong></td><td><strong>✓</strong></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ROADMAP -->
+  <section>
+    <p class="eyebrow">Roadmap</p>
+    <h2>Capture is live.<br>Then it becomes a <em>brain</em>.</h2>
+    <div class="flow">
+      <div class="step"><div class="k">Live</div><div class="t">WhatsApp capture + khata</div><div class="d">Multi-item vendor &amp; customer orders, confirm-before-act, auto khata. Running today.</div></div>
+      <div class="step"><div class="k">Next</div><div class="t">The assistant</div><div class="d">"Ask your business anything" — the conversational layer over the captured data.</div></div>
+      <div class="step"><div class="k">Then</div><div class="t">Calls as a channel</div><div class="d">Ingest the call recordings budget phones already save — the other half of how they work.</div></div>
+      <div class="step"><div class="k">Then</div><div class="t">Stock + memory + dashboard</div><div class="d">Derived stock, semantic recall of past conversations, and a cockpit to see it all.</div></div>
+    </div>
   </section>
 
   <!-- BUSINESS MODEL -->
   <section>
     <p class="eyebrow">Business model</p>
     <h2>Free to run on.<br>We earn when money moves.</h2>
-    <p>No subscriptions to sell against a merchant who's never paid for software. We give the operations layer away to acquire, and monetize the financial flow it sits on top of.</p>
+    <p>This merchant won't pay for tidiness — but will pay for money recovered. We give the operations layer away to get adopted, and monetize the financial flow it sits on.</p>
     <table class="money">
       <thead><tr><th>Layer</th><th>What it does</th><th>How it earns</th></tr></thead>
       <tbody>
-        <tr><td>Operations</td><td>Order capture, follow-ups, reminders</td><td>Free — pure acquisition</td></tr>
-        <tr><td>Collections</td><td>Auto reminders + UPI payment links</td><td>~0.4% of GMV collected</td></tr>
-        <tr><td>Credit</td><td>Cash-flow visibility → working capital</td><td>Interest spread via NBFC partner</td></tr>
-        <tr><td>Network</td><td>Verified buyer–supplier marketplace</td><td>Transaction take-rate</td></tr>
+        <tr><td>Operations</td><td>Order capture, the assistant, the khata</td><td>Free — acquisition</td></tr>
+        <tr><td>Collections</td><td>Chase forgotten udhaar + UPI links</td><td>Fee on money recovered</td></tr>
+        <tr><td>Credit</td><td>Real order history → working capital</td><td>Interest spread via NBFC partner</td></tr>
+        <tr><td>Network</td><td>Verified buyer–supplier graph</td><td>Transaction take-rate</td></tr>
       </tbody>
     </table>
-  </section>
-
-  <!-- GTM -->
-  <section>
-    <p class="eyebrow">Go-to-market</p>
-    <h2>Go impossibly deep<br>into <em>one</em> cluster first.</h2>
-    <p>Not horizontal. We win a single dense trade cluster — textile traders in Surat, then adjacent mandis — where everyone knows everyone and one happy merchant triggers ten referrals. Structured vocabulary, tight networks, and daily order volume make the AI near-perfect and the word-of-mouth free.</p>
-    <div class="call">
-      <p class="h">Distribution without a sales team</p>
-      <p class="b">CA / accountant partnerships (every SMB trusts theirs), trade-association intros, and the anchor-supplier play: onboard the biggest supplier in a cluster and their buyers follow.</p>
-    </div>
   </section>
 
   <!-- ASK -->
   <section>
     <p class="eyebrow">The ask</p>
-    <h2>Raising to turn a working<br>product into a moat.</h2>
+    <h2>Raising to turn a live product<br>into a daily habit.</h2>
     <div class="ask">
-      <div class="c"><div class="lbl">Raising</div><div class="v">$2M</div><div class="dd">Seed — 18 months to verticalize one cluster and prove retention + collections GMV.</div></div>
-      <div class="c"><div class="lbl">Status today</div><div class="v">Live</div><div class="dd">Phase-1 product built and running end-to-end on real infrastructure. Pilot-ready.</div></div>
-      <div class="c"><div class="lbl">18-month milestone</div><div class="v">5,000+</div><div class="dd">Active merchants in one vertical, meaningful GMV through collections, Series-A ready.</div></div>
-      <div class="c"><div class="lbl">Use of funds</div><div class="v">60 / 40</div><div class="dd">AI &amp; multilingual/voice accuracy · cluster GTM and CA partnerships.</div></div>
+      <div class="c"><div class="lbl">Raising</div><div class="v">$2M</div><div class="dd">Seed — 18 months to ship the assistant, add calls, and win one dense cluster of shops.</div></div>
+      <div class="c"><div class="lbl">Status today</div><div class="v">Live</div><div class="dd">Capture → confirm → khata running end-to-end on real infrastructure. Pilot-ready.</div></div>
+      <div class="c"><div class="lbl">18-month milestone</div><div class="v">Daily use</div><div class="dd">Shops that open BusinessOS every morning to run their day — retention, not installs.</div></div>
+      <div class="c"><div class="lbl">Use of funds</div><div class="v">60 / 40</div><div class="dd">AI &amp; voice/call accuracy · in-person go-to-market, one cluster at a time.</div></div>
     </div>
   </section>
 
   <!-- CLOSER -->
   <section>
     <p class="eyebrow">Why now · why us</p>
-    <h2>India's informal economy<br>never had infrastructure.<br><em>Now it does — and it works.</em></h2>
-    <p style="margin-top:1rem">Indian-language AI just crossed the accuracy threshold. The WhatsApp Business API matured. 500 million people already run their entire business lives on one app. The behavior exists, the technology exists — and unlike every pitch that stops there, <strong>the product exists and runs today.</strong></p>
-    <p>We're not building an app for Indian SMBs. We're building the invisible operating system of the Indian economy — one WhatsApp message at a time.</p>
+    <h2>India's small businesses never had a partner.<br><em>Now one is live.</em></h2>
+    <p style="margin-top:1rem">Indian-language AI crossed the accuracy threshold. The merchant already lives on WhatsApp and the phone. The only thing missing was someone willing to meet them exactly where they are — and build the memory they never had. <strong>We did, and it works today.</strong></p>
+    <p>We're not building another app for Indian SMBs. We're building the memory of the Indian shop — the partner that remembers everything, so the owner doesn't have to.</p>
     <div class="foot">BusinessOS &nbsp;·&nbsp; Seed 2026 &nbsp;·&nbsp; Confidential</div>
   </section>
 
