@@ -1,0 +1,13 @@
+{
+  "id": "P014",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "need",
+  "reason": "Half my orders come by call, so this misses them, and recording every call is a hassle. My stock is in my head and my udhaar is in my diary, and both work fine. I don't see rupees coming back into my till.",
+  "objection": "Phone calls are half my business and it doesn't handle them well. After three months I'd pay 500 rupees a month, and I can't see where that money comes back to me.",
+  "would_change_my_mind": "If it showed me, on my own customers, that it got back more than 500 rupees a month in udhaar I would have forgotten to collect, and it caught phone orders without me recording anything.",
+  "price_too_cheap": 100,
+  "price_cheap": 200,
+  "price_expensive": 500,
+  "price_too_expensive": 800
+}

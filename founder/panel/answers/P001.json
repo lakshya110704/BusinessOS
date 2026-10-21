@@ -1,0 +1,13 @@
+{
+  "id": "P001",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "habit",
+  "reason": "Most of my customers just call me, I hardly type anything, and I already have my UPI QR and my diary working. Another thing to learn and keep up every day, no thanks.",
+  "objection": "My orders come by phone call, not WhatsApp text. Recording every call and checking cards every day is extra work for me, and I do not trust it to get my udhaar right.",
+  "would_change_my_mind": "If it worked with my phone calls on its own with no extra work from me, and a person in my shop showed me it was right with my own udhaar for a few weeks before I paid anything.",
+  "price_too_cheap": 50,
+  "price_cheap": 150,
+  "price_expensive": 400,
+  "price_too_expensive": 700
+}

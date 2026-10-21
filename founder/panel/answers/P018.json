@@ -1,0 +1,13 @@
+{
+  "id": "P018",
+  "buys": false,
+  "purchases_first_month": 0,
+  "reason_code": "trust",
+  "reason": "My orders come in fast, in my own Hindi with regional words and my own item names, and I do not believe a machine will read them right. My udhaar diary is my business and I am not handing it to something I cannot check, so I stay with the diary and my son on the phone.",
+  "objection": "Will it understand my Hindi, my regional words and my item names? If it gets one order or one udhaar entry wrong, I spend more time fixing it than I save, and I cannot hand my khata to a thing I do not trust.",
+  "would_change_my_mind": "A person comes to my shop and shows it reading my own real voice notes and my own item names correctly, a day of my actual orders, with no mistakes. Then I would let my son try it free for the 3 months alongside the diary.",
+  "price_too_cheap": 100,
+  "price_cheap": 300,
+  "price_expensive": 1000,
+  "price_too_expensive": 2500
+}
