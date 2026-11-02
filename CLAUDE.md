@@ -60,6 +60,8 @@ An AI layer over the Meta WhatsApp Cloud API that converts unstructured SMB comm
 
 Pipeline: `incoming message → type detector → parser (text/voice/pdf/image) → intent classifier → entity extractor → context enricher → action generator → confirm-before-act → executor → response sender`.
 
+**Owner assistant (BOS-49):** when the *owner* texts the business line a free-form question (sender == `businesses.phone_number`), `message_router` routes it to `app/core/assistant.py` instead of the order pipeline — a tool-calling agent (`openai_client.complete_with_tools`) over read-only repo queries (`sales_summary`, `pending_udhaar`, `recent_orders`; stock/reorder tools land with BOS-50/51). Answers in Hindi/Hinglish from real data; never invents numbers.
+
 ---
 
 ## Stack
@@ -99,6 +101,7 @@ app/
   api/               webhook.py (GET verify + signed POST), health.py
   core/              message_router · intent_classifier · entity_extractor · context_enricher
                      action_generator · action_executor · confirm_engine
+                     assistant (owner "ask your business anything" — tool-calling over repos)
   parsers/           text_parser · voice_parser (Whisper)     (pdf/image = Phase 2)
   whatsapp/          client (send + media download) · sender · templates · message_types
   ai/                openai_client · whisper · prompts/*.txt   (embeddings = later)

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 from functools import lru_cache
+from typing import Awaitable, Callable
 
 from openai import AsyncOpenAI
 
@@ -38,3 +39,55 @@ async def complete_json(prompt: str, model: str = DEFAULT_MODEL, temperature: fl
         response_format={"type": "json_object"},
     )
     return json.loads(resp.choices[0].message.content)
+
+
+async def complete_with_tools(
+    system: str,
+    user: str,
+    tools: list[dict],
+    impls: dict[str, Callable[..., Awaitable[dict]]],
+    model: str = DEFAULT_MODEL,
+    max_rounds: int = 5,
+) -> str:
+    """Run a tool-calling loop: the model picks tools, we execute their async impls and
+    feed results back, until it answers in plain text. `tools` are OpenAI function specs;
+    `impls` maps each tool name to an async fn(**args) -> JSON-serializable dict.
+
+    This is how the assistant answers from real data instead of guessing numbers.
+    """
+    client = get_openai()
+    messages: list = [
+        {"role": "system", "content": system},
+        {"role": "user", "content": user},
+    ]
+    for _ in range(max_rounds):
+        resp = await client.chat.completions.create(
+            model=model, messages=messages, tools=tools, tool_choice="auto", temperature=0.2,
+        )
+        msg = resp.choices[0].message
+        if not msg.tool_calls:
+            return (msg.content or "").strip()
+        messages.append({
+            "role": "assistant",
+            "content": msg.content or "",
+            "tool_calls": [
+                {"id": tc.id, "type": "function",
+                 "function": {"name": tc.function.name, "arguments": tc.function.arguments}}
+                for tc in msg.tool_calls
+            ],
+        })
+        for tc in msg.tool_calls:
+            name = tc.function.name
+            try:
+                args = json.loads(tc.function.arguments or "{}")
+            except json.JSONDecodeError:
+                args = {}
+            fn = impls.get(name)
+            try:
+                result = await fn(**args) if fn else {"error": f"unknown tool {name}"}
+            except Exception as exc:  # noqa: BLE001 — a bad tool call shouldn't crash the reply
+                result = {"error": f"{type(exc).__name__}: {str(exc)[:120]}"}
+            messages.append({"role": "tool", "tool_call_id": tc.id, "content": json.dumps(result, default=str)})
+    # Ran out of tool rounds — force a plain-text answer from what we have.
+    resp = await client.chat.completions.create(model=model, messages=messages, temperature=0.2)
+    return (resp.choices[0].message.content or "").strip()

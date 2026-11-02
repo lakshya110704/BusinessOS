@@ -14,6 +14,7 @@ from __future__ import annotations
 from typing import Optional
 
 from app.core.action_generator import ProposedAction, generate
+from app.core.assistant import answer as assistant_answer
 from app.core.confirm_engine import handle_reply, send_confirmation
 from app.core.context_enricher import enrich
 from app.core.entity_extractor import extract
@@ -22,6 +23,7 @@ from app.db.repositories import business_repo, contact_repo, message_repo
 from app.parsers import text_parser, voice_parser
 from app.utils.logger import get_logger
 from app.utils.phone import normalize_phone
+from app.whatsapp.sender import send_text
 
 logger = get_logger("router")
 
@@ -87,6 +89,13 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
         contact_phone = normalize_phone(sender_raw)
     except ValueError:
         contact_phone = None
+    # Owner texting the business line → a question for the assistant, not an order.
+    if business and contact_phone and contact_phone == business.get("phone_number"):
+        reply = await assistant_answer(business["id"], text)
+        await send_text(contact_phone, reply)
+        logger.info("owner_query_answered")
+        return None
+
     contact = (
         await contact_repo.get_or_create(business["id"], contact_phone)
         if business and contact_phone
