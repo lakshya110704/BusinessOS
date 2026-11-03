@@ -63,9 +63,10 @@ async def _create_order(proposed_action: dict, business_id: str, source_message_
         "unit": fields.get("unit"),
     }]
 
-    # Direction from the contact's role: a vendor we buy from => purchase (a payable);
-    # a customer who buys from us => sale (a receivable). Default to sale.
-    direction = "purchase" if (contact or {}).get("role") == "vendor" else "sale"
+    # Incoming order = a customer buying from the shop => sale (a receivable).
+    # Purchases (shop restocking from a vendor) are placed via OUTGOING messages,
+    # which this inbound pipeline never sees; capturing them is future work (BOS-56).
+    direction = "sale"
 
     order = await order_repo.create({
         "business_id": business_id,
