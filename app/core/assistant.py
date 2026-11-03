@@ -86,7 +86,7 @@ async def answer(business_id: str, question: str) -> str:
         return {"debtors": out, "total_pending_rupees": sum(x["amount_rupees"] for x in out)}
 
     async def recent_orders(limit: int = 10) -> dict:
-        rows = await order_repo.recent(business_id, limit=min(int(limit or 10), 25))
+        rows = await order_repo.recent(business_id, limit=max(1, min(int(limit or 10), 25)))
         orders = []
         for o in rows:
             items = ", ".join(

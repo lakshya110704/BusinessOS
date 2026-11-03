@@ -90,7 +90,12 @@ async def route(message: dict, phone_number_id: Optional[str] = None) -> Optiona
     except ValueError:
         contact_phone = None
     # Owner texting the business line → a question for the assistant, not an order.
-    if business and contact_phone and contact_phone == business.get("phone_number"):
+    # Normalize the stored business number too, in case onboarding didn't.
+    try:
+        owner_phone = normalize_phone(business["phone_number"]) if business and business.get("phone_number") else None
+    except ValueError:
+        owner_phone = None
+    if owner_phone and contact_phone == owner_phone:
         reply = await assistant_answer(business["id"], text)
         await send_text(contact_phone, reply)
         logger.info("owner_query_answered")
