@@ -24,6 +24,19 @@ message (text or voice) → understand → confirm on WhatsApp → owner taps 1/
 Deep dive: **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (full file-by-file walkthrough).
 Project rules + current status: **[CLAUDE.md](CLAUDE.md)**. Full spec: `CLAUDE_CODE_CONTEXT.md`.
 
+## Beyond the core loop
+
+- **Ask your business anything** — the owner can text the business line a question
+  ("aaj ki sales kitni hui?", "kiska udhaar baaki hai?") and get an answer from their
+  own data, not the order pipeline: a tool-calling agent runs read-only queries (sales,
+  pending udhaar, recent orders) and replies in Hindi/Hinglish, never inventing numbers.
+  Query it from the CLI: `python scripts/ask.py "aaj ki sales kitni hui?"`
+- **Multi-item orders + direction** — an order carries a list of line items, and a
+  `direction`: incoming orders are customer **sales** (receivables). Purchases from
+  vendors arrive via outgoing messages and aren't captured yet.
+- **Concierge call-order tester** — `scripts/concierge_call_orders.py` turns a folder of
+  call recordings → Whisper → grocery-order extraction → a per-customer khata (udhaar) rollup.
+
 ## Quick start
 
 ```bash
