@@ -26,7 +26,19 @@ _ORDER_REFINEMENT = (_PROMPTS / "order_parser.txt").read_text()
 _PAYMENT_REFINEMENT = (_PROMPTS / "payment_parser.txt").read_text()
 
 
+class LineItem(BaseModel):
+    """One product line of an order. An order can have many (e.g. a kirana call:
+    "2 kg cheeni, 1 Maggi, 1 bread")."""
+    description: Optional[str] = None     # the item as heard ("cheeni", "cotton")
+    quantity: Optional[float] = None      # float so "aadha kilo" -> 0.5
+    unit: Optional[str] = None            # kg / piece / packet / dozen / meter
+
+
 class EntityResult(BaseModel):
+    # Multi-item orders: the list is the source of truth. The flat quantity/unit/sku
+    # below mirror the FIRST item for backward compatibility with callers that still
+    # read them (confirm_engine, the test suite).
+    items: list[LineItem] = Field(default_factory=list)
     quantity: Optional[int] = None
     unit: Optional[str] = None
     sku: Optional[str] = None
@@ -106,8 +118,36 @@ async def extract(
         confidence=str(data.get("confidence", flat.get("confidence", "LOW"))).upper(),
         ambiguities=data.get("ambiguities", flat.get("ambiguities", [])) or [],
     )
+
+    # Line items: prefer an explicit list; otherwise synthesize one from the flat
+    # fields so single-item messages still carry an item.
+    raw_items = flat.get("items")
+    if isinstance(raw_items, list) and raw_items:
+        result.items = [
+            LineItem(
+                description=i.get("description") or i.get("item") or i.get("sku"),
+                quantity=_as_float(i.get("quantity")),
+                unit=i.get("unit"),
+            )
+            for i in raw_items if isinstance(i, dict)
+        ]
+    elif result.quantity is not None or result.sku is not None or result.unit is not None:
+        result.items = [LineItem(description=result.sku, quantity=result.quantity, unit=result.unit)]
+
+    # Mirror the first item back onto the flat fields for back-compat callers
+    # (confirm_engine, tests) when the model only returned a list.
+    if result.items:
+        first = result.items[0]
+        if result.quantity is None and first.quantity is not None:
+            result.quantity = _as_int(first.quantity)
+        if result.unit is None:
+            result.unit = first.unit
+        if result.sku is None:
+            result.sku = first.description
+
     logger.info(
         "extracted",
-        extra={"intent": intent, "confidence": result.confidence, "ambiguities": len(result.ambiguities)},
+        extra={"intent": intent, "confidence": result.confidence,
+               "items": len(result.items), "ambiguities": len(result.ambiguities)},
     )
     return result

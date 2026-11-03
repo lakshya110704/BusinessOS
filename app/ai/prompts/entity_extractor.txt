@@ -8,9 +8,12 @@ INTENT: $intent
 CONTACT HISTORY: $contact_history
 
 Extract these entities (use null if not present):
-- quantity: Number of items (INTEGER)
-- unit: Unit of measure (piece/kg/meter/box/etc)
-- sku: Product code or description (STRING)
+- items: ARRAY of every distinct product in the message. One entry per product, each
+  {"description": name as heard, "quantity": NUMBER (0.5 for "aadha"), "unit": kg/piece/packet/dozen/etc}.
+  e.g. "2 kg cheeni, 1 Maggi, 1 bread" -> three items. If no products, use [].
+- quantity: quantity of the FIRST item only (INTEGER) — for backward compatibility
+- unit: unit of the FIRST item (piece/kg/meter/box/etc)
+- sku: Product code or description of the FIRST item (STRING)
 - amount: Money amount in INR (DECIMAL, no currency symbol)
 - delivery_date: When delivery is expected (absolute ISO date YYYY-MM-DD)
 - payment_date: When payment will be made (absolute ISO date YYYY-MM-DD)
@@ -33,6 +36,7 @@ RULES:
 
 Respond ONLY with valid JSON in exactly this shape:
 {
+  "items": [{"description": "cotton", "quantity": 50, "unit": "piece"}],
   "quantity": 50,
   "unit": "piece",
   "sku": null,

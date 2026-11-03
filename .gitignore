@@ -4,7 +4,7 @@
 __pycache__/
 *.py[cod]
 *.egg-info/
-.venv/
+.venv
 venv/
 env/
 
@@ -27,3 +27,6 @@ logs/
 .coverage
 htmlcov/
 .envrc
+
+# graphify generated code-graph (regenerate with: /graphify . --update)
+graphify-out/
