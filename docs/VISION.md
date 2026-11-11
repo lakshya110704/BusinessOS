@@ -1,219 +1,153 @@
-# BusinessOS — Product Vision & Build Plan
+# BusinessOS: Product Vision and Build Plan
 
-> This is the north star for what we're building, and the concrete first refactor
-> to get there. Written after mapping the codebase (see `graphify-out/graph.html`).
+> The north star for what we are building, and an honest account of how far the code
+> has got. Status below comes from the code and real runs (last checked 2026-11-12).
+> For the data flow and the gated plan to a calls product, see [PIPELINE.md](PIPELINE.md).
 
 ---
 
 ## 1. The idea, in one paragraph
 
-**BusinessOS is an AI business partner for any SMB that acts on memory and data,
-not just the owner's gut.** It sits on top of how a business *already* operates —
-orders from **vendors** and **customers**, arriving by **WhatsApp or phone call** —
-captures all of it with zero extra effort, remembers everything, and uses that
-memory to (a) keep the books (orders, khata/udhaar, stock), (b) act on the owner's
-behalf with confirm-before-act, and (c) **answer any question the owner asks**:
-*"aaj ki sales kitni hui?", "kitna stock order karna chahiye?", "pichle hafte jo
-order kiya usme se kitna bika?"*
+**BusinessOS is an AI business partner for any small business that acts on memory and
+data, not just the owner's gut.** It sits on top of how a business already operates:
+orders from customers and vendors, arriving by WhatsApp or phone call. It captures all
+of it with zero extra effort, remembers everything, and uses that memory to (a) keep
+the books (orders, khata/udhaar, stock), (b) act on the owner's behalf with
+confirm-before-act, and (c) answer any question the owner asks: "aaj ki sales kitni
+hui?", "kitna stock order karna chahiye?", "pichle hafte jo order kiya usme se kitna
+bika?"
 
-The thesis in one line: **the system should eventually know the business better
-than the owner's memory does — and the owner just talks to it.**
+The thesis in one line: **the system should eventually know the business better than
+the owner's memory does, and the owner just talks to it.**
 
-## 2. Who it's for
+## 2. Who it is for
 
-Any small shopkeeper / trader — kirana, general store, wholesaler, supplier,
-manufacturer. Not vertical-locked. The same engine already handled textile vendor
-orders and kirana customer orders with no fundamental change.
+Any small shopkeeper or trader: kirana, general store, wholesaler, supplier,
+manufacturer. Not vertical-locked. We enter through kirana shops, where the pull signal
+was strongest (owners want help tracking phone orders).
 
-## 3. The core thesis: acts on memory + data
+## 3. The core thesis: acts on memory and data
 
-Three incumbents define the gap:
-- **Khatabook / OkCredit** — digital ledgers that require **manual typing**. Accounts
-  go stale. BusinessOS captures automatically from how they already communicate.
-- **AI Kirana** — an **AI bot answers the call** and takes instant UPI. It replaces
-  the human and assumes instant payment. BusinessOS **keeps the human** and handles
-  **monthly udhaar**, the way trade actually runs.
+Two incumbents define the gap:
+- **Khatabook / OkCredit**: digital ledgers that require manual typing. Accounts go
+  stale. BusinessOS captures automatically from how owners already communicate.
+- **AI Kirana**: an AI bot answers the call and takes instant UPI. It replaces the human
+  and assumes instant payment. BusinessOS keeps the human and handles monthly udhaar,
+  the way trade actually runs.
 
-Our edge is **effortless capture + a memory that compounds**, surfaced through one
+Our edge is **effortless capture plus a memory that compounds**, surfaced through one
 conversational interface the owner already lives in (WhatsApp).
 
-## 4. The unifying model (the key insight)
+**Calls are the core bet.** Owners say most orders arrive by phone call, not WhatsApp.
+The product does not stand on WhatsApp alone. The plan is to capture the owner's own
+call recordings (the dialer already saves them), not to put a bot on the line.
 
-Everything collapses into **one idea: every event is an order with a direction.**
+## 4. The unifying model
 
-```
-PURCHASE  (vendor → business, "itna raw material bhej do")   → stock IN,  a payable
-SALE      (customer → business, "2 kg cheeni bhej do")       → stock OUT, a receivable
-
-current stock (per item) = Σ purchases − Σ sales       ← DERIVED, never counted by hand
-who owes me (khata)      = Σ unpaid sales per contact
-what I owe               = Σ unpaid purchases per vendor
-```
-
-So we do **not** build a separate inventory system. Stock, "ordered vs sold", and
-reorder signals are all *computed views* over the two order streams. The one thing
-that makes the math work is an **item catalog** that canonicalizes messy item names
-and units ("cheeni" = "sugar" = "Tata sugar 1kg") so purchases and sales net.
-
-On top of that data sits the **assistant**: the owner asks in Hindi/Hinglish, a
-tool-calling agent runs safe queries over the data and answers — and can also *act*
-(routing into the existing confirm-before-act loop).
+Everything collapses into one idea: **every event is an order with a direction.**
 
 ```
-INPUTS                 UNDERSTAND            MEMORY (soul)          ACT / ANSWER
-WhatsApp (text+voice)  intent → entities →   relational memory +   confirm-before-act →
-phone calls            line items →          item catalog →        execute  |  assistant
-                       context enrich        derived stock/khata   answers any question
+SALE      (customer -> business, "2 kg cheeni bhej do")      stock OUT, a receivable
+PURCHASE  (business -> vendor,   "50 kg cheeni bhej do")     stock IN,  a payable
+
+current stock (per item) = sum of purchases - sum of sales    (derived, never counted)
+who owes me (khata)      = sum of unpaid sales per contact
+what I owe               = sum of unpaid purchases per vendor
 ```
 
-## 5. Current state (from the code graph)
+Reality check: an incoming message is a customer buying from the shop, so inbound is
+always a **sale**. Purchases are placed by the shop through outgoing messages and calls,
+which the inbound pipeline never sees. So only the sale side exists today. Stock and
+payables stay unbuilt until purchase capture exists.
 
-Mapped: **399 nodes, 868 edges, 30 communities.** What exists and works today:
+We do not build a separate inventory system. Stock, "ordered vs sold" and reorder
+signals will be computed views over the two order streams. The thing that makes the
+math work is an item catalog that canonicalizes messy item names and units
+("cheeni" = "sugar" = "Tata sugar 1kg").
 
-- ✅ **Spine:** `route()` is the pipeline hub — webhook → router → classify →
-  extract → enrich → generate → confirm → execute. Proven live.
-- ✅ **Confirm-before-act engine**, **WhatsApp channel** (text + voice/Whisper),
-  **repos** (business/contact/message/order/payment/task/pending_confirmation),
-  **scheduler** (daily summary, payment reminders).
-- 🟡 **Orders already have `direction` and `items JSONB`** in the schema — but
-  `direction` is hardcoded `"incoming"` and `items` is synthesized as a *single*
-  line from flat entity fields.
-- 🟡 **Calls:** a concierge tester (`scripts/concierge_call_orders.py`) transcribes
-  recordings → orders + khata, but calls aren't a first-class channel yet.
-- ❌ **Line-item extraction** (multi-item orders), **item catalog**, **derived
-  stock**, **the assistant query interface**, **semantic memory** (the
-  `messages.embedding` column is unused).
-
-`get_supabase()` is the god node (48 edges) — every repo depends on it; that's the
-clean data boundary everything new will sit behind.
-
-## 6. Build roadmap (phased)
-
-1. **Spine** — make `direction` meaningful (purchase/sale) and orders carry real
-   **line items**. Foundation for everything.
-2. **Item catalog** — canonicalize item names + units per business, so streams net.
-3. **Derived stock & khata** — compute stock, outstanding, reorder from the orders.
-4. **The assistant** — owner asks anything on WhatsApp → tool-calling agent over the
-   data → answers (and can act via confirm).
-5. **Calls as a first-class channel** — promote the concierge path into the pipeline.
-6. **Semantic memory** — populate embeddings + recall, so the enricher and the
-   assistant draw on past conversations, not just structured rows.
-7. **Owner dashboard** — a web cockpit to *see* the OS.
-
----
-
-## 7. The spine refactor (step 1) — concrete, grounded in the code
-
-### 7a. `direction` → purchase / sale (not hardcoded)
-
-`app/core/action_executor.py::_create_order` today:
-```python
-"direction": "incoming",          # ← hardcoded
 ```
-Change: derive it. Introduce a `role` on the contact (`vendor` | `customer`) or
-infer from the flow, and set:
-```python
-"direction": "purchase" if contact_role == "vendor" else "sale",
-```
-- `purchase` = business buying from a vendor (stock IN, a payable)
-- `sale`     = business selling to a customer (stock OUT, a receivable)
-
-Migration note: backfill existing `"incoming"` rows to the right value (a small
-`004_order_direction.sql`), and standardize the vocabulary (`payment_repo` also
-hardcodes `direction="receivable"` — align it: sale→receivable, purchase→payable).
-
-### 7b. Orders carry real line items (the real gap)
-
-Today the extractor returns ONE item and the executor wraps it in a 1-element list:
-
-`app/core/entity_extractor.py` — `EntityResult` is flat:
-```python
-quantity: Optional[int]; unit: Optional[str]; sku: Optional[str]   # one item only
-```
-`action_executor._create_order`:
-```python
-"items": [{"quantity": fields.get("quantity"), "unit": fields.get("unit"),
-           "description": fields.get("sku")}],                      # collapses multi-item
-```
-Change: make line items first-class end to end.
-```python
-# entity_extractor.py
-class LineItem(BaseModel):
-    item: str                      # free text as heard ("cheeni")
-    canonical_id: Optional[str] = None   # filled by the item catalog (7c)
-    quantity: Optional[float] = None
-    unit: Optional[str] = None
-
-class EntityResult(BaseModel):
-    items: list[LineItem] = Field(default_factory=list)   # ← the change
-    amount: Optional[float] = None
-    delivery_date: Optional[str] = None
-    payment_terms: Optional[str] = None
-    contact_name: Optional[str] = None
-    confidence: str = "LOW"
-    ambiguities: list[str] = Field(default_factory=list)
-```
-The extraction prompt already produces an items list in
-`scripts/concierge_call_orders.py` — reuse that shape in `app/ai/prompts/order_parser.txt`.
-Then `action_generator._entity_fields` passes `items` through, and
-`_create_order` stores `fields["items"]` directly instead of synthesizing one.
-(Keep accepting the old flat fields during transition → map single item into the list.)
-
-### 7c. Item catalog (enables netting) — new, small
-
-New table + repo: per-business canonical items.
-```sql
--- 005_item_catalog.sql
-CREATE TABLE item_catalog (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  business_id UUID REFERENCES businesses(id),
-  canonical_name TEXT NOT NULL,      -- "sugar"
-  base_unit TEXT,                    -- "kg"
-  aliases JSONB DEFAULT '[]',        -- ["cheeni","sugar","tata sugar"]
-  UNIQUE (business_id, canonical_name)
-);
-```
-A normalizer (LLM-assisted, cached) maps each `LineItem.item` → `canonical_id`,
-growing the catalog as new items appear. This is also a quiet moat: the business's
-own normalized product map.
-
-### 7d. Derived stock & khata — no new storage, just queries
-
-`order_repo` (or a new `stock_repo`) computes from the two streams:
-```python
-async def stock_for_business(business_id) -> dict[str, float]:
-    # Σ purchase line qty − Σ sale line qty, grouped by canonical_id
-async def outstanding_receivables(business_id) -> list:   # unpaid sales per contact (khata)
-async def reorder_candidates(business_id) -> list:        # low derived stock + outflow rate
+INPUTS                 UNDERSTAND            MEMORY                 ACT / ANSWER
+WhatsApp (text+voice)  intent -> entities -> relational memory +    confirm-before-act ->
+phone calls (planned)  line items ->         item catalog (planned) execute | assistant
+                       context enrich        derived stock (planned)  answers questions
 ```
 
-### 7e. The assistant route — new module + one router branch
+## 5. Current state (code and real runs)
 
-`message_router.route()` already splits owner messages (confirm taps) from contact
-messages. Add: when the **owner** sends free-form text that isn't a tap → new intent
-`business_query` → `app/core/assistant.py`.
+Legend: **Run** = executed for real. **Mocked** = passes tests with mocks only.
+**Built** = code exists, never run. **Missing** = not built.
 
-```python
-# app/core/assistant.py  (new)
-TOOLS = [sales_summary, order_history, outstanding_receivables,
-         stock_for_business, reorder_candidates, contact_lookup]
-async def answer(owner_question: str, business_id: str) -> str:
-    # openai tool-calling: LLM picks tool(s) → run real queries → phrase in Hindi
-```
-Extend `app/ai/openai_client.py` with a `complete_with_tools()` helper (function-
-calling), mirroring the existing `complete_json()`. Read-only queries need no
-confirmation; if the owner asks it to *do* something, route that into the existing
-`confirm_engine`.
+| Piece | Status | Evidence |
+|---|---|---|
+| WhatsApp webhook (HMAC verify, Redis dedup, fast ack) | Mocked | test_webhook; real inbound blocked by Meta dev mode |
+| Intent + entity extraction, multi-item `LineItem`s | Mocked | 31 tests pass, 5 skipped (need live keys) |
+| Confirm-before-act (owner taps 1/2/3) | Mocked | real taps do not route back in dev mode |
+| Executor: order, contact stats, payment reminder task | Mocked | a documented live write (ORD-2026-002, 2026-09-21) was not re-run |
+| Direction on orders | Built | explicit `"sale"` for every inbound order (BOS-56) |
+| Voice note to Hindi transcript (Whisper) | Run | concierge run, 0 failures |
+| Owner assistant (BOS-49) | Run, seeded data only | tool-calling over `sales_summary`, `pending_udhaar`, `recent_orders`; answered over 5 orders I seeded, no real business data |
+| Daily summary 8 PM, payment reminders 9 AM | Built | scheduler jobs exist, never run; proactive sends need approved WhatsApp templates |
+| Concierge call tester | Run, clean clips only | 3 WhatsApp voice notes, 1 order parsed, confidence 0.90; never run on real noisy calls |
+| Calls as an ingested channel | Missing | only the batch script exists |
+| Item catalog, derived stock, reorder | Missing | |
+| Purchase (outbound) capture | Missing | |
+| Semantic memory (`messages.embedding`) | Missing | column exists, unused |
+| Owner dashboard | Missing | |
 
-### What NOT to do
-- Don't build a separate inventory system — stock is derived (§4).
-- Don't widen to "OS for everything" in code before the spine works end to end.
-- Don't break the live WhatsApp loop — add alongside, migrate behind the flat-field
-  fallback, keep confirm-before-act intact.
+## 6. Roadmap
 
----
+1. **Spine: line items and direction.** Done. Orders carry a list of items; inbound is
+   always a sale.
+2. **The assistant.** Done for sales, udhaar and recent orders. Stock and reorder tools
+   wait for the catalog.
+3. **Calls: validate, then build.** Now. Gate: run the concierge tester on about 10
+   real, messy order calls and read the accuracy (BOS-55). Only if capture holds up,
+   build the thin wrapper (recording folder in, a correctable order list out) (BOS-52).
+   No telephony or IVR bot.
+4. **Item catalog.** Canonicalize item names and units per business so streams net.
+5. **Derived stock and reorder.** Computed from orders, never counted by hand.
+6. **Purchase capture.** Outgoing messages and calls, so payables and stock-in exist.
+7. **Semantic memory.** Populate embeddings so the enricher and assistant can recall
+   past conversations.
+8. **Owner dashboard.** A web view of the whole system.
 
-## 8. First concrete PR
-**"Line items + real direction"** (7a + 7b): the smallest change that makes both
-vendor and customer, multi-item orders first-class — and unlocks catalog → stock →
-the assistant. Everything else sits on it.
+## 7. What shipped and what changed from the original plan
+
+### Direction: decided differently
+
+The first plan derived direction from a contact's role (vendor means purchase,
+customer means sale). BOS-56 overruled that: owners confirmed that incoming messages
+are almost always sales, and purchases are mostly outgoing. So the executor sets
+`direction = "sale"` explicitly and `payment_repo` records receivables. No classifier,
+no role lookup. Purchases return with outbound capture (step 6).
+
+### Line items: shipped
+
+`EntityResult.items` is a list of `LineItem(description, quantity, unit)`. The executor
+stores the list in `orders.items`; the flat `quantity/unit/sku` fields mirror the first
+item for older callers. Not done: `canonical_id` on items (needs the catalog).
+
+### Item catalog: not built
+
+Planned shape: a per-business table of canonical names, base units and aliases, plus an
+LLM-assisted, cached normalizer that grows it as new items appear. It is also a quiet
+moat, since it becomes the business's own normalized product map.
+
+### Derived stock and khata: partly built
+
+The khata exists as unpaid sales per contact (the assistant's `pending_udhaar` reads
+it). Derived stock and reorder candidates need the catalog and purchase capture first.
+
+### The assistant: shipped for sales data
+
+`app/core/assistant.py` is a tool-calling agent over read-only repo queries, reached
+when the owner texts the business line (sender equals the business phone). It answers
+in Hindi/Hinglish from real rows and never invents numbers. If the owner asks it to do
+something, that should route into the existing confirm engine; that part is not built.
+
+### What not to do
+
+- Do not build a separate inventory system. Stock is derived (section 4).
+- Do not build a telephony or IVR channel. It breaks the human-relationship wedge.
+- Do not build the calls wrapper before capture is proven on real recordings.
+- Do not break the live WhatsApp loop. Keep confirm-before-act intact.
