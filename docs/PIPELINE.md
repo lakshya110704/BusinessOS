@@ -88,7 +88,10 @@ Each step gates the next. **Do not start a step before the one above passes.**
    a non-order (should return `is_order:false`) · flat/landmark delivery address.
 
 3. **Validate capture = BOS-55** (the real gate)
-   Run step 1's command on that folder. Read the accuracy report.
+   Write a `truth.json` while you record (what was really said per call; format in the
+   script's docstring), then run step 1's command on that folder with `--truth truth.json`.
+   The score report gives "fully correct calls" as a number. `.amr`/`.3gp` recordings are
+   converted automatically (needs ffmpeg).
    - **Pass** (orders trustworthy, ⚠ rate low) → step 4.
    - **Fail** → fix the extraction prompt / transcription language handling and re-run.
      This is prompt work, **not** a product build. Don't build the wrapper on weak capture.

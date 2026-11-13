@@ -36,6 +36,9 @@ Project rules + current status: **[CLAUDE.md](CLAUDE.md)**. Full spec: `CLAUDE_C
   vendors arrive via outgoing messages and aren't captured yet.
 - **Concierge call-order tester** — `scripts/concierge_call_orders.py` turns a folder of
   call recordings → Whisper → grocery-order extraction → a per-customer khata (udhaar) rollup.
+  Formats Whisper rejects (`.amr`, `.3gp`) are converted with ffmpeg first. Pass
+  `--truth truth.json` (what was really said per call) to score the extraction. It has only
+  been run on three clean voice notes so far, not on real calls.
 
 ## Quick start
 
